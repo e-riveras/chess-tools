@@ -1,20 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.02",
-      "white": "WhatHoraEs",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 3,
-      "missed_count": 1,
-      "tactics": [
-        "pin",
-        "pin",
-        "skewer",
-        "discovered_attack"
-      ]
-    },
-    {
       "date": "2026.03.04",
       "white": "erivera90",
       "black": "narender1313",
@@ -260,20 +246,34 @@
         "fork",
         "fork"
       ]
+    },
+    {
+      "date": "2026.03.10",
+      "white": "theyooniverse",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 3,
+      "missed_count": 0,
+      "tactics": [
+        "fork",
+        "trapped_piece",
+        "positional"
+      ]
     }
   ],
   "tactic_counts": {
     "hanging_pawn": 207,
-    "positional": 27,
+    "positional": 28,
     "forced_mate": 7,
     "pin": 6,
     "skewer": 5,
     "discovered_attack": 5,
     "hanging_piece": 10,
     "losing_exchange": 1,
-    "fork": 6,
-    "back_rank_mate": 2
+    "fork": 7,
+    "back_rank_mate": 2,
+    "trapped_piece": 1
   },
-  "total_blunders": 38,
+  "total_blunders": 41,
   "total_missed": 238
 }
