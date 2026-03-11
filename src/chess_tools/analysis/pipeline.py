@@ -5,6 +5,7 @@ from chess_tools.lib.utils import check_env_var, get_output_dir, get_repo_root
 from chess_tools.analysis.engine import ChessAnalyzer
 from chess_tools.analysis.narrator import GoogleGeminiNarrator, MockNarrator
 from chess_tools.analysis.report import generate_markdown_report, generate_html_report, regenerate_index_page
+from chess_tools.analysis.drills import update_drills_json
 from chess_tools.analysis.history import load_analysis_history, update_analysis_history, save_analysis_history, format_history_for_prompt
 from chess_tools.lib.api.lichess import fetch_latest_game, get_lichess_client, get_lichess_username
 
@@ -95,6 +96,10 @@ def run_analysis_pipeline(pgn_file_path: str = "game.pgn"):
             generate_html_report(moments, metadata, output_dir=html_dir, summary=summary,
                                  move_evals=move_evals, lichess_url=lichess_url)
             regenerate_index_page(html_dir)
+
+            # Update blunder drills JSON
+            drills_path = str(get_repo_root() / "docs" / "drills" / "drills.json")
+            update_drills_json(drills_path, moments, metadata)
 
             # Update cross-game analysis history
             update_analysis_history(analysis_history, moments, metadata)

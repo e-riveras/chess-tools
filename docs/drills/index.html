@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blunder Drills</title>
+    <script src="https://cdn.jsdelivr.net/npm/chess.js@0.10.2/chess.min.js"></script>
+    <style>
+        :root {
+            --bg: #1a1a1a; --card: #2a2a2a; --text: #e0e0e0; --muted: #a0a0a0;
+            --accent: #4a9eff; --correct: #51cf66; --wrong: #ff6b6b; --warn: #d4ac0d;
+            --sq-light: #f0d9b5; --sq-dark: #b58863;
+            --sq-size: 50px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+               background: var(--bg); color: var(--text); min-height: 100vh;
+               padding: 16px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 860px; width: 100%; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .top-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .top-bar h1 { font-size: 1.4rem; flex: 1; }
+        .back-link { font-size: .9rem; color: var(--muted); }
+
+        .controls { background: var(--card); border-radius: 10px; padding: 14px 18px;
+                    margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
+        .ctrl-group label { color: var(--muted); text-transform: uppercase; letter-spacing: .4px; font-size: .72rem; }
+        .ctrl-group select { background: #333; color: var(--text); border: 1px solid #444;
+                             border-radius: 5px; padding: 5px 10px; font-size: .85rem; cursor: pointer; }
+        .btn-row { display: flex; gap: 4px; }
+        .tog { background: #333; color: var(--muted); border: 1px solid #444;
+               border-radius: 5px; padding: 5px 12px; font-size: .82rem; cursor: pointer; }
+        .tog.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        .stats-bar { display: flex; gap: 18px; flex-wrap: wrap; font-size: .82rem;
+                     color: var(--muted); margin-bottom: 14px; }
+        .stats-bar strong { color: var(--text); }
+
+        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+        .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+        .card-header h2 { font-size: 1.05rem; }
+        .pill { display: inline-block; font-size: .7rem; font-weight: 700; padding: 3px 8px;
+                border-radius: 10px; color: #fff; text-transform: uppercase; }
+        .prompt { font-size: 1rem; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+        .hint { font-size: .82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+
+        /* ── Board ── */
+        .board-area { display: flex; justify-content: center; margin-bottom: 14px; }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, var(--sq-size));
+            grid-template-rows:    repeat(8, var(--sq-size));
+            border: 2px solid #666;
+            width:  calc(8 * var(--sq-size));
+            height: calc(8 * var(--sq-size));
+        }
+        @media (max-width: 480px) { :root { --sq-size: 38px; } }
+        .sq {
+            width: var(--sq-size); height: var(--sq-size);
+            display: flex; align-items: center; justify-content: center;
+            font-size: calc(var(--sq-size) * 0.78);
+            cursor: pointer; position: relative; line-height: 1;
+        }
+        .sq.light { background: var(--sq-light); }
+        .sq.dark  { background: var(--sq-dark); }
+        .sq.sel   { background: #7fc97f !important; }
+        .sq.hint-dot::after {
+            content: ''; position: absolute;
+            width: 34%; height: 34%; background: rgba(0,0,0,.22); border-radius: 50%;
+        }
+        .sq.hint-ring::after {
+            content: ''; position: absolute; inset: 0;
+            box-shadow: inset 0 0 0 4px rgba(0,0,0,.3); border-radius: 50%;
+        }
+        .sq.hl-correct { background: rgba(0,200,0,.55)  !important; }
+        .sq.hl-wrong   { background: rgba(220,0,0,.45)  !important; }
+        .piece-w { color: #fff; text-shadow: 0 0 3px #000, 0 0 1px #000; }
+        .piece-b { color: #111; text-shadow: 0 0 3px rgba(255,255,255,.5); }
+
+        .timer { text-align: center; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;
+                 color: var(--warn); display: none; }
+        .timer.urgent { color: var(--wrong); animation: pulse .5s infinite alternate; }
+        @keyframes pulse { from { opacity: 1; } to { opacity: .5; } }
+
+        .feedback { display: none; border-radius: 8px; padding: 12px 16px; margin-top: 12px; line-height: 1.6; }
+        .feedback.ok  { background: rgba(81,207,102,.12); border-left: 4px solid var(--correct); }
+        .feedback.bad { background: rgba(255,107,107,.12); border-left: 4px solid var(--wrong); }
+        .fb-title { font-weight: 700; margin-bottom: 5px; }
+        .fb-title.ok  { color: var(--correct); }
+        .fb-title.bad { color: var(--wrong); }
+        .move-played { color: var(--wrong); font-weight: 600; }
+        .move-best   { color: var(--correct); font-weight: 600; }
+        .muted { color: var(--muted); font-size: .85rem; }
+        .ref-line { font-style: italic; font-size: .85rem; color: var(--muted); margin-top: 3px; }
+        .t-alert { background: rgba(255,107,107,.15); border-left: 3px solid var(--wrong);
+                   padding: 7px 10px; border-radius: 0 5px 5px 0; margin-top: 7px;
+                   font-weight: 600; font-size: .85rem; }
+        .explanation { margin-top: 9px; font-size: .9rem; border-top: 1px solid #3a3a3a; padding-top: 9px; }
+        .lc-link { display: inline-block; margin-top: 7px; font-size: .82rem; }
+
+        .nav-row { display: flex; gap: 10px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
+        .btn { padding: 9px 20px; border-radius: 6px; border: none;
+               font-size: .9rem; font-weight: 600; cursor: pointer; }
+        .btn:disabled { opacity: .4; cursor: not-allowed; }
+        .btn-primary  { background: var(--accent); color: #fff; }
+        .btn-primary:hover:not(:disabled) { background: #2d7fd4; }
+        .btn-secondary { background: #333; color: var(--text); border: 1px solid #444; }
+        .btn-reveal { background: var(--warn); color: #1a1a1a; }
+        .card-counter { color: var(--muted); font-size: .85rem; margin-left: auto; }
+
+        .stats-panel { display: none; background: var(--card); border-radius: 10px;
+                       padding: 18px 22px; margin-bottom: 16px; }
+        .stats-panel.open { display: block; }
+        .stats-panel h3 { margin-bottom: 12px; }
+        .trow { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: .85rem; }
+        .trow .tn { width: 140px; }
+        .trow .tb { flex: 1; height: 8px; background: #333; border-radius: 4px; overflow: hidden; }
+        .trow .tf { height: 100%; background: var(--accent); border-radius: 4px; }
+        .trow .tp { width: 38px; text-align: right; color: var(--muted); }
+        .box-dist { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .box-chip { background: #333; border-radius: 6px; padding: 6px 12px; font-size: .8rem; text-align: center; }
+        .box-chip .bn { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+        .box-chip .bl { color: var(--muted); }
+
+        .state-msg { text-align: center; color: var(--muted); padding: 40px 0; font-style: italic; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <h1>&#9822; Blunder Drills</h1>
+        <a href="../analysis/index.html" class="back-link">&larr; Analysis</a>
+    </div>
+
+    <div class="controls">
+        <div class="ctrl-group">
+            <label>Drill Mode</label>
+            <div class="btn-row">
+                <button class="tog on" id="modeAvoid"  onclick="setDrillMode('avoid')">Avoid Blunder</button>
+                <button class="tog"    id="modePunish" onclick="setDrillMode('punish')">Punish Blunder</button>
+            </div>
+        </div>
+        <div class="ctrl-group">
+            <label>Session</label>
+            <div class="btn-row">
+                <button class="tog on" id="sessionSpaced"  onclick="setSession('spaced')">Spaced</button>
+                <button class="tog"    id="sessionShuffle" onclick="setSession('shuffle')">Shuffle</button>
+                <button class="tog"    id="sessionSpeed"   onclick="setSession('speed')">Speed</button>
+            </div>
+        </div>
+        <div class="ctrl-group">
+            <label>Tactic</label>
+            <select id="filterTactic" onchange="applyFilters()">
+                <option value="all">All tactics</option>
+            </select>
+        </div>
+        <div class="ctrl-group">
+            <label>Severity</label>
+            <select id="filterSeverity" onchange="applyFilters()">
+                <option value="all">All</option>
+                <option value="critical">Critical</option>
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+            </select>
+        </div>
+        <div class="ctrl-group">
+            <label>Filter</label>
+            <select id="filterPunished" onchange="applyFilters()">
+                <option value="all">All blunders</option>
+                <option value="punished">Punished only</option>
+                <option value="unpunished">Unpunished only</option>
+            </select>
+        </div>
+        <div class="ctrl-group">
+            <label>Stats</label>
+            <button class="tog" onclick="toggleStats()">&#128202; Stats</button>
+        </div>
+    </div>
+
+    <div class="stats-panel" id="statsPanel">
+        <h3>Performance</h3>
+        <div id="statsContent"></div>
+    </div>
+
+    <div class="stats-bar">
+        <span id="sQueue"><strong>–</strong> due</span>
+        <span id="sTotal"><strong>–</strong> total</span>
+        <span id="sMastered"><strong>–</strong> mastered</span>
+        <span id="sStruggling"><strong>–</strong> struggling</span>
+    </div>
+
+    <div class="timer" id="timer">10</div>
+    <div class="card" id="drillCard"><div class="state-msg">Loading drills…</div></div>
+</div>
+
+<script>
+// ── Constants ─────────────────────────────────────────────────────
+const TACTIC_LABELS = {
+    forced_mate:'Forced Mate', back_rank_mate:'Back-Rank Mate', skewer:'Skewer',
+    pin:'Pin', discovered_attack:'Discovered Attack', hanging_piece:'Hanging Piece',
+    hanging_pawn:'Hanging Pawn', losing_exchange:'Losing Exchange', fork:'Fork',
+    trapped_piece:'Trapped Piece', positional:'Positional', unknown:'Unknown',
+};
+const TACTIC_COLORS = {
+    forced_mate:'#8b0000', back_rank_mate:'#cc0000', skewer:'#e65c00',
+    pin:'#b8860b', discovered_attack:'#6a0dad', hanging_piece:'#c0392b',
+    hanging_pawn:'#e67e22', losing_exchange:'#d4ac0d', fork:'#1a7a4a',
+    trapped_piece:'#1a5276', positional:'#566573', unknown:'#aaaaaa',
+};
+const SEV_COLORS = { critical:'#8b0000', major:'#c0392b', minor:'#d4ac0d' };
+const LEITNER  = [0,1,2,4,8,16];
+const LS_KEY   = 'blunder_drills_v3';
+const FILES    = ['a','b','c','d','e','f','g','h'];
+const UNICODE  = {
+    wK:'♔', wQ:'♕', wR:'♖', wB:'♗', wN:'♘', wP:'♙',
+    bK:'♚', bQ:'♛', bR:'♜', bB:'♝', bN:'♞', bP:'♟',
+};
+
+// ── State ─────────────────────────────────────────────────────────
+let allDrills=[], filteredDrills=[], queue=[], queueIdx=0;
+let drillMode='avoid', sessionMode='spaced';
+let revealed=false, timerInt=null;
+let progress={}, sessionCount=0;
+let selectedSq=null, legalMoves=[], currentChess=null, currentDrill=null, currentOrientation='white';
+
+// ── localStorage ──────────────────────────────────────────────────
+function loadProgress() {
+    try {
+        const d = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+        progress = d.cards || {};
+        sessionCount = d.session_count || 0;
+        return d.settings || {};
+    } catch(e) { return {}; }
+}
+function saveProgress() {
+    localStorage.setItem(LS_KEY, JSON.stringify({
+        cards: progress, session_count: sessionCount,
+        settings: {
+            drillMode, sessionMode,
+            filterTactic:    document.getElementById('filterTactic').value,
+            filterSeverity:  document.getElementById('filterSeverity').value,
+            filterPunished:  document.getElementById('filterPunished').value,
+        }
+    }));
+}
+function restoreSettings(s) {
+    if (!s) return;
+    if (s.drillMode)       setDrillMode(s.drillMode, true);
+    if (s.sessionMode)     setSession(s.sessionMode, true);
+    if (s.filterTactic)    document.getElementById('filterTactic').value    = s.filterTactic;
+    if (s.filterSeverity)  document.getElementById('filterSeverity').value  = s.filterSeverity;
+    if (s.filterPunished)  document.getElementById('filterPunished').value  = s.filterPunished;
+}
+
+// ── Leitner ───────────────────────────────────────────────────────
+function getCard(id) { return progress[id] || {box:1, last_session:-1, correct:0, incorrect:0}; }
+function isDue(id)   { const c=getCard(id); if(c.box>=5) return false; return (sessionCount - c.last_session) >= (LEITNER[c.box]||1); }
+function recordResult(id, ok) {
+    const c = getCard(id);
+    if (ok) { c.box = Math.min(5, c.box+1); c.correct   = (c.correct   || 0) + 1; }
+    else    { c.box = 1;                     c.incorrect = (c.incorrect || 0) + 1; }
+    c.last_session = sessionCount;
+    progress[id] = c;
+    saveProgress();
+}
+function computeStats() {
+    const total      = filteredDrills.length;
+    const mastered   = filteredDrills.filter(d => getCard(d.id).box >= 5).length;
+    const struggling = filteredDrills.filter(d => { const c=getCard(d.id); return (c.incorrect||0)>2 && c.box===1; }).length;
+    const due        = filteredDrills.filter(d => isDue(d.id)).length;
+    return {total, mastered, struggling, due};
+}
+
+// ── Queue ─────────────────────────────────────────────────────────
+function shuffle(a) {
+    const b = [...a];
+    for (let i=b.length-1; i>0; i--) { const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; }
+    return b;
+}
+function buildQueue() {
+    stopTimer();
+    let pool = filteredDrills;
+    if (drillMode === 'punish') pool = pool.filter(d => d.refutation_move_uci && d.fen_after);
+    if (sessionMode === 'spaced') {
+        queue = [...shuffle(pool.filter(d => isDue(d.id))), ...shuffle(pool.filter(d => !isDue(d.id)))];
+    } else {
+        queue = shuffle([...pool]);
+    }
+    if (sessionMode === 'speed') {
+        const fast = new Set(['hanging_piece','hanging_pawn','fork','back_rank_mate','forced_mate']);
+        const q2 = queue.filter(d => fast.has(d.tactic_type));
+        if (q2.length) queue = q2;
+    }
+    queueIdx = 0;
+    updateStatsBar();
+}
+
+// ── UI helpers ────────────────────────────────────────────────────
+function setDrillMode(m, silent) {
+    drillMode = m;
+    document.getElementById('modeAvoid') .classList.toggle('on', m==='avoid');
+    document.getElementById('modePunish').classList.toggle('on', m==='punish');
+    if (!silent) { buildQueue(); showDrill(); }
+}
+function setSession(m, silent) {
+    sessionMode = m;
+    ['spaced','shuffle','speed'].forEach(s =>
+        document.getElementById('session' + s[0].toUpperCase() + s.slice(1)).classList.toggle('on', s===m)
+    );
+    if (!silent) { buildQueue(); showDrill(); }
+}
+function toggleStats() {
+    const p = document.getElementById('statsPanel');
+    if (p.classList.toggle('open')) renderStatsPanel();
+}
+function updateStatsBar() {
+    const s = computeStats();
+    document.getElementById('sQueue')     .innerHTML = `<strong>${s.due}</strong> due`;
+    document.getElementById('sTotal')     .innerHTML = `<strong>${s.total}</strong> total`;
+    document.getElementById('sMastered')  .innerHTML = `<strong>${s.mastered}</strong> mastered`;
+    document.getElementById('sStruggling').innerHTML = `<strong>${s.struggling}</strong> struggling`;
+}
+function renderStatsPanel() {
+    const byT = {};
+    filteredDrills.forEach(d => {
+        const t = d.tactic_type || 'unknown';
+        if (!byT[t]) byT[t] = {c:0, tot:0};
+        byT[t].tot++;
+        byT[t].c += (getCard(d.id).correct || 0);
+    });
+    const rows = Object.entries(byT).sort((a,b) => b[1].tot - a[1].tot);
+    const boxes = [1,2,3,4,5].map(b => ({b, n: filteredDrills.filter(d => getCard(d.id).box === b).length}));
+    let h = `<div class="box-dist">${boxes.map(({b,n}) =>
+        `<div class="box-chip"><div class="bn">${n}</div><div class="bl">${b===5?'Mastered':'Box '+b}</div></div>`
+    ).join('')}</div><br>`;
+    rows.forEach(([t, v]) => {
+        const p = v.tot ? Math.round(v.c / v.tot * 100) : 0;
+        h += `<div class="trow"><span class="tn">${TACTIC_LABELS[t]||t}</span>
+              <div class="tb"><div class="tf" style="width:${p}%"></div></div>
+              <span class="tp">${p}%</span></div>`;
+    });
+    document.getElementById('statsContent').innerHTML = h;
+}
+
+// ── Board builder (pure HTML string) ─────────────────────────────
+function fenToMap(fen) {
+    const map = {};
+    fen.split(' ')[0].split('/').forEach((row, ri) => {
+        let ci = 0;
+        for (const ch of row) {
+            if (isNaN(ch)) {
+                map[ri*8+ci] = { color: ch === ch.toUpperCase() ? 'w' : 'b', type: ch.toUpperCase() };
+                ci++;
+            } else {
+                ci += parseInt(ch, 10);
+            }
+        }
+    });
+    return map;
+}
+
+function buildBoardHTML(fen, orientation) {
+    const pieces = fenToMap(fen);
+    const rowIdxs = orientation === 'white' ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
+    const colIdxs = orientation === 'white' ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
+    let html = '';
+    rowIdxs.forEach(ri => {
+        colIdxs.forEach(ci => {
+            const light = (ri + ci) % 2 === 0;
+            const sqName = FILES[ci] + (8 - ri);
+            const p = pieces[ri*8 + ci];
+            const symbol = p ? (UNICODE[p.color + p.type] || '') : '';
+            const pCls   = p ? (p.color === 'w' ? ' piece-w' : ' piece-b') : '';
+            html += `<div class="sq ${light?'light':'dark'}${pCls}" id="sq-${sqName}" onclick="onSqClick('${sqName}')">${symbol}</div>`;
+        });
+    });
+    return `<div class="board" id="board">${html}</div>`;
+}
+
+// ── Board interaction ─────────────────────────────────────────────
+function clearBoardHighlights() {
+    document.querySelectorAll('.sq').forEach(el => {
+        el.classList.remove('sel','hint-dot','hint-ring','hl-correct','hl-wrong');
+    });
+}
+
+function onSqClick(sqName) {
+    if (revealed || !currentChess) return;
+
+    if (selectedSq) {
+        // Try the move
+        const matching = legalMoves.filter(m => m.from === selectedSq && m.to === sqName);
+        if (matching.length) {
+            const uci = selectedSq + sqName + (matching[0].promotion || '');
+            clearBoardHighlights();
+            selectedSq = null; legalMoves = [];
+            handleMove(uci, currentDrill);
+            return;
+        }
+        // Re-select if same color piece
+        const p = currentChess.get(sqName);
+        if (p && p.color === currentChess.turn()) {
+            clearBoardHighlights();
+            selectSq(sqName);
+            return;
+        }
+        // Deselect
+        clearBoardHighlights();
+        selectedSq = null; legalMoves = [];
+        return;
+    }
+
+    const p = currentChess.get(sqName);
+    if (p && p.color === currentChess.turn()) selectSq(sqName);
+}
+
+function selectSq(sqName) {
+    selectedSq = sqName;
+    legalMoves = currentChess.moves({ verbose: true }).filter(m => m.from === sqName);
+
+    clearBoardHighlights();
+    const selEl = document.getElementById('sq-' + sqName);
+    if (selEl) selEl.classList.add('sel');
+
+    legalMoves.forEach(m => {
+        const el = document.getElementById('sq-' + m.to);
+        if (!el) return;
+        const hasPiece = currentChess.get(m.to);
+        el.classList.add(hasPiece ? 'hint-ring' : 'hint-dot');
+    });
+}
+
+function highlightMove(fromSq, toSq, cls) {
+    const f = document.getElementById('sq-' + fromSq);
+    const t = document.getElementById('sq-' + toSq);
+    if (f) f.classList.add(cls);
+    if (t) t.classList.add(cls);
+}
+
+// ── Timer ─────────────────────────────────────────────────────────
+function startTimer() {
+    if (sessionMode !== 'speed') return;
+    let left = 10;
+    const el = document.getElementById('timer');
+    el.style.display = 'block'; el.textContent = left; el.classList.remove('urgent');
+    stopTimer();
+    timerInt = setInterval(() => {
+        left--;
+        el.textContent = left;
+        if (left <= 3) el.classList.add('urgent');
+        if (left <= 0) { stopTimer(); handleMove('timeout', currentDrill); }
+    }, 1000);
+}
+function stopTimer() {
+    if (timerInt) { clearInterval(timerInt); timerInt = null; }
+    const el = document.getElementById('timer');
+    if (el) el.style.display = 'none';
+}
+
+// ── Drill rendering ───────────────────────────────────────────────
+function showDrill() {
+    stopTimer();
+    if (!queue.length) {
+        document.getElementById('drillCard').innerHTML = '<div class="state-msg">No drills match your filters.</div>';
+        return;
+    }
+    if (queueIdx >= queue.length) {
+        document.getElementById('drillCard').innerHTML =
+            `<div class="state-msg">&#127881; Session complete! ${queue.length} drill(s) reviewed.<br><br>
+             <button class="btn btn-primary" onclick="restartSession()">New Session</button></div>`;
+        updateStatsBar(); return;
+    }
+
+    const drill = queue[queueIdx];
+    currentDrill = drill;
+    revealed     = false;
+    selectedSq   = null;
+    legalMoves   = [];
+
+    const isAvoid     = drillMode === 'avoid';
+    const fen         = isAvoid ? drill.fen : drill.fen_after;
+    const orientation = isAvoid ? (drill.hero_color || 'white')
+                                : (drill.hero_color === 'white' ? 'black' : 'white');
+    currentOrientation = orientation;
+    currentChess       = new Chess(fen);
+
+    const tLabel = TACTIC_LABELS[drill.tactic_type] || drill.tactic_type;
+    const tColor = TACTIC_COLORS[drill.tactic_type] || '#aaa';
+    const sColor = SEV_COLORS[drill.severity] || '#aaa';
+    const boardHTML = buildBoardHTML(fen, orientation);
+
+    document.getElementById('drillCard').innerHTML = `
+        <div class="card-header">
+            <h2>${isAvoid ? '&#9888; Avoid the Blunder' : '&#128480; Punish the Blunder'}</h2>
+            <span class="pill" style="background:${tColor}">${tLabel}</span>
+            <span class="pill" style="background:${sColor}">${(drill.severity||'').toUpperCase()}</span>
+            ${drill.punished === true ? '<span class="pill" style="background:#c0392b">Punished</span>' : ''}
+        </div>
+        <p class="prompt">${isAvoid ? 'Find the best move you should have played.' : 'Find the move that punishes the blunder.'}</p>
+        ${drill.board_description ? `<p class="hint">&#128270; ${drill.board_description}</p>` : ''}
+        <div class="board-area">${boardHTML}</div>
+        <div id="feedback" class="feedback"></div>
+        <div class="nav-row">
+            <button class="btn btn-reveal" id="revealBtn" onclick="revealAnswer()">Reveal Answer</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextDrill()" disabled>Next &rarr;</button>
+            <span class="card-counter">${queueIdx+1} / ${queue.length}</span>
+        </div>`;
+
+    startTimer();
+}
+
+function handleMove(uci, drill) {
+    if (revealed || !drill) return;
+    stopTimer();
+    revealed   = true;
+    selectedSq = null; legalMoves = [];
+
+    const isAvoid    = drillMode === 'avoid';
+    const correctUci = isAvoid ? drill.best_move_uci : drill.refutation_move_uci;
+    const correct    = uci !== 'timeout' && uci.slice(0,4) === correctUci.slice(0,4);
+
+    recordResult(drill.id, correct);
+    clearBoardHighlights();
+
+    // Highlight correct move (green), wrong move (red)
+    highlightMove(correctUci.slice(0,2), correctUci.slice(2,4), 'hl-correct');
+    if (!correct && uci !== 'timeout' && uci.length >= 4)
+        highlightMove(uci.slice(0,2), uci.slice(2,4), 'hl-wrong');
+
+    showFeedback(drill, correct, uci, isAvoid);
+    document.getElementById('nextBtn').disabled   = false;
+    document.getElementById('revealBtn').disabled = true;
+    updateStatsBar();
+}
+
+function revealAnswer() {
+    if (revealed) return;
+    stopTimer();
+    revealed   = true;
+    selectedSq = null; legalMoves = [];
+    const drill = queue[queueIdx];
+    if (!drill) return;
+    recordResult(drill.id, false);
+    clearBoardHighlights();
+    const correctUci = drillMode === 'avoid' ? drill.best_move_uci : drill.refutation_move_uci;
+    highlightMove(correctUci.slice(0,2), correctUci.slice(2,4), 'hl-correct');
+    showFeedback(drill, false, null, drillMode === 'avoid');
+    document.getElementById('nextBtn').disabled   = false;
+    document.getElementById('revealBtn').disabled = true;
+    updateStatsBar();
+}
+
+function showFeedback(drill, correct, uci, isAvoid) {
+    const el = document.getElementById('feedback');
+    if (!el) return;
+    let h = '';
+    if      (correct)          h = `<div class="fb-title ok">&#10003; Correct!</div>`;
+    else if (uci === 'timeout') h = `<div class="fb-title bad">&#10006; Time&apos;s up!</div>`;
+    else if (uci === null)      h = `<div class="fb-title bad">&#10006; Answer revealed</div>`;
+    else                        h = `<div class="fb-title bad">&#10006; Not quite</div>`;
+
+    if (isAvoid) {
+        h += `<div><span class="move-played">You played: ${drill.move_played_san}</span><br>
+              <span class="move-best">Best: ${drill.best_move_san}</span><br>
+              <span class="muted">Eval swing: ${drill.eval_swing} cp</span></div>`;
+        if (drill.pv_line) h += `<div class="ref-line">Best line: ${drill.pv_line}</div>`;
+    } else {
+        h += `<div><span class="move-best">Refutation: ${drill.refutation_line || drill.refutation_move_uci}</span></div>`;
+        if (drill.opponent_reply_san) {
+            const found = drill.punished ? '✓ Opponent found it' : '✗ Opponent missed it';
+            h += `<div class="ref-line">Opponent played: ${drill.opponent_reply_san} (${found})</div>`;
+        }
+    }
+    if (drill.tactical_alert)
+        h += `<div class="t-alert">${drill.tactical_alert}</div>`;
+    if (drill.explanation)
+        h += `<div class="explanation">${drill.explanation}</div>`;
+    if (drill.lichess_url) {
+        const url = drill.half_move_number ? `${drill.lichess_url}#${drill.half_move_number}` : drill.lichess_url;
+        h += `<a class="lc-link" href="${url}" target="_blank" rel="noopener">&#8599; View on Lichess</a>`;
+    }
+
+    el.className      = `feedback ${correct ? 'ok' : 'bad'}`;
+    el.style.display  = 'block';
+    el.innerHTML      = h;
+}
+
+function nextDrill()      { queueIdx++; saveProgress(); showDrill(); }
+function restartSession() { sessionCount++; buildQueue(); showDrill(); }
+
+// ── Filters ───────────────────────────────────────────────────────
+function applyFilters() {
+    const t = document.getElementById('filterTactic').value;
+    const s = document.getElementById('filterSeverity').value;
+    const p = document.getElementById('filterPunished').value;
+    filteredDrills = allDrills.filter(d => {
+        if (t !== 'all' && d.tactic_type !== t)  return false;
+        if (s !== 'all' && d.severity    !== s)  return false;
+        if (p === 'punished'   && d.punished !== true)  return false;
+        if (p === 'unpunished' && d.punished !== false) return false;
+        return true;
+    });
+    buildQueue(); showDrill(); saveProgress();
+}
+function populateTacticFilter() {
+    const seen = new Set();
+    allDrills.forEach(d => { if (d.tactic_type) seen.add(d.tactic_type); });
+    const sel = document.getElementById('filterTactic');
+    seen.forEach(t => {
+        const o = document.createElement('option');
+        o.value = t; o.textContent = TACTIC_LABELS[t] || t;
+        sel.appendChild(o);
+    });
+}
+
+// ── Bootstrap ─────────────────────────────────────────────────────
+async function loadDrills() {
+    try {
+        const r = await fetch('./drills.json');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        allDrills = await r.json();
+    } catch(e) {
+        document.getElementById('drillCard').innerHTML =
+            `<div class="state-msg">Could not load drills.json<br>
+             Run <code>python run_extract_drills.py</code><br>
+             <small>${e.message}</small></div>`;
+        return;
+    }
+    if (!allDrills.length) {
+        document.getElementById('drillCard').innerHTML = '<div class="state-msg">No drills yet.</div>';
+        return;
+    }
+    populateTacticFilter();
+    const settings = loadProgress();
+    sessionCount++;
+    restoreSettings(settings);
+    filteredDrills = [...allDrills];
+    buildQueue();
+    showDrill();
+}
+
+document.addEventListener('DOMContentLoaded', loadDrills);
+</script>
+</body>
+</html>

@@ -697,6 +697,31 @@ class ChessAnalyzer:
             color_str = "white" if orientation == chess.WHITE else "black"
             image_url = f"https://lichess.org/export/fen.gif?fen={fen_encoded}&color={color_str}"
 
+            # Punished detection: did the opponent play the refutation (or equivalent)?
+            punished: Optional[bool] = None
+            opponent_reply_san: Optional[str] = None
+            if is_blunder and node.next() is not None:
+                opp_node = node.next()
+                opp_move_uci = opp_node.move.uci()
+                opponent_reply_san = board_after.san(opp_node.move)
+                if refutation_pv and opp_move_uci == refutation_pv[0].uci():
+                    punished = True
+                elif refutation_pv:
+                    # Fallback: check if opponent's reply achieves eval within 100cp of refutation
+                    board_opp = board_after.copy()
+                    info_opp = self.engine.analyse(board_opp, chess.engine.Limit(time=self.time_limit),
+                                                   root_moves=[opp_node.move])
+                    opp_reply_eval = self._score_to_cp(info_opp["score"].pov(board_after.turn))
+                    ref_eval = self._score_to_cp(info_after["score"].pov(board_after.turn))
+                    punished = abs(opp_reply_eval - ref_eval) <= 100
+                else:
+                    punished = False
+            elif is_blunder and node.next() is None:
+                punished = None  # game ended after blunder
+
+            # Refutation first move UCI for drill system
+            refutation_move_uci = refutation_pv[0].uci() if refutation_pv else None
+
             moment = CrucialMoment(
                 fen=board_before.fen(),
                 move_played_san=node.san(),
@@ -720,6 +745,10 @@ class ChessAnalyzer:
                 severity=severity,
                 best_line=best_line if not is_blunder else "",
                 half_move_number=half_move_num,
+                punished=punished,
+                opponent_reply_san=opponent_reply_san,
+                fen_after=board_after.fen() if is_blunder else None,
+                refutation_move_uci=refutation_move_uci if is_blunder else None,
             )
 
             moments.append(moment)

@@ -46,3 +46,39 @@ class CrucialMoment:
     best_line: str = ""                 # SAN moves of best PV (for missed chances)
     lichess_url: Optional[str] = None
     half_move_number: Optional[int] = None
+    punished: Optional[bool] = None           # True if opponent exploited the blunder
+    opponent_reply_san: Optional[str] = None  # What opponent actually played after the blunder
+    fen_after: Optional[str] = None           # FEN after the blunder move (for "Punish" drill mode)
+    refutation_move_uci: Optional[str] = None # First move of refutation PV as UCI
+
+    def to_drill_dict(self, game_id: str, game_date: str) -> dict:
+        """Return a JSON-serializable dict for the drills system (excludes svg_content)."""
+        return {
+            "id": f"{game_id}_{self.half_move_number}",
+            "game_id": game_id,
+            "game_date": game_date,
+            "fen": self.fen,
+            "fen_after": self.fen_after,
+            "hero_color": "white" if self.hero_color == chess.WHITE else "black",
+            "move_played_san": self.move_played_san,
+            "move_played_uci": self.move_played_uci,
+            "best_move_san": self.best_move_san,
+            "best_move_uci": self.best_move_uci,
+            "refutation_move_uci": self.refutation_move_uci,
+            "eval_swing": self.eval_swing,
+            "eval_after": self.eval_after,
+            "moment_type": self.moment_type,
+            "severity": self.severity,
+            "tactic_type": self.tactic_type,
+            "explanation": self.explanation,
+            "tactical_alert": self.tactical_alert,
+            "refutation_line": self.refutation_line,
+            "best_line": self.best_line,
+            "mate_in": self.mate_in,
+            "punished": self.punished,
+            "opponent_reply_san": self.opponent_reply_san,
+            "lichess_url": self.lichess_url,
+            "half_move_number": self.half_move_number,
+            "board_description": self.board_description,
+            "pv_line": self.pv_line,
+        }
