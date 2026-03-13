@@ -3,17 +3,6 @@
     {
       "date": "2026.03.05",
       "white": "erivera90",
-      "black": "sree-13",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "losing_exchange"
-      ]
-    },
-    {
-      "date": "2026.03.05",
-      "white": "erivera90",
       "black": "Clementfnt92",
       "result": "1-0",
       "blunder_count": 0,
@@ -264,21 +253,34 @@
         "discovered_attack",
         "losing_exchange"
       ]
+    },
+    {
+      "date": "2026.03.13",
+      "white": "erivera90",
+      "black": "Anas_marwan123",
+      "result": "0-1",
+      "blunder_count": 3,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "pin",
+        "back_rank_mate"
+      ]
     }
   ],
   "tactic_counts": {
     "hanging_pawn": 207,
     "positional": 31,
     "forced_mate": 7,
-    "pin": 8,
+    "pin": 9,
     "skewer": 5,
     "discovered_attack": 6,
-    "hanging_piece": 11,
+    "hanging_piece": 12,
     "losing_exchange": 3,
     "fork": 7,
-    "back_rank_mate": 2,
+    "back_rank_mate": 3,
     "trapped_piece": 2
   },
-  "total_blunders": 51,
+  "total_blunders": 54,
   "total_missed": 238
 }
