@@ -1,15 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.05",
-      "white": "erivera90",
-      "black": "Clementfnt92",
-      "result": "1-0",
-      "blunder_count": 0,
-      "missed_count": 0,
-      "tactics": []
-    },
-    {
       "date": "2026.03.06",
       "white": "ionetto",
       "black": "erivera90",
@@ -266,6 +257,20 @@
         "pin",
         "back_rank_mate"
       ]
+    },
+    {
+      "date": "2026.03.13",
+      "white": "vonhefner",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 2,
+      "tactics": [
+        "trapped_piece",
+        "trapped_piece",
+        "hanging_piece",
+        "losing_exchange"
+      ]
     }
   ],
   "tactic_counts": {
@@ -275,12 +280,12 @@
     "pin": 9,
     "skewer": 5,
     "discovered_attack": 6,
-    "hanging_piece": 12,
-    "losing_exchange": 3,
+    "hanging_piece": 13,
+    "losing_exchange": 4,
     "fork": 7,
     "back_rank_mate": 3,
-    "trapped_piece": 2
+    "trapped_piece": 4
   },
-  "total_blunders": 54,
-  "total_missed": 238
+  "total_blunders": 56,
+  "total_missed": 240
 }
