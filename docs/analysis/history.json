@@ -2,22 +2,6 @@
   "games": [
     {
       "date": "2026.03.06",
-      "white": "erivera90",
-      "black": "Conchitilla",
-      "result": "0-1",
-      "blunder_count": 4,
-      "missed_count": 2,
-      "tactics": [
-        "positional",
-        "hanging_piece",
-        "hanging_piece",
-        "positional",
-        "fork",
-        "fork"
-      ]
-    },
-    {
-      "date": "2026.03.06",
       "white": "1mB4d4tPlayingCh3ss",
       "black": "erivera90",
       "result": "1-0",
@@ -268,6 +252,15 @@
       "tactics": [
         "hanging_piece"
       ]
+    },
+    {
+      "date": "2026.03.14",
+      "white": "erivera90",
+      "black": "Angelatran546",
+      "result": "1-0",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": []
     }
   ],
   "tactic_counts": {
