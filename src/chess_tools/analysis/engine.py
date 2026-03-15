@@ -3,8 +3,10 @@ import chess.engine
 import chess.svg
 import logging
 import urllib.parse
+from dataclasses import asdict
 from typing import Optional, List, Dict, Tuple, Any
 from chess_tools.lib.models import CrucialMoment
+from tactics import TacticClassifier
 
 logger = logging.getLogger("chess_transfer")
 
@@ -465,6 +467,7 @@ class ChessAnalyzer:
         self.engine_path = engine_path
         self.time_limit = time_limit
         self.engine: Optional[chess.engine.SimpleEngine] = None
+        self.tactic_classifier = TacticClassifier()  # geometry-only, no engine
 
     def __enter__(self):
         try:
@@ -650,13 +653,29 @@ class ChessAnalyzer:
 
             is_blunder = moment_type == "blunder"
 
-            # Tactic classification
+            # Tactic classification (legacy string label — handles mate/hanging/exchange/trapped)
             if is_blunder:
                 tactic_type = classify_tactic(board_after.copy(), refutation_pv, mate_in, mover_color)
             else:
                 opp_color = not mover_color
                 best_pv = info_before.get("pv", [])
                 tactic_type = classify_tactic(board_before.copy(), best_pv, best_mate_in, opp_color)
+
+            # Richer geometric classification via TacticClassifier
+            tactic_events_raw: list = []
+            try:
+                if is_blunder and refutation_pv:
+                    tc_events = self.tactic_classifier.classify(board_after.copy(), refutation_pv[0])
+                elif not is_blunder and engine_best_move:
+                    tc_events = self.tactic_classifier.classify(board_before.copy(), engine_best_move)
+                else:
+                    tc_events = []
+                tactic_events_raw = [asdict(e) for e in tc_events]
+                # Promote to tactic_type only when the legacy label is generic
+                if tc_events and tactic_type in ("positional", "unknown"):
+                    tactic_type = tc_events[0].motif.value
+            except Exception as _tc_err:
+                logger.debug(f"TacticClassifier error: {_tc_err}")
 
             board_description = describe_board(board_before, mover_color)
 
@@ -749,6 +768,7 @@ class ChessAnalyzer:
                 opponent_reply_san=opponent_reply_san,
                 fen_after=board_after.fen() if is_blunder else None,
                 refutation_move_uci=refutation_move_uci if is_blunder else None,
+                tactic_events=tactic_events_raw,
             )
 
             moments.append(moment)
