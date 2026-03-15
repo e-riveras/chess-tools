@@ -17,6 +17,7 @@ logger = logging.getLogger("chess_transfer")
 MAX_IMPORTS_PER_RUN = 100
 IMPORT_DELAY_SECONDS = 6
 DUPLICATE_DELAY_SECONDS = 1
+ANALYZED_TIME_CLASSES = frozenset({"rapid", "blitz"})
 
 
 def run_sync_pipeline():
@@ -64,7 +65,7 @@ def run_sync_pipeline():
             for g in reversed(games):
                 url_g = g.get('url', '')
                 pgn_g = g.get('pgn', '')
-                if url_g and pgn_g:
+                if url_g and pgn_g and g.get('time_class') in ANALYZED_TIME_CLASSES:
                     gid = urlparse(url_g).path.rstrip('/').split('/')[-1]
                     latest_candidate_game = {'id': gid, 'pgn': pgn_g}
                     break
