@@ -10,3 +10,9 @@ htmlcov/
 .pytest_cache/
 *.log
 samples/
+
+# Generated analysis outputs (committed by CI, not tracked locally)
+analysis/
+docs/analysis/
+docs/drills/drills.json
+data/history.json
