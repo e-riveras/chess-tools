@@ -2,21 +2,6 @@
   "games": [
     {
       "date": "2026.03.06",
-      "white": "1mB4d4tPlayingCh3ss",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 5,
-      "missed_count": 0,
-      "tactics": [
-        "pin",
-        "hanging_pawn",
-        "forced_mate",
-        "forced_mate",
-        "forced_mate"
-      ]
-    },
-    {
-      "date": "2026.03.06",
       "white": "Dusdat",
       "black": "erivera90",
       "result": "0-1",
@@ -261,21 +246,36 @@
       "blunder_count": 0,
       "missed_count": 0,
       "tactics": []
+    },
+    {
+      "date": "2026.03.15",
+      "white": "erivera90",
+      "black": "SuperHachimitsu",
+      "result": "0-1",
+      "blunder_count": 4,
+      "missed_count": 1,
+      "tactics": [
+        "fork",
+        "positional",
+        "hanging_piece",
+        "back_rank_mate",
+        "forced_mate"
+      ]
     }
   ],
   "tactic_counts": {
     "hanging_pawn": 207,
-    "positional": 31,
-    "forced_mate": 7,
+    "positional": 32,
+    "forced_mate": 8,
     "pin": 9,
     "skewer": 5,
     "discovered_attack": 6,
-    "hanging_piece": 14,
+    "hanging_piece": 15,
     "losing_exchange": 4,
-    "fork": 7,
-    "back_rank_mate": 3,
+    "fork": 8,
+    "back_rank_mate": 4,
     "trapped_piece": 4
   },
-  "total_blunders": 57,
-  "total_missed": 240
+  "total_blunders": 61,
+  "total_missed": 241
 }
