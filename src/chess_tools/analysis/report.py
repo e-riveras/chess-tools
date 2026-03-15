@@ -314,6 +314,22 @@ _HTML_STYLE = """
     .run-status.err { color: #ff6b6b; }
     .token-link { font-size: 0.8rem; color: var(--muted-color); cursor: pointer; }
     .token-link:hover { color: var(--text-color); }
+    .drills-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #51cf66;
+        color: #111;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+    .drills-btn:hover { background: #3bb852; text-decoration: none; }
 """
 
 
@@ -753,6 +769,7 @@ def regenerate_index_page(html_output_dir: str):
     <div class="meta">Game analysis with Stockfish engine and AI coach explanations.</div>
     <div class="run-bar">
         <button class="run-btn" id="runBtn" onclick="triggerAnalysis()">&#9654; Run Analysis</button>
+        <a class="drills-btn" href="../drills/index.html">&#127919; Drills</a>
         <span class="run-status" id="runStatus"></span>
         <span class="token-link" id="tokenLink" onclick="resetToken()" title="Update stored GitHub token" style="display:none">[change token]</span>
     </div>

@@ -12,7 +12,7 @@ htmlcov/
 samples/
 
 # Generated analysis outputs (committed by CI, not tracked locally)
-analysis/
-docs/analysis/
-docs/drills/drills.json
-data/history.json
+/analysis/
+/docs/analysis/
+/docs/drills/drills.json
+/data/history.json
