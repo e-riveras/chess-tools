@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
     <title>Blunder Drills</title>
     <script src="https://cdn.jsdelivr.net/npm/chess.js@0.10.2/chess.min.js"></script>
     <style>
@@ -10,29 +13,34 @@
             --bg: #1a1a1a; --card: #2a2a2a; --text: #e0e0e0; --muted: #a0a0a0;
             --accent: #4a9eff; --correct: #51cf66; --wrong: #ff6b6b; --warn: #d4ac0d;
             --sq-light: #f0d9b5; --sq-dark: #b58863;
-            --sq-size: 50px;
+            --sq-size: min(calc((100dvw - 24px) / 8), 58px);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
                background: var(--bg); color: var(--text); min-height: 100vh;
-               padding: 16px; display: flex; flex-direction: column; align-items: center; }
+               padding: 16px; display: flex; flex-direction: column; align-items: center;
+               padding-bottom: max(16px, env(safe-area-inset-bottom)); }
         .container { max-width: 860px; width: 100%; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        .top-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .top-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+                   padding-top: env(safe-area-inset-top); }
         .top-bar h1 { font-size: 1.4rem; flex: 1; }
         .back-link { font-size: .9rem; color: var(--muted); }
 
         .controls { background: var(--card); border-radius: 10px; padding: 14px 18px;
-                    margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+                    margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+                    overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
         .ctrl-group label { color: var(--muted); text-transform: uppercase; letter-spacing: .4px; font-size: .72rem; }
         .ctrl-group select { background: #333; color: var(--text); border: 1px solid #444;
-                             border-radius: 5px; padding: 5px 10px; font-size: .85rem; cursor: pointer; }
+                             border-radius: 5px; padding: 5px 10px; font-size: max(16px, .85rem); cursor: pointer;
+                             touch-action: manipulation; }
         .btn-row { display: flex; gap: 4px; }
         .tog { background: #333; color: var(--muted); border: 1px solid #444;
-               border-radius: 5px; padding: 5px 12px; font-size: .82rem; cursor: pointer; }
+               border-radius: 5px; padding: 5px 12px; font-size: .82rem; cursor: pointer;
+               touch-action: manipulation; }
         .tog.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
         .stats-bar { display: flex; gap: 18px; flex-wrap: wrap; font-size: .82rem;
@@ -48,7 +56,8 @@
         .hint { font-size: .82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
 
         /* ── Board ── */
-        .board-area { display: flex; justify-content: center; margin-bottom: 14px; }
+        .board-area { display: flex; justify-content: center; margin-bottom: 14px;
+                      overscroll-behavior: contain; }
         .board {
             display: grid;
             grid-template-columns: repeat(8, var(--sq-size));
@@ -57,12 +66,12 @@
             width:  calc(8 * var(--sq-size));
             height: calc(8 * var(--sq-size));
         }
-        @media (max-width: 480px) { :root { --sq-size: 38px; } }
         .sq {
             width: var(--sq-size); height: var(--sq-size);
             display: flex; align-items: center; justify-content: center;
             font-size: calc(var(--sq-size) * 0.78);
             cursor: pointer; position: relative; line-height: 1;
+            touch-action: manipulation;
         }
         .sq.light { background: var(--sq-light); }
         .sq.dark  { background: var(--sq-dark); }
@@ -79,6 +88,7 @@
         .sq.hl-wrong   { background: rgba(220,0,0,.45)  !important; }
         .piece-w { color: #fff; text-shadow: 0 0 3px #000, 0 0 1px #000; }
         .piece-b { color: #111; text-shadow: 0 0 3px rgba(255,255,255,.5); }
+        .piece-img { width: 100%; height: 100%; pointer-events: none; display: block; }
 
         .timer { text-align: center; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;
                  color: var(--warn); display: none; }
@@ -103,7 +113,7 @@
 
         .nav-row { display: flex; gap: 10px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
         .btn { padding: 9px 20px; border-radius: 6px; border: none;
-               font-size: .9rem; font-weight: 600; cursor: pointer; }
+               font-size: .9rem; font-weight: 600; cursor: pointer; touch-action: manipulation; }
         .btn:disabled { opacity: .4; cursor: not-allowed; }
         .btn-primary  { background: var(--accent); color: #fff; }
         .btn-primary:hover:not(:disabled) { background: #2d7fd4; }
@@ -175,6 +185,15 @@
             </select>
         </div>
         <div class="ctrl-group">
+            <label>Pieces</label>
+            <select id="pieceTheme" onchange="applyPieceTheme()">
+                <option value="cburnett">cburnett</option>
+                <option value="merida">Merida</option>
+                <option value="alpha">Alpha</option>
+                <option value="unicode">Unicode</option>
+            </select>
+        </div>
+        <div class="ctrl-group">
             <label>Stats</label>
             <button class="tog" onclick="toggleStats()">&#128202; Stats</button>
         </div>
@@ -198,6 +217,7 @@
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/lichess-org/lila@master/public/piece';
 const TACTIC_LABELS = {
     forced_mate:'Forced Mate', back_rank_mate:'Back-Rank Mate', skewer:'Skewer',
     pin:'Pin', discovered_attack:'Discovered Attack', hanging_piece:'Hanging Piece',
@@ -222,6 +242,7 @@ const UNICODE  = {
 // ── State ─────────────────────────────────────────────────────────
 let allDrills=[], filteredDrills=[], queue=[], queueIdx=0;
 let drillMode='avoid', sessionMode='spaced';
+let pieceTheme = localStorage.getItem('piece_theme') || 'cburnett';
 let revealed=false, timerInt=null;
 let progress={}, sessionCount=0;
 let selectedSq=null, legalMoves=[], currentChess=null, currentDrill=null, currentOrientation='white';
@@ -312,6 +333,16 @@ function setSession(m, silent) {
     );
     if (!silent) { buildQueue(); showDrill(); }
 }
+function applyPieceTheme() {
+    pieceTheme = document.getElementById('pieceTheme').value;
+    localStorage.setItem('piece_theme', pieceTheme);
+    if (currentDrill && currentChess) {
+        const isAvoid = drillMode === 'avoid';
+        const fen = isAvoid ? currentDrill.fen : currentDrill.fen_after;
+        const boardArea = document.querySelector('.board-area');
+        if (boardArea) boardArea.innerHTML = buildBoardHTML(fen, currentOrientation);
+    }
+}
 function toggleStats() {
     const p = document.getElementById('statsPanel');
     if (p.classList.toggle('open')) renderStatsPanel();
@@ -362,6 +393,19 @@ function fenToMap(fen) {
     return map;
 }
 
+function renderPiece(p) {
+    if (!p) return { inner: '', cls: '' };
+    const key = p.color + p.type;
+    if (pieceTheme === 'unicode') {
+        return {
+            inner: UNICODE[key] || '',
+            cls: p.color === 'w' ? ' piece-w' : ' piece-b',
+        };
+    }
+    const src = `${CDN_BASE}/${pieceTheme}/${key}.svg`;
+    return { inner: `<img src="${src}" class="piece-img" draggable="false" alt="">`, cls: '' };
+}
+
 function buildBoardHTML(fen, orientation) {
     const pieces = fenToMap(fen);
     const rowIdxs = orientation === 'white' ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
@@ -371,10 +415,8 @@ function buildBoardHTML(fen, orientation) {
         colIdxs.forEach(ci => {
             const light = (ri + ci) % 2 === 0;
             const sqName = FILES[ci] + (8 - ri);
-            const p = pieces[ri*8 + ci];
-            const symbol = p ? (UNICODE[p.color + p.type] || '') : '';
-            const pCls   = p ? (p.color === 'w' ? ' piece-w' : ' piece-b') : '';
-            html += `<div class="sq ${light?'light':'dark'}${pCls}" id="sq-${sqName}" onclick="onSqClick('${sqName}')">${symbol}</div>`;
+            const piece = renderPiece(pieces[ri*8 + ci]);
+            html += `<div class="sq ${light?'light':'dark'}${piece.cls}" id="sq-${sqName}" onclick="onSqClick('${sqName}')">${piece.inner}</div>`;
         });
     });
     return `<div class="board" id="board">${html}</div>`;
@@ -637,6 +679,8 @@ async function loadDrills() {
     const settings = loadProgress();
     sessionCount++;
     restoreSettings(settings);
+    // Restore piece theme picker
+    document.getElementById('pieceTheme').value = pieceTheme;
     filteredDrills = [...allDrills];
     buildQueue();
     showDrill();

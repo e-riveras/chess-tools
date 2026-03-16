@@ -330,6 +330,19 @@ _HTML_STYLE = """
         transition: background 0.15s;
     }
     .drills-btn:hover { background: #3bb852; text-decoration: none; }
+
+    /* iOS / Mobile Safari optimizations */
+    * { -webkit-tap-highlight-color: transparent; }
+    button, select, a { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    select, input { font-size: max(16px, 0.95rem); }
+    @media (max-width: 540px) {
+        .report-grid { grid-template-columns: 1fr; }
+        .moment-card { padding: 16px; }
+        .board-svg svg { max-width: 100%; }
+        .report-card { padding: 16px; }
+        .report-card h3 { font-size: 1rem; }
+    }
 """
 
 
@@ -562,8 +575,11 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
     filename = f"{safe_date}_{safe_white}_vs_{safe_black}.html"
     output_path = os.path.join(output_dir, filename)
 
+    utc_date = metadata.get('UTCDate') or metadata.get('Date', '')
+    utc_time = metadata.get('UTCTime', '00:00:00')
     report_meta = json.dumps({
         "date": metadata.get('Date', ''),
+        "datetime": f"{utc_date}T{utc_time}",
         "white": metadata.get('White', ''),
         "black": metadata.get('Black', ''),
         "result": metadata.get('Result', ''),
@@ -594,7 +610,10 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
     <meta name="report-data" content='{html.escape(report_meta, quote=True)}'>
     <title>Analysis: {white_esc} vs {black_esc}</title>
     <style>{_HTML_STYLE}</style>
@@ -751,15 +770,21 @@ def regenerate_index_page(html_output_dir: str):
         except Exception as e:
             logger.warning(f"Could not read metadata from {fname}: {e}")
 
-    # Sort by date descending
-    reports.sort(key=lambda r: r.get('date', ''), reverse=True)
+    # Sort by datetime descending (fall back to date for old reports without UTCTime)
+    reports.sort(
+        key=lambda r: r.get('datetime') or r.get('date', ''),
+        reverse=True
+    )
 
     parts = []
     parts.append(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
     <title>Analysis Reports</title>
     <style>{_HTML_STYLE}</style>
 </head>

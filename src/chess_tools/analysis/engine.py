@@ -522,7 +522,9 @@ class ChessAnalyzer:
             "Date": headers.get("Date", "Unknown"),
             "Event": headers.get("Event", "Unknown"),
             "Site": headers.get("Site", "Unknown"),
-            "Result": headers.get("Result", "*")
+            "Result": headers.get("Result", "*"),
+            "UTCDate": headers.get("UTCDate", headers.get("Date", "")),
+            "UTCTime": headers.get("UTCTime", "00:00:00"),
         }
 
         # Determine Hero Color
