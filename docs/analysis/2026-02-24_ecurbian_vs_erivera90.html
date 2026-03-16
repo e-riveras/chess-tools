@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="report-data" content='{&quot;date&quot;: &quot;2026.02.24&quot;, &quot;white&quot;: &quot;ecurbian&quot;, &quot;black&quot;: &quot;erivera90&quot;, &quot;result&quot;: &quot;1-0&quot;, &quot;moment_count&quot;: 0}'>
+    <title>Analysis: ecurbian vs erivera90</title>
+    <style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --accent-color: #4a9eff;
+        --muted-color: #a0a0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container { max-width: 800px; width: 100%; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back-link { margin-bottom: 20px; display: inline-block; font-size: 0.95rem; }
+    h1 { margin-bottom: 8px; }
+    .meta { color: var(--muted-color); margin-bottom: 24px; font-size: 0.95rem; }
+    .summary-count { margin-bottom: 24px; font-size: 1.05rem; }
+    .moment-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .moment-card h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    .board-svg { display: flex; justify-content: center; margin-bottom: 16px; }
+    .board-svg svg { max-width: 400px; width: 100%; height: auto; }
+    .fen { font-family: monospace; font-size: 0.85rem; color: var(--muted-color); margin-bottom: 12px; word-break: break-all; }
+    .move-info { margin-bottom: 12px; line-height: 1.7; }
+    .move-played { color: #ff6b6b; font-weight: bold; }
+    .move-best { color: #51cf66; font-weight: bold; }
+    .eval-swing { color: var(--muted-color); }
+    .variation { font-style: italic; color: var(--muted-color); }
+    .tactical-alert {
+        background: rgba(255, 107, 107, 0.15);
+        border-left: 4px solid #ff6b6b;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-weight: bold;
+    }
+    .explanation {
+        border-top: 1px solid #3a3a3a;
+        padding-top: 12px;
+        margin-top: 12px;
+        line-height: 1.6;
+    }
+    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
+    .summary-section {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-top: 8px;
+        line-height: 1.7;
+    }
+    .summary-section h2 { margin-bottom: 12px; }
+    .summary-section ul { padding-left: 20px; margin: 8px 0; }
+    .summary-section li { margin-bottom: 4px; }
+    .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
+    .severity-pill {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 10px;
+        color: #fff;
+        margin-left: 8px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .tactic-badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+    .best-line {
+        background: rgba(0, 102, 221, 0.15);
+        border-left: 4px solid #0066dd;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-style: italic;
+        color: var(--accent-color);
+    }
+    .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
+
+    /* Index page styles */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .report-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .report-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .report-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .report-card .card-meta { color: var(--muted-color); font-size: 0.9rem; margin-bottom: 10px; }
+    .report-card .card-moments { color: var(--accent-color); font-weight: bold; }
+    .no-reports { color: var(--muted-color); text-align: center; margin-top: 40px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Index</a>
+    <h1>Analysis: ecurbian vs erivera90</h1>
+    <div class="meta"><strong>Date:</strong> 2026.02.24 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
+    <h2 style="margin-bottom:12px">Evaluation</h2>
+    <div style="background:#2a2a3e;border-radius:8px;padding:16px;margin-bottom:24px;overflow-x:auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" style="max-width:100%;height:auto;">
+<rect x="0" y="0" width="800" height="300" fill="#1a1a2e" rx="8"/>
+<path d="M45,145.0 L45.0,138.75 L60.97826086956522,137.8125 L76.95652173913044,138.4375 L92.93478260869566,139.375 L108.91304347826087,140.0 L124.89130434782608,139.375 L140.8695652173913,144.375 L156.84782608695653,142.96875 L172.82608695652175,145.0 L188.80434782608697,145.0 L204.78260869565216,145.0 L220.7608695652174,145.0 L236.7391304347826,145.0 L252.7173913043478,145.0 L268.69565217391306,145.0 L284.67391304347825,117.8125 L300.6521739130435,117.5 L316.6304347826087,120.78125 L332.60869565217394,121.09375 L348.5869565217391,100.9375 L364.5652173913043,116.5625 L380.54347826086956,104.53125 L396.5217391304348,105.0 L412.5,73.90625 L428.4782608695652,77.96875 L444.45652173913044,50.78125 L460.4347826086956,45.9375 L476.41304347826093,23.90625 L492.3913043478261,20.0 L508.3695652173913,20.0 L524.3478260869565,29.0625 L540.3260869565217,20.0 L556.304347826087,26.875 L572.2826086956521,20.0 L588.2608695652174,41.875 L604.2391304347826,31.09375 L620.2173913043479,28.90625 L636.195652173913,20.0 L652.1739130434783,20.0 L668.1521739130435,20.0 L684.1304347826086,20.0 L700.1086956521739,20.0 L716.0869565217391,20.0 L732.0652173913044,20.0 L748.0434782608696,20.0 L764.0217391304348,20.0 L780.0,20.0 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
+<path d="M45,145.0 L45.0,145.0 L60.97826086956522,145.0 L76.95652173913044,145.0 L92.93478260869566,145.0 L108.91304347826087,145.0 L124.89130434782608,145.0 L140.8695652173913,145.0 L156.84782608695653,145.0 L172.82608695652175,146.40625 L188.80434782608697,149.53125 L204.78260869565216,154.84375 L220.7608695652174,153.28125 L236.7391304347826,151.71875 L252.7173913043478,152.34375 L268.69565217391306,154.0625 L284.67391304347825,145.0 L300.6521739130435,145.0 L316.6304347826087,145.0 L332.60869565217394,145.0 L348.5869565217391,145.0 L364.5652173913043,145.0 L380.54347826086956,145.0 L396.5217391304348,145.0 L412.5,145.0 L428.4782608695652,145.0 L444.45652173913044,145.0 L460.4347826086956,145.0 L476.41304347826093,145.0 L492.3913043478261,145.0 L508.3695652173913,145.0 L524.3478260869565,145.0 L540.3260869565217,145.0 L556.304347826087,145.0 L572.2826086956521,145.0 L588.2608695652174,145.0 L604.2391304347826,145.0 L620.2173913043479,145.0 L636.195652173913,145.0 L652.1739130434783,145.0 L668.1521739130435,145.0 L684.1304347826086,145.0 L700.1086956521739,145.0 L716.0869565217391,145.0 L732.0652173913044,145.0 L748.0434782608696,145.0 L764.0217391304348,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
+<line x1="45" y1="145.0" x2="780" y2="145.0" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+<polyline points="45.0,138.75 60.97826086956522,137.8125 76.95652173913044,138.4375 92.93478260869566,139.375 108.91304347826087,140.0 124.89130434782608,139.375 140.8695652173913,144.375 156.84782608695653,142.96875 172.82608695652175,146.40625 188.80434782608697,149.53125 204.78260869565216,154.84375 220.7608695652174,153.28125 236.7391304347826,151.71875 252.7173913043478,152.34375 268.69565217391306,154.0625 284.67391304347825,117.8125 300.6521739130435,117.5 316.6304347826087,120.78125 332.60869565217394,121.09375 348.5869565217391,100.9375 364.5652173913043,116.5625 380.54347826086956,104.53125 396.5217391304348,105.0 412.5,73.90625 428.4782608695652,77.96875 444.45652173913044,50.78125 460.4347826086956,45.9375 476.41304347826093,23.90625 492.3913043478261,20.0 508.3695652173913,20.0 524.3478260869565,29.0625 540.3260869565217,20.0 556.304347826087,26.875 572.2826086956521,20.0 588.2608695652174,41.875 604.2391304347826,31.09375 620.2173913043479,28.90625 636.195652173913,20.0 652.1739130434783,20.0 668.1521739130435,20.0 684.1304347826086,20.0 700.1086956521739,20.0 716.0869565217391,20.0 732.0652173913044,20.0 748.0434782608696,20.0 764.0217391304348,20.0 780.0,20.0" fill="none" stroke="#4a9eff" stroke-width="2"/>
+<text x="40" y="274.0" text-anchor="end" fill="#888" font-size="11">-8</text>
+<text x="40" y="211.5" text-anchor="end" fill="#888" font-size="11">-4</text>
+<text x="40" y="149.0" text-anchor="end" fill="#888" font-size="11">+0</text>
+<text x="40" y="86.5" text-anchor="end" fill="#888" font-size="11">+4</text>
+<text x="40" y="24.0" text-anchor="end" fill="#888" font-size="11">+8</text>
+<text x="45.0" y="295" text-anchor="middle" fill="#888" font-size="11">1</text>
+<text x="172.82608695652175" y="295" text-anchor="middle" fill="#888" font-size="11">5</text>
+<text x="332.60869565217394" y="295" text-anchor="middle" fill="#888" font-size="11">10</text>
+<text x="492.3913043478261" y="295" text-anchor="middle" fill="#888" font-size="11">15</text>
+<text x="652.1739130434783" y="295" text-anchor="middle" fill="#888" font-size="11">20</text>
+</svg>
+    </div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
+    <div class="summary-section">
+        No mistakes analyzed, so no summary available.
+    </div>
+    <h2 style="margin-top:24px;margin-bottom:12px">Annotated PGN</h2>
+    <p style="font-size:0.85rem;color:#666;margin-bottom:8px">Copy this PGN to paste into Lichess, ChessBase, or any analysis tool.</p>
+    <div style="
+        background:#1a1a2e;color:#e0e0e0;padding:16px 20px;border-radius:8px;
+        font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.8rem;
+        line-height:1.6;white-space:pre-wrap;word-break:break-word;position:relative;
+        max-height:400px;overflow-y:auto;">
+        <button onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)"
+            style="position:absolute;top:8px;right:8px;background:#333;color:#ccc;
+            border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;
+            font-size:0.75rem;">Copy</button>
+        <code id="annotated-pgn">[Event &quot;Live Chess&quot;]
+[Site &quot;Chess.com&quot;]
+[Date &quot;2026.02.24&quot;]
+[White &quot;ecurbian&quot;]
+[Black &quot;erivera90&quot;]
+[Result &quot;1-0&quot;]
+
+1. e4 {+0.40} c5 {+0.46} 2. Nf3 {+0.42} Nc6 {+0.36} 3. Bb5 {+0.32} g6 {+0.36} 4.
+Nc3 {+0.04} Bg7 {+0.13} 5. Bxc6 {-0.09} bxc6 {-0.29} 6. d4 {-0.63} cxd4 {-0.53}
+7. Nxd4 {-0.43} Nf6 {-0.47} 8. Be3 {-0.58} Nxe4 {+1.74} 9. Nxe4 {+1.76} d5
+{+1.55} 10. Ng3 {+1.53} Qa5+ {+2.82} 11. Bd2 {+1.82} Qc5 {+2.59} 12. Be3 {+2.56}
+e5 {+4.55} 13. Ndf5 {+4.29} Bxf5 {+6.03} 14. Bxc5 {+6.34} d4 {+7.75} 15. Nxf5
+{+8.17} gxf5 {+8.39} 16. Qe2 {+7.42} e4 {+8.93} 17. O-O-O {+7.56} O-O-O {+9.29}
+18. Bxa7 {+6.60} d3 {+7.29} 19. cxd3 {+7.43} exd3 {+8.61} 20. Rxd3 {+9.43} Rd7
+{#6} 21. Rxd7 {#5} Kxd7 {#4} 22. Rg1 {+9.07} Re8 {#6} 23. Rd1+ {#5} Kc7 {#5} 24.
+Qxe8 {#4} 1-0</code>
+    </div>
+</div>
+</body>
+</html>

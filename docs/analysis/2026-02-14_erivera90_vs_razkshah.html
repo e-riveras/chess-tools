@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="report-data" content='{&quot;date&quot;: &quot;2026.02.14&quot;, &quot;white&quot;: &quot;erivera90&quot;, &quot;black&quot;: &quot;razkshah&quot;, &quot;result&quot;: &quot;1-0&quot;, &quot;moment_count&quot;: 0}'>
+    <title>Analysis: erivera90 vs razkshah</title>
+    <style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --accent-color: #4a9eff;
+        --muted-color: #a0a0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container { max-width: 800px; width: 100%; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back-link { margin-bottom: 20px; display: inline-block; font-size: 0.95rem; }
+    h1 { margin-bottom: 8px; }
+    .meta { color: var(--muted-color); margin-bottom: 24px; font-size: 0.95rem; }
+    .summary-count { margin-bottom: 24px; font-size: 1.05rem; }
+    .moment-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .moment-card h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    .board-svg { display: flex; justify-content: center; margin-bottom: 16px; }
+    .board-svg svg { max-width: 400px; width: 100%; height: auto; }
+    .fen { font-family: monospace; font-size: 0.85rem; color: var(--muted-color); margin-bottom: 12px; word-break: break-all; }
+    .move-info { margin-bottom: 12px; line-height: 1.7; }
+    .move-played { color: #ff6b6b; font-weight: bold; }
+    .move-best { color: #51cf66; font-weight: bold; }
+    .eval-swing { color: var(--muted-color); }
+    .variation { font-style: italic; color: var(--muted-color); }
+    .tactical-alert {
+        background: rgba(255, 107, 107, 0.15);
+        border-left: 4px solid #ff6b6b;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-weight: bold;
+    }
+    .explanation {
+        border-top: 1px solid #3a3a3a;
+        padding-top: 12px;
+        margin-top: 12px;
+        line-height: 1.6;
+    }
+    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
+    .summary-section {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-top: 8px;
+        line-height: 1.7;
+    }
+    .summary-section h2 { margin-bottom: 12px; }
+    .summary-section ul { padding-left: 20px; margin: 8px 0; }
+    .summary-section li { margin-bottom: 4px; }
+    .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
+
+    /* Index page styles */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .report-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .report-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .report-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .report-card .card-meta { color: var(--muted-color); font-size: 0.9rem; margin-bottom: 10px; }
+    .report-card .card-moments { color: var(--accent-color); font-weight: bold; }
+    .no-reports { color: var(--muted-color); text-align: center; margin-top: 40px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Index</a>
+    <h1>Analysis: erivera90 vs razkshah</h1>
+    <div class="meta"><strong>Date:</strong> 2026.02.14 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
+    <div class="summary-section">
+        No mistakes analyzed, so no summary available.
+    </div>
+</div>
+</body>
+</html>

@@ -13,7 +13,6 @@ samples/
 
 # Generated analysis outputs (committed by CI, not tracked locally)
 /analysis/
-/docs/analysis/20*.html
 /docs/analysis/history.json
 /docs/drills/drills.json
 /data/history.json
