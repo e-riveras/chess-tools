@@ -13,14 +13,36 @@
         "pin",
         "losing_exchange"
       ]
+    },
+    {
+      "date": "2026.03.17",
+      "white": "erivera90",
+      "black": "Arianit1702",
+      "result": "0-1",
+      "blunder_count": 7,
+      "missed_count": 3,
+      "tactics": [
+        "pin",
+        "hanging_pawn",
+        "pin",
+        "skewer",
+        "pin",
+        "hanging_pawn",
+        "hanging_piece",
+        "pin",
+        "hanging_pawn",
+        "hanging_pawn"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 1,
+    "skewer": 2,
     "trapped_piece": 1,
-    "pin": 1,
-    "losing_exchange": 1
+    "pin": 5,
+    "losing_exchange": 1,
+    "hanging_pawn": 4,
+    "hanging_piece": 1
   },
-  "total_blunders": 4,
-  "total_missed": 0
+  "total_blunders": 11,
+  "total_missed": 3
 }
