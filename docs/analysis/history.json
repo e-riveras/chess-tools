@@ -1,0 +1,26 @@
+{
+  "games": [
+    {
+      "date": "2026.03.17",
+      "white": "Cruel_kid",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 4,
+      "missed_count": 0,
+      "tactics": [
+        "skewer",
+        "trapped_piece",
+        "pin",
+        "losing_exchange"
+      ]
+    }
+  ],
+  "tactic_counts": {
+    "skewer": 1,
+    "trapped_piece": 1,
+    "pin": 1,
+    "losing_exchange": 1
+  },
+  "total_blunders": 4,
+  "total_missed": 0
+}

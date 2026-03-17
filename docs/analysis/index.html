@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
     <title>Analysis Reports</title>
     <style>
     :root {
@@ -190,6 +193,19 @@
         transition: background 0.15s;
     }
     .drills-btn:hover { background: #3bb852; text-decoration: none; }
+
+    /* iOS / Mobile Safari optimizations */
+    * { -webkit-tap-highlight-color: transparent; }
+    button, select, a { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    select, input { font-size: max(16px, 0.95rem); }
+    @media (max-width: 540px) {
+        .report-grid { grid-template-columns: 1fr; }
+        .moment-card { padding: 16px; }
+        .board-svg svg { max-width: 100%; }
+        .report-card { padding: 16px; }
+        .report-card h3 { font-size: 1rem; }
+    }
 </style>
 </head>
 <body>
@@ -259,6 +275,11 @@
     }
     </script>
     <div class="report-grid">
+        <a href="2026-03-17_Cruel_kid_vs_erivera90.html" class="report-card">
+            <h3>Cruel_kid vs erivera90</h3>
+            <div class="card-meta">2026.03.17 &middot; 1-0</div>
+            <div class="card-moments">4 crucial moments</div>
+        </a>
         <a href="2026-03-15_erivera90_vs_SuperHachimitsu.html" class="report-card">
             <h3>erivera90 vs SuperHachimitsu</h3>
             <div class="card-meta">2026.03.15 &middot; 0-1</div>
@@ -269,24 +290,29 @@
             <div class="card-meta">2026.03.14 &middot; 1-0</div>
             <div class="card-moments">0 crucial moments</div>
         </a>
-        <a href="2026-03-13_Samar123321_vs_erivera90.html" class="report-card">
-            <h3>Samar123-321 vs erivera90</h3>
-            <div class="card-meta">2026.03.13 &middot; 1-0</div>
-            <div class="card-moments">2 crucial moments</div>
-        </a>
         <a href="2026-03-13_erivera90_vs_Anas_marwan123.html" class="report-card">
             <h3>erivera90 vs Anas_marwan123</h3>
             <div class="card-meta">2026.03.13 &middot; 0-1</div>
             <div class="card-moments">3 crucial moments</div>
+        </a>
+        <a href="2026-03-13_vonhefner_vs_erivera90.html" class="report-card">
+            <h3>vonhefner vs erivera90</h3>
+            <div class="card-meta">2026.03.13 &middot; 0-1</div>
+            <div class="card-moments">4 crucial moments</div>
         </a>
         <a href="2026-03-13_erivera90_vs_Covid1v.html" class="report-card">
             <h3>erivera90 vs Covid1v</h3>
             <div class="card-meta">2026.03.13 &middot; 1-0</div>
             <div class="card-moments">1 crucial moment</div>
         </a>
-        <a href="2026-03-13_vonhefner_vs_erivera90.html" class="report-card">
-            <h3>vonhefner vs erivera90</h3>
-            <div class="card-meta">2026.03.13 &middot; 0-1</div>
+        <a href="2026-03-13_Samar123321_vs_erivera90.html" class="report-card">
+            <h3>Samar123-321 vs erivera90</h3>
+            <div class="card-meta">2026.03.13 &middot; 1-0</div>
+            <div class="card-moments">2 crucial moments</div>
+        </a>
+        <a href="2026-03-11_ZombieWithABrain2_vs_erivera90.html" class="report-card">
+            <h3>ZombieWithABrain2 vs erivera90</h3>
+            <div class="card-meta">2026.03.11 &middot; 0-1</div>
             <div class="card-moments">4 crucial moments</div>
         </a>
         <a href="2026-03-11_cash26420_vs_erivera90.html" class="report-card">
@@ -294,20 +320,15 @@
             <div class="card-meta">2026.03.11 &middot; 1/2-1/2</div>
             <div class="card-moments">4 crucial moments</div>
         </a>
-        <a href="2026-03-11_ZombieWithABrain2_vs_erivera90.html" class="report-card">
-            <h3>ZombieWithABrain2 vs erivera90</h3>
-            <div class="card-meta">2026.03.11 &middot; 0-1</div>
-            <div class="card-moments">4 crucial moments</div>
+        <a href="2026-03-10_erivera90_vs_HomerFong.html" class="report-card">
+            <h3>erivera90 vs HomerFong</h3>
+            <div class="card-meta">2026.03.10 &middot; 0-1</div>
+            <div class="card-moments">2 crucial moments</div>
         </a>
         <a href="2026-03-10_theyooniverse_vs_erivera90.html" class="report-card">
             <h3>theyooniverse vs erivera90</h3>
             <div class="card-meta">2026.03.10 &middot; 0-1</div>
             <div class="card-moments">3 crucial moments</div>
-        </a>
-        <a href="2026-03-10_erivera90_vs_HomerFong.html" class="report-card">
-            <h3>erivera90 vs HomerFong</h3>
-            <div class="card-meta">2026.03.10 &middot; 0-1</div>
-            <div class="card-moments">2 crucial moments</div>
         </a>
         <a href="2026-03-09_matvkarp_vs_erivera90.html" class="report-card">
             <h3>matvkarp vs erivera90</h3>
@@ -319,11 +340,6 @@
             <div class="card-meta">2026.03.09 &middot; 0-1</div>
             <div class="card-moments">5 crucial moments</div>
         </a>
-        <a href="2026-03-08_Pranavsjo_vs_erivera90.html" class="report-card">
-            <h3>Pranavsjo vs erivera90</h3>
-            <div class="card-meta">2026.03.08 &middot; 1-0</div>
-            <div class="card-moments">3 crucial moments</div>
-        </a>
         <a href="2026-03-08_mami_581_vs_erivera90.html" class="report-card">
             <h3>mami_581 vs erivera90</h3>
             <div class="card-meta">2026.03.08 &middot; 0-1</div>
@@ -333,6 +349,21 @@
             <h3>erivera90 vs aCasper1</h3>
             <div class="card-meta">2026.03.08 &middot; 1/2-1/2</div>
             <div class="card-moments">6 crucial moments</div>
+        </a>
+        <a href="2026-03-08_Pranavsjo_vs_erivera90.html" class="report-card">
+            <h3>Pranavsjo vs erivera90</h3>
+            <div class="card-meta">2026.03.08 &middot; 1-0</div>
+            <div class="card-moments">3 crucial moments</div>
+        </a>
+        <a href="2026-03-07_OlynDeyb_vs_erivera90.html" class="report-card">
+            <h3>OlynDeyb vs erivera90</h3>
+            <div class="card-meta">2026.03.07 &middot; 0-1</div>
+            <div class="card-moments">1 crucial moment</div>
+        </a>
+        <a href="2026-03-07_erivera90_vs_S0ra0_0.html" class="report-card">
+            <h3>erivera90 vs S0ra0_0</h3>
+            <div class="card-meta">2026.03.07 &middot; 0-1</div>
+            <div class="card-moments">4 crucial moments</div>
         </a>
         <a href="2026-03-07_erivera90_vs_etjohnso26.html" class="report-card">
             <h3>erivera90 vs etjohnso26</h3>
@@ -344,20 +375,10 @@
             <div class="card-meta">2026.03.07 &middot; 0-1</div>
             <div class="card-moments">3 crucial moments</div>
         </a>
-        <a href="2026-03-07_erivera90_vs_S0ra0_0.html" class="report-card">
-            <h3>erivera90 vs S0ra0_0</h3>
-            <div class="card-meta">2026.03.07 &middot; 0-1</div>
+        <a href="2026-03-06_Dusdat_vs_erivera90.html" class="report-card">
+            <h3>Dusdat vs erivera90</h3>
+            <div class="card-meta">2026.03.06 &middot; 0-1</div>
             <div class="card-moments">4 crucial moments</div>
-        </a>
-        <a href="2026-03-07_OlynDeyb_vs_erivera90.html" class="report-card">
-            <h3>OlynDeyb vs erivera90</h3>
-            <div class="card-meta">2026.03.07 &middot; 0-1</div>
-            <div class="card-moments">1 crucial moment</div>
-        </a>
-        <a href="2026-03-06_1mB4d4tPlayingCh3ss_vs_erivera90.html" class="report-card">
-            <h3>1mB4d4tPlayingCh3ss vs erivera90</h3>
-            <div class="card-meta">2026.03.06 &middot; 1-0</div>
-            <div class="card-moments">5 crucial moments</div>
         </a>
         <a href="2026-03-06_erivera90_vs_Conchitilla.html" class="report-card">
             <h3>erivera90 vs Conchitilla</h3>
@@ -369,25 +390,20 @@
             <div class="card-meta">2026.03.06 &middot; 1-0</div>
             <div class="card-moments">4 crucial moments</div>
         </a>
-        <a href="2026-03-06_Dusdat_vs_erivera90.html" class="report-card">
-            <h3>Dusdat vs erivera90</h3>
-            <div class="card-meta">2026.03.06 &middot; 0-1</div>
-            <div class="card-moments">4 crucial moments</div>
-        </a>
-        <a href="2026-03-05_erivera90_vs_sree13.html" class="report-card">
-            <h3>erivera90 vs sree-13</h3>
-            <div class="card-meta">2026.03.05 &middot; 0-1</div>
-            <div class="card-moments">1 crucial moment</div>
+        <a href="2026-03-06_1mB4d4tPlayingCh3ss_vs_erivera90.html" class="report-card">
+            <h3>1mB4d4tPlayingCh3ss vs erivera90</h3>
+            <div class="card-meta">2026.03.06 &middot; 1-0</div>
+            <div class="card-moments">5 crucial moments</div>
         </a>
         <a href="2026-03-05_erivera90_vs_Clementfnt92.html" class="report-card">
             <h3>erivera90 vs Clementfnt92</h3>
             <div class="card-meta">2026.03.05 &middot; 1-0</div>
             <div class="card-moments">0 crucial moments</div>
         </a>
-        <a href="2026-03-04_erivera90_vs_Faresallam1980.html" class="report-card">
-            <h3>erivera90 vs Faresallam1980</h3>
-            <div class="card-meta">2026.03.04 &middot; 1-0</div>
-            <div class="card-moments">0 crucial moments</div>
+        <a href="2026-03-05_erivera90_vs_sree13.html" class="report-card">
+            <h3>erivera90 vs sree-13</h3>
+            <div class="card-meta">2026.03.05 &middot; 0-1</div>
+            <div class="card-moments">1 crucial moment</div>
         </a>
         <a href="2026-03-04_harr_25_vs_erivera90.html" class="report-card">
             <h3>harr_25 vs erivera90</h3>
@@ -398,6 +414,11 @@
             <h3>erivera90 vs narender1313</h3>
             <div class="card-meta">2026.03.04 &middot; 1/2-1/2</div>
             <div class="card-moments">2 crucial moments</div>
+        </a>
+        <a href="2026-03-04_erivera90_vs_Faresallam1980.html" class="report-card">
+            <h3>erivera90 vs Faresallam1980</h3>
+            <div class="card-meta">2026.03.04 &middot; 1-0</div>
+            <div class="card-moments">0 crucial moments</div>
         </a>
         <a href="2026-03-02_WhatHoraEs_vs_erivera90.html" class="report-card">
             <h3>WhatHoraEs vs erivera90</h3>
@@ -424,29 +445,29 @@
             <div class="card-meta">2026.02.24 &middot; 0-1</div>
             <div class="card-moments">2 crucial moments</div>
         </a>
-        <a href="2026-02-24_Josegreg67_vs_erivera90.html" class="report-card">
-            <h3>Josegreg67 vs erivera90</h3>
-            <div class="card-meta">2026.02.24 &middot; 1-0</div>
-            <div class="card-moments">3 crucial moments</div>
-        </a>
         <a href="2026-02-24_ecurbian_vs_erivera90.html" class="report-card">
             <h3>ecurbian vs erivera90</h3>
             <div class="card-meta">2026.02.24 &middot; 1-0</div>
             <div class="card-moments">0 crucial moments</div>
+        </a>
+        <a href="2026-02-24_Josegreg67_vs_erivera90.html" class="report-card">
+            <h3>Josegreg67 vs erivera90</h3>
+            <div class="card-meta">2026.02.24 &middot; 1-0</div>
+            <div class="card-moments">3 crucial moments</div>
         </a>
         <a href="2026-02-23_erivera90_vs_lafleurroi.html" class="report-card">
             <h3>erivera90 vs lafleurroi</h3>
             <div class="card-meta">2026.02.23 &middot; 1-0</div>
             <div class="card-moments">2 crucial moments</div>
         </a>
-        <a href="2026-02-20_humza2000_vs_erivera90.html" class="report-card">
-            <h3>humza2000 vs erivera90</h3>
-            <div class="card-meta">2026.02.20 &middot; 0-1</div>
-            <div class="card-moments">2 crucial moments</div>
-        </a>
         <a href="2026-02-20_erivera90_vs_bjjaligator.html" class="report-card">
             <h3>erivera90 vs bjjaligator</h3>
             <div class="card-meta">2026.02.20 &middot; 1-0</div>
+            <div class="card-moments">2 crucial moments</div>
+        </a>
+        <a href="2026-02-20_humza2000_vs_erivera90.html" class="report-card">
+            <h3>humza2000 vs erivera90</h3>
+            <div class="card-meta">2026.02.20 &middot; 0-1</div>
             <div class="card-moments">2 crucial moments</div>
         </a>
         <a href="2026-02-19_bcremi_vs_erivera90.html" class="report-card">
@@ -474,11 +495,6 @@
             <div class="card-meta">2026.02.10 &middot; </div>
             <div class="card-moments">7 crucial moments</div>
         </a>
-        <a href="2026-02-10_erivera90_vs_Ryanamor.html" class="report-card">
-            <h3>erivera90 vs Ryanamor</h3>
-            <div class="card-meta">2026.02.10 &middot; </div>
-            <div class="card-moments">5 crucial moments</div>
-        </a>
         <a href="2026-02-10_erivera90_vs_lillow00.html" class="report-card">
             <h3>erivera90 vs lillow00</h3>
             <div class="card-meta">2026.02.10 &middot; </div>
@@ -488,6 +504,11 @@
             <h3>pereyrol vs erivera90</h3>
             <div class="card-meta">2026.02.10 &middot; </div>
             <div class="card-moments">2 crucial moments</div>
+        </a>
+        <a href="2026-02-10_erivera90_vs_Ryanamor.html" class="report-card">
+            <h3>erivera90 vs Ryanamor</h3>
+            <div class="card-meta">2026.02.10 &middot; </div>
+            <div class="card-moments">5 crucial moments</div>
         </a>
         <a href="2026-02-09_Shminicricket_vs_erivera90.html" class="report-card">
             <h3>Shminicricket vs erivera90</h3>
@@ -509,20 +530,25 @@
             <div class="card-meta">2026.02.06 &middot; </div>
             <div class="card-moments">6 crucial moments</div>
         </a>
-        <a href="2026-02-05_Akane0714_vs_erivera90.html" class="report-card">
-            <h3>Akane0714 vs erivera90</h3>
-            <div class="card-meta">2026.02.05 &middot; </div>
-            <div class="card-moments">3 crucial moments</div>
-        </a>
         <a href="2026-02-05_yantradd_vs_erivera90.html" class="report-card">
             <h3>yantradd vs erivera90</h3>
             <div class="card-meta">2026.02.05 &middot; </div>
             <div class="card-moments">4 crucial moments</div>
         </a>
+        <a href="2026-02-05_Akane0714_vs_erivera90.html" class="report-card">
+            <h3>Akane0714 vs erivera90</h3>
+            <div class="card-meta">2026.02.05 &middot; </div>
+            <div class="card-moments">3 crucial moments</div>
+        </a>
         <a href="2026-02-05_ChessMood_Champion_vs_erivera90.html" class="report-card">
             <h3>ChessMood_Champion vs erivera90</h3>
             <div class="card-meta">2026.02.05 &middot; </div>
             <div class="card-moments">2 crucial moments</div>
+        </a>
+        <a href="2026-02-04_erivera90_vs_Victissui.html" class="report-card">
+            <h3>erivera90 vs Victissui</h3>
+            <div class="card-meta">2026.02.04 &middot; </div>
+            <div class="card-moments">5 crucial moments</div>
         </a>
         <a href="2026-02-04_erivera90_vs_ConTrasT_0.html" class="report-card">
             <h3>erivera90 vs ConTrasT_0</h3>
@@ -534,25 +560,20 @@
             <div class="card-meta">2026.02.04 &middot; </div>
             <div class="card-moments">9 crucial moments</div>
         </a>
-        <a href="2026-02-04_erivera90_vs_Victissui.html" class="report-card">
-            <h3>erivera90 vs Victissui</h3>
-            <div class="card-meta">2026.02.04 &middot; </div>
-            <div class="card-moments">5 crucial moments</div>
-        </a>
-        <a href="2026-02-03_erivera90_vs_Tobit240.html" class="report-card">
-            <h3>erivera90 vs Tobit240</h3>
+        <a href="2026-02-03_Dodoelsakka_vs_erivera90.html" class="report-card">
+            <h3>Dodoelsakka vs erivera90</h3>
             <div class="card-meta">2026.02.03 &middot; </div>
-            <div class="card-moments">1 crucial moment</div>
+            <div class="card-moments">3 crucial moments</div>
         </a>
         <a href="2026-02-03_erivera90_vs_estelle_leviosa.html" class="report-card">
             <h3>erivera90 vs estelle_leviosa</h3>
             <div class="card-meta">2026.02.03 &middot; </div>
             <div class="card-moments">0 crucial moments</div>
         </a>
-        <a href="2026-02-03_Dodoelsakka_vs_erivera90.html" class="report-card">
-            <h3>Dodoelsakka vs erivera90</h3>
+        <a href="2026-02-03_erivera90_vs_Tobit240.html" class="report-card">
+            <h3>erivera90 vs Tobit240</h3>
             <div class="card-meta">2026.02.03 &middot; </div>
-            <div class="card-moments">3 crucial moments</div>
+            <div class="card-moments">1 crucial moment</div>
         </a>
         <a href="2026-02-01_LKhalid1_vs_erivera90.html" class="report-card">
             <h3>LKhalid1 vs erivera90</h3>
