@@ -33,6 +33,17 @@
         "hanging_pawn",
         "hanging_pawn"
       ]
+    },
+    {
+      "date": "2026.03.17",
+      "white": "erivera90",
+      "black": "McAngelP23",
+      "result": "0-1",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "fork"
+      ]
     }
   ],
   "tactic_counts": {
@@ -41,8 +52,9 @@
     "pin": 5,
     "losing_exchange": 1,
     "hanging_pawn": 4,
-    "hanging_piece": 1
+    "hanging_piece": 1,
+    "fork": 1
   },
-  "total_blunders": 11,
+  "total_blunders": 12,
   "total_missed": 3
 }
