@@ -44,6 +44,15 @@
       "tactics": [
         "fork"
       ]
+    },
+    {
+      "date": "2026.03.18",
+      "white": "PaulDalagan",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": []
     }
   ],
   "tactic_counts": {
