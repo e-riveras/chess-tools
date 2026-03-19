@@ -71,18 +71,38 @@
         "trapped_piece",
         "positional"
       ]
+    },
+    {
+      "date": "2026.03.19",
+      "white": "Alantuki",
+      "black": "erivera90",
+      "result": "1/2-1/2",
+      "blunder_count": 2,
+      "missed_count": 7,
+      "tactics": [
+        "hanging_pawn",
+        "positional",
+        "hanging_pawn",
+        "pin",
+        "positional",
+        "forced_mate",
+        "forced_mate",
+        "forced_mate",
+        "forced_mate"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 2,
     "trapped_piece": 2,
-    "pin": 7,
+    "pin": 8,
     "losing_exchange": 2,
-    "hanging_pawn": 4,
+    "hanging_pawn": 6,
     "hanging_piece": 1,
     "fork": 2,
-    "positional": 3
+    "positional": 5,
+    "forced_mate": 4
   },
-  "total_blunders": 16,
-  "total_missed": 7
+  "total_blunders": 18,
+  "total_missed": 14
 }
