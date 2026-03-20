@@ -99,19 +99,38 @@
       "blunder_count": 0,
       "missed_count": 0,
       "tactics": []
+    },
+    {
+      "date": "2026.03.20",
+      "white": "malacolele",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 4,
+      "missed_count": 3,
+      "tactics": [
+        "hanging_pawn",
+        "discovered_attack",
+        "fork",
+        "pin",
+        "positional",
+        "skewer",
+        "back_rank_mate"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 2,
+    "skewer": 3,
     "trapped_piece": 2,
-    "pin": 8,
+    "pin": 9,
     "losing_exchange": 2,
-    "hanging_pawn": 6,
+    "hanging_pawn": 7,
     "hanging_piece": 1,
-    "fork": 2,
-    "positional": 5,
-    "forced_mate": 4
+    "fork": 3,
+    "positional": 6,
+    "forced_mate": 4,
+    "discovered_attack": 1,
+    "back_rank_mate": 1
   },
-  "total_blunders": 18,
-  "total_missed": 14
+  "total_blunders": 22,
+  "total_missed": 17
 }
