@@ -116,21 +116,35 @@
         "skewer",
         "back_rank_mate"
       ]
+    },
+    {
+      "date": "2026.03.21",
+      "white": "erivera90",
+      "black": "StudentOlek",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 2,
+      "tactics": [
+        "positional",
+        "positional",
+        "pin",
+        "skewer"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 3,
+    "skewer": 4,
     "trapped_piece": 2,
-    "pin": 9,
+    "pin": 10,
     "losing_exchange": 2,
     "hanging_pawn": 7,
     "hanging_piece": 1,
     "fork": 3,
-    "positional": 6,
+    "positional": 8,
     "forced_mate": 4,
     "discovered_attack": 1,
     "back_rank_mate": 1
   },
-  "total_blunders": 22,
-  "total_missed": 17
+  "total_blunders": 24,
+  "total_missed": 19
 }
