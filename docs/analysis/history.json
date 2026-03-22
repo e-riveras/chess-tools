@@ -146,12 +146,23 @@
         "hanging_pawn",
         "skewer"
       ]
+    },
+    {
+      "date": "2026.03.22",
+      "white": "erivera90",
+      "black": "horstafk",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "pin"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 5,
     "trapped_piece": 2,
-    "pin": 11,
+    "pin": 12,
     "losing_exchange": 2,
     "hanging_pawn": 9,
     "hanging_piece": 1,
@@ -161,6 +172,6 @@
     "discovered_attack": 3,
     "back_rank_mate": 1
   },
-  "total_blunders": 29,
+  "total_blunders": 30,
   "total_missed": 20
 }
