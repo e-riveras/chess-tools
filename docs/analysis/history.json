@@ -130,21 +130,37 @@
         "pin",
         "skewer"
       ]
+    },
+    {
+      "date": "2026.03.22",
+      "white": "Erkasymov",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 5,
+      "missed_count": 1,
+      "tactics": [
+        "hanging_pawn",
+        "discovered_attack",
+        "discovered_attack",
+        "pin",
+        "hanging_pawn",
+        "skewer"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 4,
+    "skewer": 5,
     "trapped_piece": 2,
-    "pin": 10,
+    "pin": 11,
     "losing_exchange": 2,
-    "hanging_pawn": 7,
+    "hanging_pawn": 9,
     "hanging_piece": 1,
     "fork": 3,
     "positional": 8,
     "forced_mate": 4,
-    "discovered_attack": 1,
+    "discovered_attack": 3,
     "back_rank_mate": 1
   },
-  "total_blunders": 24,
-  "total_missed": 19
+  "total_blunders": 29,
+  "total_missed": 20
 }
