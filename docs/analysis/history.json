@@ -157,12 +157,23 @@
       "tactics": [
         "pin"
       ]
+    },
+    {
+      "date": "2026.03.23",
+      "white": "LouisNicholsIII",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "pin"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 5,
     "trapped_piece": 2,
-    "pin": 12,
+    "pin": 13,
     "losing_exchange": 2,
     "hanging_pawn": 9,
     "hanging_piece": 1,
@@ -172,6 +183,6 @@
     "discovered_attack": 3,
     "back_rank_mate": 1
   },
-  "total_blunders": 30,
+  "total_blunders": 31,
   "total_missed": 20
 }
