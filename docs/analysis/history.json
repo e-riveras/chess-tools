@@ -168,6 +168,19 @@
       "tactics": [
         "pin"
       ]
+    },
+    {
+      "date": "2026.03.23",
+      "white": "Markus_40in",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 3,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_pawn",
+        "positional",
+        "fork"
+      ]
     }
   ],
   "tactic_counts": {
@@ -175,14 +188,14 @@
     "trapped_piece": 2,
     "pin": 13,
     "losing_exchange": 2,
-    "hanging_pawn": 9,
+    "hanging_pawn": 10,
     "hanging_piece": 1,
-    "fork": 3,
-    "positional": 8,
+    "fork": 4,
+    "positional": 9,
     "forced_mate": 4,
     "discovered_attack": 3,
     "back_rank_mate": 1
   },
-  "total_blunders": 31,
+  "total_blunders": 34,
   "total_missed": 20
 }
