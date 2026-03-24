@@ -195,6 +195,15 @@
         "back_rank_mate",
         "forced_mate"
       ]
+    },
+    {
+      "date": "2026.03.24",
+      "white": "erivera90",
+      "black": "nikky-love",
+      "result": "1-0",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": []
     }
   ],
   "tactic_counts": {

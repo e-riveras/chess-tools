@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="report-data" content='{&quot;date&quot;: &quot;2026.03.24&quot;, &quot;datetime&quot;: &quot;2026.03.24T19:19:05&quot;, &quot;white&quot;: &quot;erivera90&quot;, &quot;black&quot;: &quot;nikky-love&quot;, &quot;result&quot;: &quot;1-0&quot;, &quot;moment_count&quot;: 0}'>
+    <title>Analysis: erivera90 vs nikky-love</title>
+    <style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --accent-color: #4a9eff;
+        --muted-color: #a0a0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container { max-width: 800px; width: 100%; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back-link { margin-bottom: 20px; display: inline-block; font-size: 0.95rem; }
+    h1 { margin-bottom: 8px; }
+    .meta { color: var(--muted-color); margin-bottom: 24px; font-size: 0.95rem; }
+    .summary-count { margin-bottom: 24px; font-size: 1.05rem; }
+    .moment-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .moment-card h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    .board-svg { display: flex; justify-content: center; margin-bottom: 16px; }
+    .board-svg svg { max-width: 400px; width: 100%; height: auto; }
+    .fen { font-family: monospace; font-size: 0.85rem; color: var(--muted-color); margin-bottom: 12px; word-break: break-all; }
+    .move-info { margin-bottom: 12px; line-height: 1.7; }
+    .move-played { color: #ff6b6b; font-weight: bold; }
+    .move-best { color: #51cf66; font-weight: bold; }
+    .eval-swing { color: var(--muted-color); }
+    .variation { font-style: italic; color: var(--muted-color); }
+    .tactical-alert {
+        background: rgba(255, 107, 107, 0.15);
+        border-left: 4px solid #ff6b6b;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-weight: bold;
+    }
+    .explanation {
+        border-top: 1px solid #3a3a3a;
+        padding-top: 12px;
+        margin-top: 12px;
+        line-height: 1.6;
+    }
+    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
+    .summary-section {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-top: 8px;
+        line-height: 1.7;
+    }
+    .summary-section h2 { margin-bottom: 12px; }
+    .summary-section ul { padding-left: 20px; margin: 8px 0; }
+    .summary-section li { margin-bottom: 4px; }
+    .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
+    .severity-pill {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 10px;
+        color: #fff;
+        margin-left: 8px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .tactic-badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+    .best-line {
+        background: rgba(0, 102, 221, 0.15);
+        border-left: 4px solid #0066dd;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-style: italic;
+        color: var(--accent-color);
+    }
+    .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
+    .lichess-btn {
+        display: inline-flex;
+        align-items: center;
+        background: #629924;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        text-decoration: none;
+    }
+    .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
+    .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
+    .hero-move { color: #4a9eff; font-weight: bold; }
+    .opp-move { color: #ff6b6b; }
+    .move-legend {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        font-size: 0.85rem;
+        color: var(--muted-color);
+    }
+    .move-legend span { font-weight: bold; }
+
+    /* Index page styles */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .report-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .report-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .report-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .report-card .card-meta { color: var(--muted-color); font-size: 0.9rem; margin-bottom: 10px; }
+    .report-card .card-moments { color: var(--accent-color); font-weight: bold; }
+    .no-reports { color: var(--muted-color); text-align: center; margin-top: 40px; font-style: italic; }
+
+    /* Run-analysis button */
+    .run-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .run-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-color);
+        color: #fff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, opacity 0.15s;
+    }
+    .run-btn:hover:not(:disabled) { background: #2d7fd4; }
+    .run-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .run-status { font-size: 0.88rem; color: var(--muted-color); }
+    .run-status.ok { color: #51cf66; }
+    .run-status.err { color: #ff6b6b; }
+    .token-link { font-size: 0.8rem; color: var(--muted-color); cursor: pointer; }
+    .token-link:hover { color: var(--text-color); }
+    .drills-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #51cf66;
+        color: #111;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+    .drills-btn:hover { background: #3bb852; text-decoration: none; }
+
+    /* iOS / Mobile Safari optimizations */
+    * { -webkit-tap-highlight-color: transparent; }
+    button, select, a { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    select, input { font-size: max(16px, 0.95rem); }
+    @media (max-width: 540px) {
+        .report-grid { grid-template-columns: 1fr; }
+        .moment-card { padding: 16px; }
+        .board-svg svg { max-width: 100%; }
+        .report-card { padding: 16px; }
+        .report-card h3 { font-size: 1rem; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Index</a>
+    <h1>Analysis: erivera90 vs nikky-love</h1>
+    <div class="meta"><strong>Date:</strong> 2026.03.24 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
+    <a href="https://lichess.org/U168J9Ae" target="_blank" class="lichess-btn"><svg viewBox="0 0 50 50" width="18" height="18" style="vertical-align:middle;margin-right:6px;fill:currentColor"><path d="M25 1C11.7 1 1 11.7 1 25s10.7 24 24 24 24-10.7 24-24S38.3 1 25 1zm0 4c5 0 9.6 1.8 13.2 4.9L25 23.1 11.8 9.9C15.4 6.8 20 5 25 5zm-15 8.7L23.2 27 10 40.3C6.8 36.6 5 32 5 27c0-5 1.8-9.6 5-13.3zM25 45c-5 0-9.6-1.8-13.2-5L25 26.9l13.2 13.2C34.6 43.2 30 45 25 45zm15-8.7L26.8 23 40 9.7c3.1 3.7 5 8.3 5 13.3 0 5-1.8 9.6-5 13.3z"/></svg>Analyze on Lichess</a>
+    <h2 style="margin-bottom:12px">Evaluation</h2>
+    <div style="background:#2a2a3e;border-radius:8px;padding:16px;margin-bottom:24px;overflow-x:auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" style="max-width:100%;height:auto;">
+<rect x="0" y="0" width="800" height="300" fill="#1a1a2e" rx="8"/>
+<path d="M45,145.0 L45.0,144.0625 L58.611111111111114,142.34375 L72.22222222222223,144.375 L85.83333333333333,135.625 L99.44444444444444,141.875 L113.05555555555556,140.15625 L126.66666666666666,139.0625 L140.27777777777777,139.53125 L153.88888888888889,145.0 L167.5,141.25 L181.11111111111111,142.8125 L194.7222222222222,127.65625 L208.33333333333331,132.03125 L221.94444444444443,133.90625 L235.55555555555554,133.75 L249.16666666666669,125.9375 L262.77777777777777,129.21875 L276.3888888888889,84.375 L290.0,85.46875 L303.61111111111114,80.3125 L317.22222222222223,79.53125 L330.8333333333333,78.90625 L344.4444444444444,76.09375 L358.05555555555554,66.875 L371.66666666666663,66.875 L385.27777777777777,67.03125 L398.88888888888886,69.375 L412.5,63.28125 L426.1111111111111,72.03125 L439.7222222222223,67.5 L453.33333333333337,71.71875 L466.94444444444446,72.03125 L480.55555555555554,73.59375 L494.1666666666667,71.09375 L507.77777777777777,98.75 L521.3888888888889,78.90625 L535.0,81.09375 L548.6111111111111,76.09375 L562.2222222222223,76.25 L575.8333333333334,72.96875 L589.4444444444445,84.21875 L603.0555555555555,76.25 L616.6666666666666,69.21875 L630.2777777777777,63.90625 L643.8888888888888,89.0625 L657.5,64.0625 L671.1111111111111,58.59375 L684.7222222222222,52.03125 L698.3333333333333,66.40625 L711.9444444444445,42.5 L725.5555555555555,31.40625 L739.1666666666666,20.0 L752.7777777777777,20.0 L766.3888888888889,20.0 L780.0,20.0 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
+<path d="M45,145.0 L45.0,145.0 L58.611111111111114,145.0 L72.22222222222223,145.0 L85.83333333333333,145.0 L99.44444444444444,145.0 L113.05555555555556,145.0 L126.66666666666666,145.0 L140.27777777777777,145.0 L153.88888888888889,145.0 L167.5,145.0 L181.11111111111111,145.0 L194.7222222222222,145.0 L208.33333333333331,145.0 L221.94444444444443,145.0 L235.55555555555554,145.0 L249.16666666666669,145.0 L262.77777777777777,145.0 L276.3888888888889,145.0 L290.0,145.0 L303.61111111111114,145.0 L317.22222222222223,145.0 L330.8333333333333,145.0 L344.4444444444444,145.0 L358.05555555555554,145.0 L371.66666666666663,145.0 L385.27777777777777,145.0 L398.88888888888886,145.0 L412.5,145.0 L426.1111111111111,145.0 L439.7222222222223,145.0 L453.33333333333337,145.0 L466.94444444444446,145.0 L480.55555555555554,145.0 L494.1666666666667,145.0 L507.77777777777777,145.0 L521.3888888888889,145.0 L535.0,145.0 L548.6111111111111,145.0 L562.2222222222223,145.0 L575.8333333333334,145.0 L589.4444444444445,145.0 L603.0555555555555,145.0 L616.6666666666666,145.0 L630.2777777777777,145.0 L643.8888888888888,145.0 L657.5,145.0 L671.1111111111111,145.0 L684.7222222222222,145.0 L698.3333333333333,145.0 L711.9444444444445,145.0 L725.5555555555555,145.0 L739.1666666666666,145.0 L752.7777777777777,145.0 L766.3888888888889,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
+<line x1="45" y1="145.0" x2="780" y2="145.0" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+<polyline points="45.0,144.0625 58.611111111111114,142.34375 72.22222222222223,144.375 85.83333333333333,135.625 99.44444444444444,141.875 113.05555555555556,140.15625 126.66666666666666,139.0625 140.27777777777777,139.53125 153.88888888888889,145.0 167.5,141.25 181.11111111111111,142.8125 194.7222222222222,127.65625 208.33333333333331,132.03125 221.94444444444443,133.90625 235.55555555555554,133.75 249.16666666666669,125.9375 262.77777777777777,129.21875 276.3888888888889,84.375 290.0,85.46875 303.61111111111114,80.3125 317.22222222222223,79.53125 330.8333333333333,78.90625 344.4444444444444,76.09375 358.05555555555554,66.875 371.66666666666663,66.875 385.27777777777777,67.03125 398.88888888888886,69.375 412.5,63.28125 426.1111111111111,72.03125 439.7222222222223,67.5 453.33333333333337,71.71875 466.94444444444446,72.03125 480.55555555555554,73.59375 494.1666666666667,71.09375 507.77777777777777,98.75 521.3888888888889,78.90625 535.0,81.09375 548.6111111111111,76.09375 562.2222222222223,76.25 575.8333333333334,72.96875 589.4444444444445,84.21875 603.0555555555555,76.25 616.6666666666666,69.21875 630.2777777777777,63.90625 643.8888888888888,89.0625 657.5,64.0625 671.1111111111111,58.59375 684.7222222222222,52.03125 698.3333333333333,66.40625 711.9444444444445,42.5 725.5555555555555,31.40625 739.1666666666666,20.0 752.7777777777777,20.0 766.3888888888889,20.0 780.0,20.0" fill="none" stroke="#4a9eff" stroke-width="2"/>
+<text x="40" y="274.0" text-anchor="end" fill="#888" font-size="11">-8</text>
+<text x="40" y="211.5" text-anchor="end" fill="#888" font-size="11">-4</text>
+<text x="40" y="149.0" text-anchor="end" fill="#888" font-size="11">+0</text>
+<text x="40" y="86.5" text-anchor="end" fill="#888" font-size="11">+4</text>
+<text x="40" y="24.0" text-anchor="end" fill="#888" font-size="11">+8</text>
+<text x="45.0" y="295" text-anchor="middle" fill="#888" font-size="11">1</text>
+<text x="153.88888888888889" y="295" text-anchor="middle" fill="#888" font-size="11">5</text>
+<text x="290.0" y="295" text-anchor="middle" fill="#888" font-size="11">10</text>
+<text x="426.1111111111111" y="295" text-anchor="middle" fill="#888" font-size="11">15</text>
+<text x="562.2222222222223" y="295" text-anchor="middle" fill="#888" font-size="11">20</text>
+<text x="698.3333333333333" y="295" text-anchor="middle" fill="#888" font-size="11">25</text>
+</svg>
+    </div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
+    <div class="summary-section">
+        <h3>Recurring Patterns</h3>
+<br>
+Across the analyzed games, erivera90 demonstrates a recurring susceptibility to tactical oversights. Pin situations occur most frequently (13 times), followed by errors involving Hanging Pawns (11 times) and positional weaknesses (9 times). Skewers and opportunities for Forced Mate are also missed, though less frequently (5 times each). This game, however, represents a break in the established pattern, as no blunders or missed opportunities were recorded.<br>
+
+    </div>
+    <h2 style="margin-top:24px;margin-bottom:12px">Annotated PGN</h2>
+    <p style="font-size:0.85rem;color:#666;margin-bottom:8px">Copy this PGN to paste into Lichess, ChessBase, or any analysis tool.</p>
+    <div style="
+        background:#1a1a2e;color:#e0e0e0;padding:16px 20px;border-radius:8px;
+        font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.8rem;
+        line-height:1.6;white-space:pre-wrap;word-break:break-word;position:relative;
+        max-height:400px;overflow-y:auto;">
+        <button onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)"
+            style="position:absolute;top:8px;right:8px;background:#333;color:#ccc;
+            border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;
+            font-size:0.75rem;">Copy</button>
+        <code id="annotated-pgn">[Event &quot;Live Chess&quot;]
+[Site &quot;Chess.com&quot;]
+[Date &quot;2026.03.24&quot;]
+[White &quot;erivera90&quot;]
+[Black &quot;nikky-love&quot;]
+[Result &quot;1-0&quot;]
+
+1. c4 {+0.06} Nf6 {+0.17} 2. Nc3 {+0.04} Nc6 {+0.60} 3. g3 {+0.20} e5 {+0.31} 4.
+Bg2 {+0.38} Bb4 {+0.35} 5. e4 {+0.00} O-O {+0.24} 6. Nge2 {+0.14} d5 {+1.11} 7.
+cxd5 {+0.83} Nd4 {+0.71} 8. O-O {+0.72} Bg4 {+1.22} 9. f3 {+1.01} Nxf3+ {+3.88}
+10. Bxf3 {+3.81} Bxf3 {+4.14} 11. Rxf3 {+4.19} Qd7 {+4.23} 12. Kg2 {+4.41} Qg4
+{+5.00} 13. h3 {+5.00} Qg6 {+4.99} 14. d3 {+4.84} Bd6 {+5.23} 15. Nb5 {+4.67} a6
+{+4.96} 16. Nxd6 {+4.69} cxd6 {+4.67} 17. Be3 {+4.57} b5 {+4.73} 18. d4 {+2.96}
+exd4 {+4.23} 19. Bxd4 {+4.09} Nxe4 {+4.41} 20. Nf4 {+4.40} Qg5 {+4.61} 21. Qe2
+{+3.89} f5 {+4.40} 22. Ne6 {+4.85} Qg6 {+5.19} 23. g4 {+3.58} Rfe8 {+5.18} 24.
+Rxf5 {+5.53} Nf6 {+5.95} 25. Raf1 {+5.03} Re7 {+6.56} 26. Bxf6 {+7.27} gxf6
+{+8.61} 27. Rxf6 {+9.55} Rf7 {#8} 28. Rxg6+ {#7} 1-0</code>
+    </div>
+</div>
+</body>
+</html>
