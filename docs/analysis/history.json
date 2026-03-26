@@ -204,10 +204,21 @@
       "blunder_count": 0,
       "missed_count": 0,
       "tactics": []
+    },
+    {
+      "date": "2026.03.26",
+      "white": "phdccc",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "skewer"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 5,
+    "skewer": 6,
     "trapped_piece": 2,
     "pin": 13,
     "losing_exchange": 2,
@@ -220,6 +231,6 @@
     "back_rank_mate": 2,
     "overloaded_defender": 1
   },
-  "total_blunders": 38,
+  "total_blunders": 39,
   "total_missed": 20
 }
