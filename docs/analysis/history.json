@@ -228,22 +228,36 @@
         "back_rank_mate",
         "back_rank_mate"
       ]
+    },
+    {
+      "date": "2026.03.27",
+      "white": "AndMatSim",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 3,
+      "missed_count": 1,
+      "tactics": [
+        "trapped_piece",
+        "trapped_piece",
+        "pin",
+        "positional"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 6,
-    "trapped_piece": 2,
-    "pin": 13,
+    "trapped_piece": 4,
+    "pin": 14,
     "losing_exchange": 2,
     "hanging_pawn": 11,
     "hanging_piece": 1,
     "fork": 5,
-    "positional": 9,
+    "positional": 10,
     "forced_mate": 5,
     "discovered_attack": 3,
     "back_rank_mate": 4,
     "overloaded_defender": 1
   },
-  "total_blunders": 39,
-  "total_missed": 23
+  "total_blunders": 42,
+  "total_missed": 24
 }
