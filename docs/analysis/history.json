@@ -242,22 +242,36 @@
         "pin",
         "positional"
       ]
+    },
+    {
+      "date": "2026.03.27",
+      "white": "erivera90",
+      "black": "eduardogms",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 3,
+      "tactics": [
+        "fork",
+        "positional",
+        "pin",
+        "hanging_piece"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 6,
     "trapped_piece": 4,
-    "pin": 14,
+    "pin": 15,
     "losing_exchange": 2,
     "hanging_pawn": 11,
-    "hanging_piece": 1,
-    "fork": 5,
-    "positional": 10,
+    "hanging_piece": 2,
+    "fork": 6,
+    "positional": 11,
     "forced_mate": 5,
     "discovered_attack": 3,
     "back_rank_mate": 4,
     "overloaded_defender": 1
   },
-  "total_blunders": 42,
-  "total_missed": 24
+  "total_blunders": 43,
+  "total_missed": 27
 }
