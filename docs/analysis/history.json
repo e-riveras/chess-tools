@@ -256,6 +256,18 @@
         "pin",
         "hanging_piece"
       ]
+    },
+    {
+      "date": "2026.03.27",
+      "white": "cyyypp",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "positional",
+        "back_rank_mate"
+      ]
     }
   ],
   "tactic_counts": {
@@ -266,12 +278,12 @@
     "hanging_pawn": 11,
     "hanging_piece": 2,
     "fork": 6,
-    "positional": 11,
+    "positional": 12,
     "forced_mate": 5,
     "discovered_attack": 3,
-    "back_rank_mate": 4,
+    "back_rank_mate": 5,
     "overloaded_defender": 1
   },
-  "total_blunders": 43,
+  "total_blunders": 45,
   "total_missed": 27
 }
