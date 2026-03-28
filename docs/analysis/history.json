@@ -3,26 +3,6 @@
     {
       "date": "2026.03.17",
       "white": "erivera90",
-      "black": "Arianit1702",
-      "result": "0-1",
-      "blunder_count": 7,
-      "missed_count": 3,
-      "tactics": [
-        "pin",
-        "hanging_pawn",
-        "pin",
-        "skewer",
-        "pin",
-        "hanging_pawn",
-        "hanging_piece",
-        "pin",
-        "hanging_pawn",
-        "hanging_pawn"
-      ]
-    },
-    {
-      "date": "2026.03.17",
-      "white": "erivera90",
       "black": "McAngelP23",
       "result": "0-1",
       "blunder_count": 1,
@@ -267,22 +247,37 @@
         "positional",
         "positional"
       ]
+    },
+    {
+      "date": "2026.03.28",
+      "white": "erivera90",
+      "black": "Binkzki",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 3,
+      "tactics": [
+        "positional",
+        "pin",
+        "skewer",
+        "fork",
+        "fork"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 6,
+    "skewer": 7,
     "trapped_piece": 4,
-    "pin": 15,
+    "pin": 16,
     "losing_exchange": 2,
     "hanging_pawn": 11,
     "hanging_piece": 2,
-    "fork": 6,
-    "positional": 14,
+    "fork": 8,
+    "positional": 15,
     "forced_mate": 5,
     "discovered_attack": 4,
     "back_rank_mate": 5,
     "overloaded_defender": 1
   },
-  "total_blunders": 45,
-  "total_missed": 30
+  "total_blunders": 47,
+  "total_missed": 33
 }
