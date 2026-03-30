@@ -1,25 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.19",
-      "white": "Alantuki",
-      "black": "erivera90",
-      "result": "1/2-1/2",
-      "blunder_count": 2,
-      "missed_count": 7,
-      "tactics": [
-        "hanging_pawn",
-        "positional",
-        "hanging_pawn",
-        "pin",
-        "positional",
-        "forced_mate",
-        "forced_mate",
-        "forced_mate",
-        "forced_mate"
-      ]
-    },
-    {
       "date": "2026.03.20",
       "white": "erivera90",
       "black": "m3m3ku",
@@ -262,22 +243,37 @@
       "tactics": [
         "losing_exchange"
       ]
+    },
+    {
+      "date": "2026.03.30",
+      "white": "erivera90",
+      "black": "Moby154",
+      "result": "1-0",
+      "blunder_count": 3,
+      "missed_count": 2,
+      "tactics": [
+        "losing_exchange",
+        "pin",
+        "positional",
+        "hanging_piece",
+        "positional"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 7,
     "trapped_piece": 4,
-    "pin": 17,
-    "losing_exchange": 3,
+    "pin": 18,
+    "losing_exchange": 4,
     "hanging_pawn": 11,
-    "hanging_piece": 3,
+    "hanging_piece": 4,
     "fork": 8,
-    "positional": 19,
+    "positional": 21,
     "forced_mate": 5,
     "discovered_attack": 5,
     "back_rank_mate": 5,
     "overloaded_defender": 1
   },
-  "total_blunders": 50,
-  "total_missed": 38
+  "total_blunders": 53,
+  "total_missed": 40
 }
