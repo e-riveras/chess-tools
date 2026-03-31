@@ -2,22 +2,6 @@
   "games": [
     {
       "date": "2026.03.22",
-      "white": "Erkasymov",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 5,
-      "missed_count": 1,
-      "tactics": [
-        "hanging_pawn",
-        "discovered_attack",
-        "discovered_attack",
-        "pin",
-        "hanging_pawn",
-        "skewer"
-      ]
-    },
-    {
-      "date": "2026.03.22",
       "white": "erivera90",
       "black": "horstafk",
       "result": "1-0",
@@ -261,23 +245,35 @@
         "pin",
         "losing_exchange"
       ]
+    },
+    {
+      "date": "2026.03.31",
+      "white": "narelloc",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 1,
+      "missed_count": 1,
+      "tactics": [
+        "discovered_attack",
+        "pin"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 7,
     "trapped_piece": 5,
-    "pin": 21,
+    "pin": 22,
     "losing_exchange": 6,
     "hanging_pawn": 11,
     "hanging_piece": 6,
     "fork": 8,
     "positional": 23,
     "forced_mate": 5,
-    "discovered_attack": 6,
+    "discovered_attack": 7,
     "back_rank_mate": 6,
     "overloaded_defender": 1,
     "back_rank_weakness": 1
   },
-  "total_blunders": 55,
-  "total_missed": 51
+  "total_blunders": 56,
+  "total_missed": 52
 }
