@@ -2,17 +2,6 @@
   "games": [
     {
       "date": "2026.03.26",
-      "white": "phdccc",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "skewer"
-      ]
-    },
-    {
-      "date": "2026.03.26",
       "white": "3ms28",
       "black": "erivera90",
       "result": "0-1",
@@ -261,23 +250,39 @@
         "hanging_piece",
         "hanging_piece"
       ]
+    },
+    {
+      "date": "2026.04.03",
+      "white": "erivera90",
+      "black": "Ranjith_0531",
+      "result": "1/2-1/2",
+      "blunder_count": 3,
+      "missed_count": 3,
+      "tactics": [
+        "hanging_pawn",
+        "skewer",
+        "hanging_pawn",
+        "positional",
+        "hanging_piece",
+        "back_rank_mate"
+      ]
     }
   ],
   "tactic_counts": {
-    "skewer": 9,
+    "skewer": 10,
     "trapped_piece": 5,
     "pin": 24,
     "losing_exchange": 6,
-    "hanging_pawn": 12,
-    "hanging_piece": 9,
+    "hanging_pawn": 14,
+    "hanging_piece": 10,
     "fork": 9,
-    "positional": 24,
+    "positional": 25,
     "forced_mate": 6,
     "discovered_attack": 7,
-    "back_rank_mate": 7,
+    "back_rank_mate": 8,
     "overloaded_defender": 1,
     "back_rank_weakness": 2
   },
-  "total_blunders": 65,
-  "total_missed": 56
+  "total_blunders": 68,
+  "total_missed": 59
 }
