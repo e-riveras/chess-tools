@@ -1,15 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.24",
-      "white": "erivera90",
-      "black": "nikky-love",
-      "result": "1-0",
-      "blunder_count": 0,
-      "missed_count": 0,
-      "tactics": []
-    },
-    {
       "date": "2026.03.26",
       "white": "phdccc",
       "black": "erivera90",
@@ -258,6 +249,18 @@
         "hanging_pawn",
         "forced_mate"
       ]
+    },
+    {
+      "date": "2026.04.03",
+      "white": "William_Dreemurrs",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "hanging_piece"
+      ]
     }
   ],
   "tactic_counts": {
@@ -266,7 +269,7 @@
     "pin": 24,
     "losing_exchange": 6,
     "hanging_pawn": 12,
-    "hanging_piece": 7,
+    "hanging_piece": 9,
     "fork": 9,
     "positional": 24,
     "forced_mate": 6,
@@ -275,6 +278,6 @@
     "overloaded_defender": 1,
     "back_rank_weakness": 2
   },
-  "total_blunders": 63,
+  "total_blunders": 65,
   "total_missed": 56
 }
