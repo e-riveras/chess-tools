@@ -1,19 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.26",
-      "white": "3ms28",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 0,
-      "missed_count": 3,
-      "tactics": [
-        "fork",
-        "back_rank_mate",
-        "back_rank_mate"
-      ]
-    },
-    {
       "date": "2026.03.27",
       "white": "AndMatSim",
       "black": "erivera90",
@@ -266,6 +253,18 @@
         "hanging_piece",
         "back_rank_mate"
       ]
+    },
+    {
+      "date": "2026.04.04",
+      "white": "erivera90",
+      "black": "limgui",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "positional"
+      ]
     }
   ],
   "tactic_counts": {
@@ -274,15 +273,15 @@
     "pin": 24,
     "losing_exchange": 6,
     "hanging_pawn": 14,
-    "hanging_piece": 10,
+    "hanging_piece": 11,
     "fork": 9,
-    "positional": 25,
+    "positional": 26,
     "forced_mate": 6,
     "discovered_attack": 7,
     "back_rank_mate": 8,
     "overloaded_defender": 1,
     "back_rank_weakness": 2
   },
-  "total_blunders": 68,
+  "total_blunders": 70,
   "total_missed": 59
 }
