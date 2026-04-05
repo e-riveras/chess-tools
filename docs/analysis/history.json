@@ -2,20 +2,6 @@
   "games": [
     {
       "date": "2026.03.27",
-      "white": "AndMatSim",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 3,
-      "missed_count": 1,
-      "tactics": [
-        "trapped_piece",
-        "trapped_piece",
-        "pin",
-        "positional"
-      ]
-    },
-    {
-      "date": "2026.03.27",
       "white": "erivera90",
       "black": "eduardogms",
       "result": "1-0",
@@ -265,6 +251,17 @@
         "hanging_piece",
         "positional"
       ]
+    },
+    {
+      "date": "2026.04.05",
+      "white": "Rulinator",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "back_rank_mate"
+      ]
     }
   ],
   "tactic_counts": {
@@ -278,10 +275,10 @@
     "positional": 26,
     "forced_mate": 6,
     "discovered_attack": 7,
-    "back_rank_mate": 8,
+    "back_rank_mate": 9,
     "overloaded_defender": 1,
     "back_rank_weakness": 2
   },
-  "total_blunders": 70,
+  "total_blunders": 71,
   "total_missed": 59
 }
