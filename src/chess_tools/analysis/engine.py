@@ -627,7 +627,7 @@ class ChessAnalyzer:
             pv_moves = info_before.get("pv", [])
             dummy_board = board_before.copy()
             pv_san_list = []
-            for move in pv_moves[:4]:
+            for move in pv_moves[:6]:
                 pv_san_list.append(dummy_board.san(move))
                 dummy_board.push(move)
             pv_line = " ".join(pv_san_list)
@@ -641,7 +641,7 @@ class ChessAnalyzer:
             refutation_pv = info_after.get("pv", [])
             refutation_board = board_after.copy()
             refutation_san_list = []
-            for move in refutation_pv[:4]:
+            for move in refutation_pv[:6]:
                 try:
                     refutation_san_list.append(refutation_board.san(move))
                     refutation_board.push(move)
@@ -752,7 +752,6 @@ class ChessAnalyzer:
                 eval_swing=delta,
                 eval_after=cp_after,
                 pv_line=pv_line,
-                explanation=None,
                 svg_content=svg_data,
                 game_result=metadata["Result"],
                 hero_color=hero_color,

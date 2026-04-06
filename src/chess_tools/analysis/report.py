@@ -4,20 +4,21 @@ import json
 import html
 import logging
 from typing import List, Dict, Optional, Any
+import chess
+import chess.svg
 from chess_tools.lib.models import CrucialMoment
 from chess_tools.analysis.engine import TACTIC_LABELS, TACTIC_COLORS, MOMENT_TYPE_LABELS, SEVERITY_COLORS, MATE_SCORE_CP
 
 logger = logging.getLogger("chess_transfer")
 
-def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, str], output_dir: str = "analysis", summary: str = None):
+def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, str], output_dir: str = "analysis"):
     """
     Generates a Markdown report from the analyzed moments.
-    
+
     Args:
         moments (List[CrucialMoment]): The list of analyzed moments.
         metadata (Dict[str, str]): Game metadata (White, Black, Date, etc.).
         output_dir (str): Directory to save the report and images.
-        summary (str, optional): The LLM generated summary of the game.
     """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -92,56 +93,89 @@ def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, s
             if moment.refutation_line:
                 f.write(f"**Refutation:** _{moment.refutation_line}_\n\n")
 
-            f.write(f"### Coach Explanation\n")
-            f.write(f"{moment.explanation}\n\n")
             f.write("---\n")
-        
-        if summary:
-            f.write("\n" + summary + "\n")
             
     logger.info(f"Report generated: {output_path}")
 
 
-def _md_to_html(text: str) -> str:
-    """Lightweight markdown-to-HTML conversion for LLM summary text."""
-    if not text:
-        return ""
-    escaped = html.escape(text)
-    # Bold: **text** -> <strong>text</strong>
-    escaped = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', escaped)
-    # Italic: *text* -> <em>text</em>
-    escaped = re.sub(r'\*(.+?)\*', r'<em>\1</em>', escaped)
-    # List items: lines starting with - or *
-    escaped = re.sub(r'^[\-\*]\s+(.+)$', r'<li>\1</li>', escaped, flags=re.MULTILINE)
-    # Wrap consecutive <li> in <ul>
-    escaped = re.sub(r'((?:<li>.*?</li>\n?)+)', r'<ul>\1</ul>', escaped)
-    # Headings: ## text -> <h3>
-    escaped = re.sub(r'^##\s+(.+)$', r'<h3>\1</h3>', escaped, flags=re.MULTILINE)
-    # Newlines -> <br> (but not after block elements)
-    escaped = re.sub(r'(?<!</ul>)(?<!</h3>)(?<!</li>)\n', '<br>\n', escaped)
-    return escaped
-
-
-def format_refutation_line(line: str, hero_is_next_to_move: bool) -> str:
+def generate_line_player_html(
+    player_id: str,
+    start_fen: str,
+    line_san: str,
+    hero_color: Optional[chess.Color],
+    initial_move_san: Optional[str] = None,
+    kind: str = "refutation",
+    start_label: str = "Start",
+) -> str:
     """
-    Wrap alternating SAN moves in hero/opponent color spans.
+    Generate an interactive SVG board player for a line of moves.
 
     Args:
-        line: Space-separated SAN moves (e.g. "Bxg3+ Kh1 Qf2").
-        hero_is_next_to_move: If True, first move is hero's; otherwise opponent's.
+        player_id: Unique HTML id for the player element.
+        start_fen: FEN of the position before the line starts.
+        line_san: Space-separated SAN moves to step through.
+        hero_color: Board orientation (hero's color).
+        initial_move_san: If given, push this move first (e.g. blunder move).
+        kind: "refutation" or "best-line" (controls CSS color theme).
+        start_label: Caption shown for the initial (frame 0) position.
 
     Returns:
-        HTML string with alternating <span class="hero-move"> / <span class="opp-move">.
+        HTML string for the interactive player.
     """
-    if not line:
+    if not line_san:
         return ""
-    moves = line.split()
-    parts = []
-    for i, move in enumerate(moves):
-        is_hero = (i % 2 == 0) == hero_is_next_to_move
-        cls = "hero-move" if is_hero else "opp-move"
-        parts.append(f'<span class="{cls}">{html.escape(move)}</span>')
-    return " ".join(parts)
+    orientation = hero_color if hero_color is not None else chess.WHITE
+    board = chess.Board(start_fen)
+
+    # For blunders: push the blunder move first so frames show the refutation
+    if initial_move_san:
+        try:
+            board.push(board.parse_san(initial_move_san))
+        except Exception:
+            pass
+
+    frames = []
+    svg0 = chess.svg.board(board, size=360, orientation=orientation, coordinates=True)
+    frames.append((start_label, svg0))
+
+    for san in line_san.split()[:6]:
+        try:
+            move = board.parse_san(san)
+            # Caption: determine move number and side
+            move_num = board.fullmove_number
+            side = "..." if board.turn == chess.BLACK else "."
+            caption = f"{move_num}{side} {san}"
+            board.push(move)
+            svg = chess.svg.board(board, size=360, orientation=orientation,
+                                  coordinates=True, lastmove=move)
+            frames.append((caption, svg))
+        except Exception:
+            break
+
+    if len(frames) < 2:
+        return ""
+
+    frame_divs = "\n".join(
+        f'      <div class="lp-frame" data-caption="{html.escape(caption)}">{svg}</div>'
+        for caption, svg in frames
+    )
+    _, svg0_content = frames[0]
+    caption0 = frames[0][0]
+    total = len(frames) - 1
+
+    return f"""<div class="line-player {kind}" id="{player_id}" data-total="{total}">
+  <div class="lp-frames" hidden>
+{frame_divs}
+  </div>
+  <div class="lp-stage">{svg0_content}</div>
+  <div class="lp-caption">{html.escape(caption0)}</div>
+  <div class="lp-controls">
+    <button class="lp-btn lp-prev" aria-label="Previous" disabled>&#9664;</button>
+    <button class="lp-btn lp-play" aria-label="Play">&#9654;</button>
+    <button class="lp-btn lp-next" aria-label="Next">&#9654;</button>
+    <span class="lp-counter">0/{total}</span>
+  </div>
+</div>"""
 
 
 _HTML_STYLE = """
@@ -193,23 +227,6 @@ _HTML_STYLE = """
         border-radius: 0 6px 6px 0;
         font-weight: bold;
     }
-    .explanation {
-        border-top: 1px solid #3a3a3a;
-        padding-top: 12px;
-        margin-top: 12px;
-        line-height: 1.6;
-    }
-    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
-    .summary-section {
-        background: var(--card-bg);
-        border-radius: 10px;
-        padding: 24px;
-        margin-top: 8px;
-        line-height: 1.7;
-    }
-    .summary-section h2 { margin-bottom: 12px; }
-    .summary-section ul { padding-left: 20px; margin: 8px 0; }
-    .summary-section li { margin-bottom: 4px; }
     .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
     .severity-pill {
         display: inline-block;
@@ -232,15 +249,6 @@ _HTML_STYLE = """
         color: #fff;
         margin-bottom: 12px;
     }
-    .best-line {
-        background: rgba(0, 102, 221, 0.15);
-        border-left: 4px solid #0066dd;
-        padding: 10px 14px;
-        margin-bottom: 12px;
-        border-radius: 0 6px 6px 0;
-        font-style: italic;
-        color: var(--accent-color);
-    }
     .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
     .lichess-btn {
         display: inline-flex;
@@ -256,16 +264,53 @@ _HTML_STYLE = """
     }
     .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
     .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
-    .hero-move { color: #4a9eff; font-weight: bold; }
-    .opp-move { color: #ff6b6b; }
-    .move-legend {
-        display: flex;
-        gap: 16px;
+    /* Line player */
+    .line-player {
+        background: rgba(74, 158, 255, 0.08);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 0 6px 6px 0;
+        padding: 14px;
         margin-bottom: 16px;
+    }
+    .line-player .lp-stage { display: flex; justify-content: center; }
+    .line-player .lp-stage svg { max-width: 360px; width: 100%; height: auto; }
+    .line-player .lp-caption {
+        text-align: center;
+        font-family: monospace;
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        margin: 8px 0 10px;
+        min-height: 1.2em;
+    }
+    .line-player .lp-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .line-player .lp-btn {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid #3a3a3a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
+    .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .line-player .lp-next { transform: none; }
+    .line-player .lp-prev { transform: rotate(180deg); }
+    .line-player .lp-counter {
         font-size: 0.85rem;
         color: var(--muted-color);
+        margin-left: 8px;
+        min-width: 40px;
+        text-align: center;
     }
-    .move-legend span { font-weight: bold; }
+    .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
+    .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
 
     /* Index page styles */
     .report-grid {
@@ -552,7 +597,7 @@ def generate_eval_chart_svg(move_evals: List[Dict[str, Any]],
 
 
 def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
-                         output_dir: str = "docs/analysis", summary: Optional[str] = None,
+                         output_dir: str = "docs/analysis",
                          move_evals: Optional[List[Dict[str, Any]]] = None,
                          lichess_url: Optional[str] = None):
     """
@@ -562,7 +607,6 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
         moments: The list of analyzed moments.
         metadata: Game metadata (White, Black, Date, etc.).
         output_dir: Directory to save the HTML report.
-        summary: Optional LLM-generated game summary.
         move_evals: Per-half-move eval list for chart/PGN annotation.
         lichess_url: Optional Lichess game URL for deep links.
     """
@@ -637,12 +681,6 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
     if not moments:
         parts.append('    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>\n')
     else:
-        # Move legend
-        parts.append('    <div class="move-legend">'
-                     '<span class="hero-move">Your moves</span> '
-                     '<span class="opp-move">Opponent moves</span>'
-                     '</div>\n')
-
         blunder_count = sum(1 for m in moments if m.moment_type == "blunder")
         missed_count = sum(1 for m in moments if m.moment_type in ("missed_chance", "missed_mate"))
         summary_text = f'Found <strong>{len(moments)}</strong> crucial moment{"s" if len(moments) != 1 else ""}'
@@ -688,29 +726,36 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
             parts.append(f'            <span class="variation">Variation: {html.escape(moment.pv_line)}</span>\n')
             parts.append('        </div>\n')
 
-            if is_missed and moment.best_line:
-                formatted_best = format_refutation_line(moment.best_line, hero_is_next_to_move=True)
-                parts.append(f'        <div class="best-line">You could have played: {formatted_best}</div>\n')
-
             if moment.tactical_alert:
                 parts.append(f'        <div class="tactical-alert">{html.escape(moment.tactical_alert)}</div>\n')
 
-            if moment.refutation_line and not is_missed:
-                formatted_ref = format_refutation_line(moment.refutation_line, hero_is_next_to_move=False)
-                parts.append(f'        <div class="variation" style="margin-bottom:12px">Refutation: {formatted_ref}</div>\n')
+            if is_missed and moment.best_line:
+                player_html = generate_line_player_html(
+                    player_id=f"player-{i}",
+                    start_fen=moment.fen,
+                    line_san=moment.best_line,
+                    hero_color=moment.hero_color,
+                    initial_move_san=None,
+                    kind="best-line",
+                    start_label="Before the move",
+                )
+                if player_html:
+                    parts.append(f'        {player_html}\n')
 
-            if moment.explanation:
-                parts.append('        <div class="explanation">\n')
-                parts.append('            <h3>Coach Explanation</h3>\n')
-                parts.append(f'            <p>{_md_to_html(moment.explanation)}</p>\n')
-                parts.append('        </div>\n')
+            if moment.refutation_line and not is_missed:
+                player_html = generate_line_player_html(
+                    player_id=f"player-{i}",
+                    start_fen=moment.fen,
+                    line_san=moment.refutation_line,
+                    hero_color=moment.hero_color,
+                    initial_move_san=moment.move_played_san,
+                    kind="refutation",
+                    start_label="After your move",
+                )
+                if player_html:
+                    parts.append(f'        {player_html}\n')
 
             parts.append('    </div>\n')
-
-    if summary:
-        parts.append('    <div class="summary-section">\n')
-        parts.append(f'        {_md_to_html(summary)}\n')
-        parts.append('    </div>\n')
 
     # Annotated PGN
     if move_evals:
@@ -734,6 +779,53 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
             parts.append('    </div>\n')
 
     parts.append("""</div>
+<script>
+(function() {
+  document.querySelectorAll('.line-player').forEach(function(player) {
+    var frames = player.querySelectorAll('.lp-frame');
+    var stage = player.querySelector('.lp-stage');
+    var caption = player.querySelector('.lp-caption');
+    var counter = player.querySelector('.lp-counter');
+    var prev = player.querySelector('.lp-prev');
+    var next = player.querySelector('.lp-next');
+    var play = player.querySelector('.lp-play');
+    var idx = 0, playing = false, timer = null;
+    function render() {
+      stage.innerHTML = frames[idx].innerHTML;
+      caption.textContent = frames[idx].dataset.caption;
+      counter.textContent = idx + '/' + (frames.length - 1);
+      prev.disabled = (idx === 0);
+      next.disabled = (idx === frames.length - 1);
+    }
+    function step(d) {
+      idx = Math.max(0, Math.min(frames.length - 1, idx + d));
+      render();
+    }
+    function toggle() {
+      if (playing) {
+        clearInterval(timer); playing = false;
+        play.innerHTML = '&#9654;';
+      } else {
+        if (idx === frames.length - 1) idx = 0;
+        playing = true;
+        play.innerHTML = '&#9208;';
+        timer = setInterval(function() {
+          if (idx >= frames.length - 1) {
+            clearInterval(timer); playing = false;
+            play.innerHTML = '&#9654;';
+            return;
+          }
+          step(1);
+        }, 900);
+      }
+    }
+    prev.addEventListener('click', function() { step(-1); });
+    next.addEventListener('click', function() { step(1); });
+    play.addEventListener('click', toggle);
+    render();
+  });
+})();
+</script>
 </body>
 </html>
 """)
@@ -791,7 +883,7 @@ def regenerate_index_page(html_output_dir: str):
 <body>
 <div class="container">
     <h1>Analysis Reports</h1>
-    <div class="meta">Game analysis with Stockfish engine and AI coach explanations.</div>
+    <div class="meta">Game analysis with Stockfish engine.</div>
     <div class="run-bar">
         <button class="run-btn" id="runBtn" onclick="triggerAnalysis()">&#9654; Run Analysis</button>
         <a class="drills-btn" href="../drills/index.html">&#127919; Drills</a>

@@ -3,10 +3,9 @@ import sys
 import logging
 from chess_tools.lib.utils import check_env_var, get_output_dir, get_repo_root
 from chess_tools.analysis.engine import ChessAnalyzer
-from chess_tools.analysis.narrator import GoogleGeminiNarrator, MockNarrator
 from chess_tools.analysis.report import generate_markdown_report, generate_html_report, regenerate_index_page
 from chess_tools.analysis.drills import update_drills_json
-from chess_tools.analysis.history import load_analysis_history, update_analysis_history, save_analysis_history, format_history_for_prompt
+from chess_tools.analysis.history import load_analysis_history, update_analysis_history, save_analysis_history
 from chess_tools.lib.api.lichess import fetch_latest_game, get_lichess_client, get_lichess_username
 
 logger = logging.getLogger("chess_transfer")
@@ -17,7 +16,6 @@ def run_analysis_pipeline(pgn_file_path: str = "game.pgn"):
     """
     # Configuration
     stockfish_path = check_env_var("STOCKFISH_PATH")
-    gemini_key = os.getenv("GEMINI_API_KEY")
     lichess_token = os.getenv("LICHESS_TOKEN")
 
     # Get username from API token if available
@@ -33,13 +31,6 @@ def run_analysis_pipeline(pgn_file_path: str = "game.pgn"):
     if not os.path.exists(stockfish_path):
         logger.error(f"Stockfish path not found or invalid: {stockfish_path}")
         sys.exit(1)
-
-    # Initialize Narrator
-    if gemini_key:
-        narrator = GoogleGeminiNarrator(gemini_key)
-    else:
-        logger.warning("GEMINI_API_KEY not set. Using MockNarrator.")
-        narrator = MockNarrator()
 
     # Read PGN
     pgn_text = ""
@@ -66,25 +57,15 @@ def run_analysis_pipeline(pgn_file_path: str = "game.pgn"):
             # Pass username to filter blunders
             moments, metadata, move_evals = analyzer.analyze_game(pgn_text, hero_username=lichess_username)
 
-            logger.info(f"Engine Analysis complete. Found {len(moments)} moments. Starting LLM narration...")
-
-            explanations = []
-            for moment in moments:
-                explanation = narrator.explain_mistake(moment)
-                moment.explanation = explanation
-                explanations.append(explanation)
+            logger.info(f"Engine Analysis complete. Found {len(moments)} moments.")
 
             # Load cross-game history for context
             history_path = str(get_repo_root() / "docs" / "analysis" / "history.json")
             analysis_history = load_analysis_history(history_path)
-            history_context = format_history_for_prompt(analysis_history)
-
-            # Only generate pattern summary when prior game history exists
-            summary = narrator.summarize_game(explanations, history_context=history_context) if history_context else ""
 
             output_dir = get_output_dir("analysis")
 
-            generate_markdown_report(moments, metadata, output_dir=output_dir, summary=summary)
+            generate_markdown_report(moments, metadata, output_dir=output_dir)
 
             # Extract Lichess URL from game metadata if available
             lichess_url = None
@@ -93,7 +74,7 @@ def run_analysis_pipeline(pgn_file_path: str = "game.pgn"):
                 lichess_url = site
 
             html_dir = str(get_repo_root() / "docs" / "analysis")
-            generate_html_report(moments, metadata, output_dir=html_dir, summary=summary,
+            generate_html_report(moments, metadata, output_dir=html_dir,
                                  move_evals=move_evals, lichess_url=lichess_url)
             regenerate_index_page(html_dir)
 

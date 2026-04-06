@@ -31,7 +31,6 @@ def _make_moment(
         pv_line="Nf3 d5",
         game_result="0-1",
         hero_color=chess.WHITE,
-        explanation="You left your pawn hanging.",
         tactic_type=tactic_type,
         moment_type="blunder",
         severity=severity,
@@ -157,7 +156,7 @@ class TestUpdateDrillsJson:
             "hero_color", "move_played_san", "move_played_uci",
             "best_move_san", "best_move_uci", "refutation_move_uci",
             "eval_swing", "moment_type", "severity", "tactic_type",
-            "explanation", "punished", "half_move_number",
+            "punished", "half_move_number",
         ]
         for field in required_fields:
             assert field in entry, f"Missing field: {field}"

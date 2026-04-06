@@ -119,10 +119,8 @@ class TestSyncGames(unittest.TestCase):
     # We patch modules where they are IMPORTED in chess_tools.transfer.sync
     @patch('chess_tools.transfer.sync.save_analysis_history')
     @patch('chess_tools.transfer.sync.update_analysis_history')
-    @patch('chess_tools.transfer.sync.format_history_for_prompt', return_value="")
     @patch('chess_tools.transfer.sync.load_analysis_history', return_value={"games": [], "tactic_counts": {}, "total_blunders": 0, "total_missed": 0})
     @patch('chess_tools.transfer.sync.generate_markdown_report')
-    @patch('chess_tools.transfer.sync.GoogleGeminiNarrator')
     @patch('chess_tools.transfer.sync.ChessAnalyzer')
     @patch('chess_tools.transfer.sync.time.sleep')
     @patch('chess_tools.transfer.sync.import_game_to_lichess')
@@ -131,7 +129,7 @@ class TestSyncGames(unittest.TestCase):
     @patch('chess_tools.transfer.sync.load_history')
     @patch('chess_tools.transfer.sync.save_history')
     @patch('chess_tools.transfer.sync.get_lichess_client')
-    def test_sync_pipeline(self, mock_get_client, mock_save_hist, mock_load_hist, mock_get_archives, mock_get_games, mock_import, mock_sleep, mock_analyzer, mock_narrator, mock_report, mock_load_analysis, mock_format_history, mock_update_analysis, mock_save_analysis):
+    def test_sync_pipeline(self, mock_get_client, mock_save_hist, mock_load_hist, mock_get_archives, mock_get_games, mock_import, mock_sleep, mock_analyzer, mock_report, mock_load_analysis, mock_update_analysis, mock_save_analysis):
 
         mock_load_hist.return_value = {"imported_ids": ["old_game_id"], "last_analyzed_id": None}
 
@@ -140,7 +138,6 @@ class TestSyncGames(unittest.TestCase):
             def side_effect(key, default=None):
                 if key == 'STOCKFISH_PATH': return '/usr/games/stockfish'
                 if key == 'LICHESS_TOKEN': return 'fake_token'
-                if key == 'GEMINI_API_KEY': return 'fake_key'
                 if key == 'CHESSCOM_USERNAME': return 'testuser'
                 return default
             mock_getenv.side_effect = side_effect

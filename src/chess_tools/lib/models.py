@@ -18,7 +18,6 @@ class CrucialMoment:
         pv_line: The Principal Variation (best continuation) according to the engine.
         game_result: The result of the game (e.g., "1-0", "0-1", "1/2-1/2").
         hero_color: The color played by the user (chess.WHITE, chess.BLACK, or None).
-        explanation: Natural language explanation of the mistake (populated by LLM).
         image_url: URL to a static image of the position.
         svg_content: Raw SVG content with arrows highlighting the mistake and correction.
         tactical_alert: Warning message if the move allows an immediate capture.
@@ -33,7 +32,6 @@ class CrucialMoment:
     pv_line: str
     game_result: str
     hero_color: Optional[chess.Color]
-    explanation: Optional[str] = None
     image_url: Optional[str] = None
     svg_content: Optional[str] = None
     tactical_alert: Optional[str] = None
@@ -71,7 +69,6 @@ class CrucialMoment:
             "moment_type": self.moment_type,
             "severity": self.severity,
             "tactic_type": self.tactic_type,
-            "explanation": self.explanation,
             "tactical_alert": self.tactical_alert,
             "refutation_line": self.refutation_line,
             "best_line": self.best_line,

@@ -8,9 +8,8 @@ from chess_tools.lib.api.lichess import get_lichess_client, get_lichess_username
 from chess_tools.lib.api.chesscom import get_chesscom_archives, get_games_from_archive
 from chess_tools.lib.data.history import load_history, save_history
 from chess_tools.analysis.engine import ChessAnalyzer
-from chess_tools.analysis.narrator import GoogleGeminiNarrator, MockNarrator
 from chess_tools.analysis.report import generate_markdown_report, generate_html_report, regenerate_index_page
-from chess_tools.analysis.history import load_analysis_history, update_analysis_history, save_analysis_history, format_history_for_prompt
+from chess_tools.analysis.history import load_analysis_history, update_analysis_history, save_analysis_history
 
 logger = logging.getLogger("chess_transfer")
 
@@ -129,42 +128,26 @@ def run_sync_pipeline():
 
     if pgn_to_analyze:
         stockfish_path = os.getenv("STOCKFISH_PATH")
-        gemini_key = os.getenv("GEMINI_API_KEY")
-        
+
         if not stockfish_path:
             logger.error("Skipping analysis: STOCKFISH_PATH not set.")
         else:
             try:
-                if gemini_key:
-                    narrator = GoogleGeminiNarrator(gemini_key)
-                else:
-                    logger.warning("GEMINI_API_KEY not set. Using MockNarrator.")
-                    narrator = MockNarrator()
-                
                 with ChessAnalyzer(stockfish_path) as analyzer:
                     logger.info(f"Starting analysis for {chesscom_username}")
                     moments, metadata, move_evals = analyzer.analyze_game(pgn_to_analyze, hero_username=chesscom_username)
 
-                    explanations = []
-                    for moment in moments:
-                        explanation = narrator.explain_mistake(moment)
-                        moment.explanation = explanation
-                        explanations.append(explanation)
-
                     # Load cross-game history for context
                     history_path = str(get_repo_root() / "docs" / "analysis" / "history.json")
                     analysis_history = load_analysis_history(history_path)
-                    history_context = format_history_for_prompt(analysis_history)
-
-                    summary = narrator.summarize_game(explanations, history_context=history_context)
 
                     output_dir = get_output_dir("analysis")
 
-                    generate_markdown_report(moments, metadata, output_dir=output_dir, summary=summary)
+                    generate_markdown_report(moments, metadata, output_dir=output_dir)
 
                     html_dir = str(get_repo_root() / "docs" / "analysis")
                     analyzed_lichess_url = lichess_url_map.get(id_to_analyze)
-                    generate_html_report(moments, metadata, output_dir=html_dir, summary=summary,
+                    generate_html_report(moments, metadata, output_dir=html_dir,
                                          move_evals=move_evals, lichess_url=analyzed_lichess_url)
                     regenerate_index_page(html_dir)
 
