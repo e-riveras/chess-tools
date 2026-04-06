@@ -1,21 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.03.28",
-      "white": "erivera90",
-      "black": "Binkzki",
-      "result": "0-1",
-      "blunder_count": 2,
-      "missed_count": 3,
-      "tactics": [
-        "positional",
-        "pin",
-        "skewer",
-        "fork",
-        "fork"
-      ]
-    },
-    {
       "date": "2026.03.29",
       "white": "sio382",
       "black": "erivera90",
@@ -266,23 +251,44 @@
         "fork",
         "pin"
       ]
+    },
+    {
+      "date": "2026.04.06",
+      "white": "erivera90",
+      "black": "KaykeS1",
+      "result": "0-1",
+      "blunder_count": 9,
+      "missed_count": 2,
+      "tactics": [
+        "hanging_piece",
+        "hanging_pawn",
+        "losing_exchange",
+        "positional",
+        "pin",
+        "forced_mate",
+        "pin",
+        "hanging_pawn",
+        "forced_mate",
+        "discovered_attack",
+        "forced_mate"
+      ]
     }
   ],
   "tactic_counts": {
     "skewer": 11,
     "trapped_piece": 6,
-    "pin": 28,
-    "losing_exchange": 6,
-    "hanging_pawn": 15,
-    "hanging_piece": 12,
+    "pin": 30,
+    "losing_exchange": 7,
+    "hanging_pawn": 17,
+    "hanging_piece": 13,
     "fork": 11,
-    "positional": 27,
-    "forced_mate": 6,
-    "discovered_attack": 7,
+    "positional": 28,
+    "forced_mate": 9,
+    "discovered_attack": 8,
     "back_rank_mate": 10,
     "overloaded_defender": 1,
     "back_rank_weakness": 3
   },
-  "total_blunders": 81,
-  "total_missed": 62
+  "total_blunders": 90,
+  "total_missed": 64
 }

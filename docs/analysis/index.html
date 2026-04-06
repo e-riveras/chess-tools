@@ -56,23 +56,6 @@
         border-radius: 0 6px 6px 0;
         font-weight: bold;
     }
-    .explanation {
-        border-top: 1px solid #3a3a3a;
-        padding-top: 12px;
-        margin-top: 12px;
-        line-height: 1.6;
-    }
-    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
-    .summary-section {
-        background: var(--card-bg);
-        border-radius: 10px;
-        padding: 24px;
-        margin-top: 8px;
-        line-height: 1.7;
-    }
-    .summary-section h2 { margin-bottom: 12px; }
-    .summary-section ul { padding-left: 20px; margin: 8px 0; }
-    .summary-section li { margin-bottom: 4px; }
     .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
     .severity-pill {
         display: inline-block;
@@ -95,15 +78,6 @@
         color: #fff;
         margin-bottom: 12px;
     }
-    .best-line {
-        background: rgba(0, 102, 221, 0.15);
-        border-left: 4px solid #0066dd;
-        padding: 10px 14px;
-        margin-bottom: 12px;
-        border-radius: 0 6px 6px 0;
-        font-style: italic;
-        color: var(--accent-color);
-    }
     .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
     .lichess-btn {
         display: inline-flex;
@@ -119,16 +93,53 @@
     }
     .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
     .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
-    .hero-move { color: #4a9eff; font-weight: bold; }
-    .opp-move { color: #ff6b6b; }
-    .move-legend {
-        display: flex;
-        gap: 16px;
+    /* Line player */
+    .line-player {
+        background: rgba(74, 158, 255, 0.08);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 0 6px 6px 0;
+        padding: 14px;
         margin-bottom: 16px;
+    }
+    .line-player .lp-stage { display: flex; justify-content: center; }
+    .line-player .lp-stage svg { max-width: 360px; width: 100%; height: auto; }
+    .line-player .lp-caption {
+        text-align: center;
+        font-family: monospace;
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        margin: 8px 0 10px;
+        min-height: 1.2em;
+    }
+    .line-player .lp-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .line-player .lp-btn {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid #3a3a3a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
+    .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .line-player .lp-next { transform: none; }
+    .line-player .lp-prev { transform: rotate(180deg); }
+    .line-player .lp-counter {
         font-size: 0.85rem;
         color: var(--muted-color);
+        margin-left: 8px;
+        min-width: 40px;
+        text-align: center;
     }
-    .move-legend span { font-weight: bold; }
+    .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
+    .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
 
     /* Index page styles */
     .report-grid {
@@ -211,7 +222,7 @@
 <body>
 <div class="container">
     <h1>Analysis Reports</h1>
-    <div class="meta">Game analysis with Stockfish engine and AI coach explanations.</div>
+    <div class="meta">Game analysis with Stockfish engine.</div>
     <div class="run-bar">
         <button class="run-btn" id="runBtn" onclick="triggerAnalysis()">&#9654; Run Analysis</button>
         <a class="drills-btn" href="../drills/index.html">&#127919; Drills</a>
@@ -275,6 +286,11 @@
     }
     </script>
     <div class="report-grid">
+        <a href="2026-04-06_erivera90_vs_KaykeS1.html" class="report-card">
+            <h3>erivera90 vs KaykeS1</h3>
+            <div class="card-meta">2026.04.06 &middot; 0-1</div>
+            <div class="card-moments">11 crucial moments</div>
+        </a>
         <a href="2026-04-06_erivera90_vs_notluckk.html" class="report-card">
             <h3>erivera90 vs notluckk</h3>
             <div class="card-meta">2026.04.06 &middot; 0-1</div>
