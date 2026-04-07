@@ -1,0 +1,12 @@
+*.egg-info/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.pytest_cache/
+.coverage
+htmlcov/
+*.epub
+samples/*.epub
+!samples/.gitkeep

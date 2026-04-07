@@ -7,8 +7,8 @@ from unittest.mock import patch
 import chess.pgn
 import pytest
 
-from chess_tools.study.parsers.movetext import parse_movetext, _clean_movetext, _build_mv_mapping
-from chess_tools.study.parsers.epub_structured import (
+from chess_book_parser.parsers.movetext import parse_movetext, _clean_movetext, _build_mv_mapping
+from chess_book_parser.parsers.epub_structured import (
     has_movetext_data,
     parse_structured_epub,
     _extract_game_headers,

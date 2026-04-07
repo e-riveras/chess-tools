@@ -12,7 +12,7 @@ from xml.etree import ElementTree
 import chess.pgn
 from bs4 import BeautifulSoup, NavigableString
 
-from chess_tools.study.parsers.movetext import parse_movetext
+from chess_book_parser.parsers.movetext import parse_movetext
 
 
 def has_movetext_data(epub_path: str) -> bool:

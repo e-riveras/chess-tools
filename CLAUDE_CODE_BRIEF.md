@@ -1,5 +1,7 @@
 # Claude Code Implementation Brief
 
+> **Note:** The book-to-PGN / Lichess-study feature described here was implemented and then **split out** to `standalone/chess-book-parser/`. Do not add it back into the main `chess_transfer` sync/analysis codebase; extend the standalone package instead.
+
 ## Quick Start Prompt for Claude Code
 
 Copy and paste this to Claude Code:

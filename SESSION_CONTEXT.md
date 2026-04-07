@@ -1,7 +1,11 @@
-# Chess Transfer - Book to Study Parser Session Context
+# Chess book parser — session context (historical)
 
-## Project Overview
-Converting chess books (EPUB/PDF) to Lichess studies using Python. Main file: `chess_transfer/book_to_study.py`
+**Current location:** EPUB/PDF → PGN and optional Lichess upload live in `standalone/chess-book-parser/` in this repo (you can copy that tree to its own git repo, e.g. `~/git/chess-book-parser`). The discussion below refers to `chess_book_parser.converter.NotationParser` and related code in that package.
+
+---
+
+## Project Overview (archived notes)
+Converting chess books (EPUB/PDF) to Lichess studies using Python. Implementation was originally under `chess_tools.study`; it has been extracted as above.
 
 ## Current Problem
 The parser fails when chess books have:
@@ -19,7 +23,7 @@ Instead, 3...e5 4.Bg2 Nbd7 5.d3 Be7 would resemble the Old Indian.
 
 ## Architecture Attempted: Stack-Based Tree Builder with Lookahead
 
-### Current Implementation (in book_to_study.py)
+### Current Implementation (in `chess_book_parser.converter`, formerly book_to_study)
 1. **Tokenizer**: Converts text to MoveToken and TextToken list
    - Handles sticky notation: `6.Nge2`, `11...Ne8`, `7.0-0` (no spaces)
    - Captures implicit Black moves: `1.e4 e5` format
@@ -83,20 +87,18 @@ for node in node_registry:
 ```
 
 ## Test Files
-- Test EPUB: `chess_transfer/annas-arch-dab3647cdba4.epub` (Iron English opening repertoire)
-- Unit tests: `tests/test_book_to_study.py` (15 tests, 14 passing)
-- Lichess Study ID: `zz3KrBvL`
+- Test EPUB: place under `samples/` in the book-parser package (e.g. Iron English sample)
+- Unit tests: `standalone/chess-book-parser/tests/test_book_to_study.py` (and related)
+- Lichess Study ID: `zz3KrBvL` (example)
 
 ## Commands
 ```bash
-# Run tests
-PYTHONPATH=$PYTHONPATH:$(pwd) pytest tests/test_book_to_study.py -v
+cd standalone/chess-book-parser   # or ~/git/chess-book-parser
+export PYTHONPATH=src
+pytest tests/test_book_to_study.py -v
 
 # Dry run (parse only)
-python -m chess_transfer.book_to_study --epub chess_transfer/annas-arch-dab3647cdba4.epub --dry-run
-
-# Full run with clear
-python -m chess_transfer.book_to_study --epub chess_transfer/annas-arch-dab3647cdba4.epub --clear
+python run_book_to_study.py --epub path/to/book.epub --dry-run
 ```
 
 ## Environment

@@ -10,7 +10,7 @@ Chess.com to Lichess sync and analysis system. Automatically imports games from 
 
 ### Testing
 ```bash
-export PYTHONPATH=$PYTHONPATH:$(pwd)
+export PYTHONPATH=$PYTHONPATH:$(pwd)/src
 pytest --cov=src --cov-report=term-missing tests/
 ```
 
@@ -41,6 +41,8 @@ pip install -r requirements.txt
    - Runs Stockfish engine analysis to find "crucial moments" (blunders/missed wins)
    - Gets LLM explanations via Google Gemini
    - Generates markdown reports with SVG board diagrams in `analysis/`
+
+EPUB/book → PGN tooling was split out to `standalone/chess-book-parser/` (copy that folder to a new repo if needed).
 
 ### Key Modules
 

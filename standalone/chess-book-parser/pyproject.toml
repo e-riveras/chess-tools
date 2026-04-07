@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chess-book-parser"
+version = "0.1.0"
+description = "Convert chess books (EPUB/PDF) to annotated PGN"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-chess>=1.9.4",
+    "beautifulsoup4>=4.11.0",
+    "ebooklib>=0.18",
+    "PyPDF2>=3.0.0",
+]
+
+[project.optional-dependencies]
+lichess = ["berserk>=0.14.0"]
+dev = ["pytest>=7.0.0", "pytest-cov>=4.0.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

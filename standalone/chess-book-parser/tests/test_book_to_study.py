@@ -1,4 +1,4 @@
-"""Tests for chess_transfer/book_to_study.py"""
+"""Tests for chess_book_parser.converter."""
 
 import tempfile
 from pathlib import Path
@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from chess_tools.study.converter import (
+from chess_book_parser.converter import (
     BookParser,
     NotationParser,
 )

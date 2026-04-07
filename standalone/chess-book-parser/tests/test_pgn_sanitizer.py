@@ -1,5 +1,5 @@
 import unittest
-from chess_tools.study.parsers.pgn_sanitizer import PGNSanitizer
+from chess_book_parser.parsers.pgn_sanitizer import PGNSanitizer
 
 class TestPGNSanitizer(unittest.TestCase):
     def test_sanitize_single_dot(self):

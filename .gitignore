@@ -11,6 +11,13 @@ htmlcov/
 *.log
 samples/
 
+# Book conversion (see standalone/chess-book-parser/)
+books/*.epub
+/*_annotated.pgn
+logical_chess_annotated.pgn
+iron_english_annotated.pgn
+The Iron English.pgn
+
 # Generated analysis outputs (committed by CI, not tracked locally)
 /analysis/
 /docs/analysis/history.json

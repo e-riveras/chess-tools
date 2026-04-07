@@ -1,12 +1,9 @@
 """
-chess_transfer/book_to_study.py
-
-Extends chess_transfer to convert chess books to Lichess studies.
-Integrates with existing transfer infrastructure.
+Convert chess books to Lichess studies (berserk API).
 
 Usage:
-    python -m chess_transfer.book_to_study --pdf book.pdf --study-id xyz123
-    python -m chess_transfer.book_to_study --epub book.epub --study-id xyz123
+    python book_to_study_integrated.py --pdf book.pdf --study-id xyz123
+    python book_to_study_integrated.py --epub book.epub --study-id xyz123
 """
 
 import argparse
@@ -17,7 +14,7 @@ import json
 
 import berserk
 
-from chess_tools.study.converter import BookParser, NotationParser
+from chess_book_parser.converter import BookParser, NotationParser
 
 
 class LichessStudyUploader:
@@ -108,7 +105,7 @@ def main():
         print("\nSetup:")
         print("1. Create study at https://lichess.org/study")
         print("2. Copy study ID from URL")
-        print("3. Run: python book_to_study.py --study-id YOUR_ID --save-study")
+        print("3. Run: python book_to_study_integrated.py --study-id YOUR_ID --save-study")
         return
     
     # Get API token (from args or env)
