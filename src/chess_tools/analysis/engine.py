@@ -6,6 +6,7 @@ import urllib.parse
 from dataclasses import asdict
 from typing import Optional, List, Dict, Tuple, Any
 from chess_tools.lib.models import CrucialMoment
+from chess_tools.analysis.clamp import classify_clamp
 from tactics import TacticClassifier
 
 logger = logging.getLogger("chess_transfer")
@@ -679,6 +680,16 @@ class ChessAnalyzer:
             except Exception as _tc_err:
                 logger.debug(f"TacticClassifier error: {_tc_err}")
 
+            clamp_tags: List[str] = []
+            if is_blunder:
+                clamp_tags = classify_clamp(
+                    board_after.copy(),
+                    refutation_pv,
+                    tactic_type,
+                    mate_in,
+                    mover_color,
+                )
+
             board_description = describe_board(board_before, mover_color)
 
             # Tactical alert (blunders only)
@@ -770,6 +781,7 @@ class ChessAnalyzer:
                 fen_after=board_after.fen() if is_blunder else None,
                 refutation_move_uci=refutation_move_uci if is_blunder else None,
                 tactic_events=tactic_events_raw,
+                clamp_tags=clamp_tags,
             )
 
             moments.append(moment)

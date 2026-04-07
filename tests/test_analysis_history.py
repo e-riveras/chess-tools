@@ -9,6 +9,7 @@ from chess_tools.analysis.history import (
     update_analysis_history,
     save_analysis_history,
     format_history_for_prompt,
+    clamp_stats_rolling,
     MAX_RECENT_GAMES,
     _default_history,
 )
@@ -29,6 +30,7 @@ def _make_moment(tactic_type="hanging_piece", moment_type="blunder", **kwargs):
         hero_color=chess.WHITE,
         tactic_type=tactic_type,
         moment_type=moment_type,
+        clamp_tags=[],
     )
     defaults.update(kwargs)
     return CrucialMoment(**defaults)
@@ -76,6 +78,16 @@ class TestUpdateAnalysisHistory:
         assert result["tactic_counts"]["hanging_piece"] == 1
         assert result["tactic_counts"]["fork"] == 1
         assert len(result["games"]) == 1
+        assert result["games"][0]["blunder_clamps"] == [[]]
+
+    def test_blunder_clamps_preserved(self):
+        history = _default_history()
+        moments = [
+            _make_moment("hanging_piece", "blunder", clamp_tags=["L", "A"]),
+        ]
+        metadata = {"Date": "2026.02.26", "White": "me", "Black": "opp", "Result": "0-1"}
+        result = update_analysis_history(history, moments, metadata)
+        assert result["games"][0]["blunder_clamps"] == [["L", "A"]]
 
     def test_caps_at_max_games(self):
         history = _default_history()
@@ -93,6 +105,39 @@ class TestUpdateAnalysisHistory:
         metadata = {"Date": "x", "White": "a", "Black": "b", "Result": "*"}
         result = update_analysis_history(history, moments, metadata)
         assert result["tactic_counts"]["fork"] == 4
+
+
+class TestClampStatsRolling:
+    def test_counts_tags_across_blunders(self):
+        history = {
+            "games": [
+                {"blunder_count": 2, "blunder_clamps": [["C"], ["L", "A"]]},
+                {"blunder_count": 1, "blunder_clamps": [["P"]]},
+            ],
+            "tactic_counts": {},
+            "total_blunders": 0,
+            "total_missed": 0,
+        }
+        s = clamp_stats_rolling(history, max_games=20)
+        assert s["total_blunders"] == 3
+        assert s["by_letter"]["C"] == 1
+        assert s["by_letter"]["L"] == 1
+        assert s["by_letter"]["A"] == 1
+        assert s["by_letter"]["P"] == 1
+        assert s["total_tag_occurrences"] == 4
+
+    def test_legacy_game_without_blunder_clamps(self):
+        history = {
+            "games": [
+                {"blunder_count": 2, "missed_count": 0},
+            ],
+            "tactic_counts": {},
+            "total_blunders": 0,
+            "total_missed": 0,
+        }
+        s = clamp_stats_rolling(history, max_games=20)
+        assert s["total_blunders"] == 2
+        assert s["total_tag_occurrences"] == 0
 
 
 class TestSaveAnalysisHistory:

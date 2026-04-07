@@ -8,10 +8,104 @@ import chess
 import chess.svg
 from chess_tools.lib.models import CrucialMoment
 from chess_tools.analysis.engine import TACTIC_LABELS, TACTIC_COLORS, MOMENT_TYPE_LABELS, SEVERITY_COLORS, MATE_SCORE_CP
+from chess_tools.analysis.clamp import CLAMP_DESCRIPTIONS, CLAMP_NAMES, CLAMP_ORDER, clamp_summary
+from chess_tools.lib.utils import get_repo_root
+from chess_tools.analysis.history import load_analysis_history, clamp_stats_rolling, MAX_RECENT_GAMES
 
 logger = logging.getLogger("chess_transfer")
 
-def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, str], output_dir: str = "analysis"):
+CLAMP_STAT_COLORS = {
+    "C": "#c0392b",
+    "L": "#e67e22",
+    "A": "#2980b9",
+    "M": "#8e44ad",
+    "P": "#27ae60",
+}
+
+
+def _resolve_history_path(history_path: Optional[str]) -> str:
+    if history_path:
+        return history_path
+    return str(get_repo_root() / "docs" / "analysis" / "history.json")
+
+
+def format_clamp_stats_markdown(stats: Dict[str, Any]) -> str:
+    """Markdown block for rolling CLAMP statistics."""
+    n = stats["max_games"]
+    wg = stats["window_games"]
+    tb = stats["total_blunders"]
+    tot_tags = stats["total_tag_occurrences"]
+    btag = stats["blunders_with_any_clamp_tag"]
+    lines = [
+        f"## Rolling CLAMP (last {n} games)\n",
+        f"_Window: **{wg}** game(s) on file, **{tb}** blunder(s). "
+        f"Tags recorded on **{btag}** blunder(s). "
+        f"(One blunder can have multiple CLAMP tags.)_\n",
+    ]
+    if tb == 0:
+        lines.append("\n_No blunders in the rolling window yet — run more analyses to populate this._\n")
+        return "".join(lines)
+    lines.append("\n| Letter | Category | Count | Share of tag hits |\n")
+    lines.append("|--------|----------|-------|-------------------|\n")
+    by_letter = stats["by_letter"]
+    for letter in CLAMP_ORDER:
+        c = by_letter.get(letter, 0)
+        pct = (100.0 * c / tot_tags) if tot_tags else 0.0
+        name = CLAMP_NAMES[letter]
+        lines.append(f"| **{letter}** | {name} | {c} | {pct:.0f}% |\n")
+    lines.append("\n")
+    return "".join(lines)
+
+
+def format_clamp_stats_html(stats: Dict[str, Any]) -> str:
+    """HTML block for rolling CLAMP statistics."""
+    n = stats["max_games"]
+    wg = stats["window_games"]
+    tb = stats["total_blunders"]
+    tot_tags = stats["total_tag_occurrences"]
+    btag = stats["blunders_with_any_clamp_tag"]
+    parts = [
+        '    <div class="clamp-stats-section">\n',
+        f'    <h2>Rolling CLAMP (last {n} games)</h2>\n',
+        f'    <p class="clamp-stats-meta">Window: <strong>{wg}</strong> game(s) on file, '
+        f'<strong>{tb}</strong> blunder(s). Tags on <strong>{btag}</strong> blunder(s). '
+        f'One blunder can count in multiple categories.</p>\n',
+    ]
+    if tb == 0:
+        parts.append(
+            '    <p class="clamp-stats-empty">No blunders in the rolling window yet.</p>\n'
+            '    </div>\n'
+        )
+        return "".join(parts)
+    by_letter = stats["by_letter"]
+    mx = max(by_letter.values()) or 1
+    parts.append('    <div class="clamp-stats-bars">\n')
+    for letter in CLAMP_ORDER:
+        c = by_letter.get(letter, 0)
+        pct = min(100.0, 100.0 * c / mx) if mx else 0.0
+        share = (100.0 * c / tot_tags) if tot_tags else 0.0
+        col = CLAMP_STAT_COLORS.get(letter, "#666")
+        name = CLAMP_NAMES[letter]
+        parts.append(
+            f'      <div class="clamp-stats-row">'
+            f'<span class="clamp-stats-letter" style="color:{html.escape(col)}">{html.escape(letter)}</span>'
+            f'<span class="clamp-stats-name">{html.escape(name)}</span>'
+            f'<div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" '
+            f'style="width:{pct:.1f}%;background:{html.escape(col)}"></div></div>'
+            f'<span class="clamp-stats-num">{c}</span>'
+            f'<span class="clamp-stats-pct">{share:.0f}% of tags</span>'
+            f'</div>\n'
+        )
+    parts.append('    </div>\n    </div>\n')
+    return "".join(parts)
+
+
+def generate_markdown_report(
+    moments: List[CrucialMoment],
+    metadata: Dict[str, str],
+    output_dir: str = "analysis",
+    history_path: Optional[str] = None,
+):
     """
     Generates a Markdown report from the analyzed moments.
 
@@ -19,6 +113,7 @@ def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, s
         moments (List[CrucialMoment]): The list of analyzed moments.
         metadata (Dict[str, str]): Game metadata (White, Black, Date, etc.).
         output_dir (str): Directory to save the report and images.
+        history_path: Path to analysis history JSON for rolling CLAMP stats (default: repo docs path).
     """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -35,10 +130,15 @@ def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, s
     filename = f"{safe_date}_{safe_white}_vs_{safe_black}.md"
     output_path = os.path.join(output_dir, filename)
 
+    hp = _resolve_history_path(history_path)
+    history = load_analysis_history(hp)
+    stats = clamp_stats_rolling(history, MAX_RECENT_GAMES)
+
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(f"# Analysis: {metadata['White']} vs {metadata['Black']}\n\n")
         f.write(f"**Date:** {metadata['Date']} | **Event:** {metadata['Event']} | **Site:** {metadata['Site']}\n\n")
-        
+        f.write(format_clamp_stats_markdown(stats))
+
         if not moments:
             f.write("No crucial moments (blunders/missed wins) detected for the hero in this game.\n")
             logger.info(f"Report generated (empty): {output_path}")
@@ -72,6 +172,11 @@ def generate_markdown_report(moments: List[CrucialMoment], metadata: Dict[str, s
 
             f.write(f"## Moment {i} — {type_label} [{severity_label}]\n\n")
             f.write(f"**Tactic:** {tactic_label}\n\n")
+            if not is_missed and moment.clamp_tags:
+                f.write(f"- **CLAMP:** {clamp_summary(moment.clamp_tags)}\n")
+                for letter in moment.clamp_tags:
+                    f.write(f"  - **{letter}** ({CLAMP_NAMES[letter]}): {CLAMP_DESCRIPTIONS[letter]}\n")
+                f.write("\n")
             f.write(f"![Position]({relative_image_path})\n\n")
             f.write(f"**FEN:** `{moment.fen}`\n\n")
 
@@ -316,6 +421,66 @@ _HTML_STYLE = """
         color: var(--muted-color);
         margin: 14px 0 8px;
         font-weight: 600;
+    }
+    .clamp-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+        color: var(--muted-color);
+    }
+    .clamp-bar .clamp-label { font-weight: 700; color: #e0c36a; letter-spacing: 0.06em; }
+    .clamp-pill {
+        display: inline-block;
+        min-width: 1.6em;
+        text-align: center;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #3a3530;
+        color: #f0e6d2;
+        font-weight: 700;
+        cursor: default;
+        border: 1px solid #5c5346;
+    }
+    .clamp-stats-section {
+        background: #252525;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 28px;
+        border: 1px solid #333;
+    }
+    .clamp-stats-section h2 { margin-bottom: 10px; font-size: 1.15rem; }
+    .clamp-stats-meta { font-size: 0.88rem; color: var(--muted-color); margin-bottom: 16px; line-height: 1.5; }
+    .clamp-stats-empty { color: var(--muted-color); font-style: italic; margin: 0; }
+    .clamp-stats-bars { display: flex; flex-direction: column; gap: 10px; }
+    .clamp-stats-row {
+        display: grid;
+        grid-template-columns: 1.5rem 1fr minmax(72px, 1fr) 2rem 5rem;
+        align-items: center;
+        gap: 8px 12px;
+        font-size: 0.84rem;
+    }
+    .clamp-stats-bar-wrap {
+        height: 11px;
+        background: #1a1a1a;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #3a3a3a;
+    }
+    .clamp-stats-bar-fill { height: 100%; border-radius: 4px; min-width: 2px; transition: width 0.2s; }
+    .clamp-stats-letter { font-weight: 800; font-size: 1rem; }
+    .clamp-stats-name { color: var(--muted-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .clamp-stats-num { text-align: right; font-weight: 600; color: var(--text-color); }
+    .clamp-stats-pct { color: #888; font-size: 0.78rem; text-align: right; }
+    @media (max-width: 540px) {
+        .clamp-stats-row {
+            grid-template-columns: 1.5rem 1fr;
+            grid-template-rows: auto auto;
+        }
+        .clamp-stats-row .clamp-stats-bar-wrap { grid-column: 1 / -1; }
+        .clamp-stats-row .clamp-stats-num, .clamp-stats-row .clamp-stats-pct { grid-column: 2; }
     }
 
     /* Index page styles */
@@ -605,7 +770,8 @@ def generate_eval_chart_svg(move_evals: List[Dict[str, Any]],
 def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
                          output_dir: str = "docs/analysis",
                          move_evals: Optional[List[Dict[str, Any]]] = None,
-                         lichess_url: Optional[str] = None):
+                         lichess_url: Optional[str] = None,
+                         history_path: Optional[str] = None):
     """
     Generates a self-contained HTML report with inline SVGs.
 
@@ -615,9 +781,14 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
         output_dir: Directory to save the HTML report.
         move_evals: Per-half-move eval list for chart/PGN annotation.
         lichess_url: Optional Lichess game URL for deep links.
+        history_path: Path to analysis history JSON for rolling CLAMP stats (default: repo docs path).
     """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+
+    hp = _resolve_history_path(history_path)
+    history = load_analysis_history(hp)
+    clamp_stats = clamp_stats_rolling(history, MAX_RECENT_GAMES)
 
     safe_date = metadata['Date'].replace('.', '-')
     safe_white = "".join(c for c in metadata['White'] if c.isalnum() or c in (' ', '_')).replace(' ', '_')
@@ -684,6 +855,8 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
             parts.append(f'        {chart_svg}\n')
             parts.append('    </div>\n')
 
+    parts.append(format_clamp_stats_html(clamp_stats))
+
     if not moments:
         parts.append('    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>\n')
     else:
@@ -715,6 +888,15 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
                          f' <span class="severity-pill" style="background:{severity_color}">{severity_label}</span>'
                          f'{moment_link}</h2>\n')
             parts.append(f'        <span class="tactic-badge" style="background:{tactic_color}">{html.escape(tactic_label)}</span>\n')
+            if not is_missed and moment.clamp_tags:
+                pills = "".join(
+                    f'<span class="clamp-pill" title="{html.escape(CLAMP_NAMES[letter] + ": " + CLAMP_DESCRIPTIONS[letter])}">{html.escape(letter)}</span>'
+                    for letter in moment.clamp_tags
+                )
+                parts.append(
+                    f'        <div class="clamp-bar"><span class="clamp-label">CLAMP</span>{pills}'
+                    f'<span>({html.escape(clamp_summary(moment.clamp_tags))})</span></div>\n'
+                )
 
             if moment.svg_content:
                 parts.append(f'        <div class="board-svg">{moment.svg_content}</div>\n')

@@ -4,6 +4,7 @@ import os
 import logging
 from typing import Dict, List, Any, Optional
 from chess_tools.lib.models import CrucialMoment
+from chess_tools.analysis.clamp import CLAMP_ORDER
 
 logger = logging.getLogger("chess_transfer")
 
@@ -16,6 +17,43 @@ def _default_history() -> dict:
         "tactic_counts": {},
         "total_blunders": 0,
         "total_missed": 0,
+    }
+
+
+def clamp_stats_rolling(history: dict, max_games: int = MAX_RECENT_GAMES) -> Dict[str, Any]:
+    """
+    Aggregate CLAMP tag counts across blunders in the last `max_games` stored games.
+
+    Each tag on a blunder increments that letter once (a blunder can contribute to
+    multiple letters). Games before ``blunder_clamps`` was added are treated as
+    empty tags per blunder (same length as ``blunder_count``).
+    """
+    games = history.get("games", [])
+    window = games[-max_games:] if len(games) > max_games else list(games)
+    by_letter: Dict[str, int] = {letter: 0 for letter in CLAMP_ORDER}
+    total_blunders = 0
+    blunders_with_any_tag = 0
+
+    for g in window:
+        bc = g.get("blunder_clamps")
+        if bc is None:
+            bc = [[] for _ in range(int(g.get("blunder_count", 0) or 0))]
+        for tags in bc:
+            total_blunders += 1
+            if tags:
+                blunders_with_any_tag += 1
+            for t in tags:
+                if t in by_letter:
+                    by_letter[t] += 1
+
+    total_tag_occurrences = sum(by_letter.values())
+    return {
+        "window_games": len(window),
+        "max_games": max_games,
+        "total_blunders": total_blunders,
+        "blunders_with_any_clamp_tag": blunders_with_any_tag,
+        "by_letter": by_letter,
+        "total_tag_occurrences": total_tag_occurrences,
     }
 
 
@@ -52,6 +90,7 @@ def update_analysis_history(history: dict, moments: List[CrucialMoment],
         "blunder_count": len(blunders),
         "missed_count": len(missed),
         "tactics": [],
+        "blunder_clamps": [list(m.clamp_tags) for m in blunders],
     }
 
     for m in moments:

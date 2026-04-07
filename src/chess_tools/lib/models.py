@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import List, Optional
 import chess
 
 @dataclass
@@ -49,6 +49,7 @@ class CrucialMoment:
     fen_after: Optional[str] = None           # FEN after the blunder move (for "Punish" drill mode)
     refutation_move_uci: Optional[str] = None # First move of refutation PV as UCI
     tactic_events: list = field(default_factory=list)  # TacticEvent dicts from TacticClassifier
+    clamp_tags: List[str] = field(default_factory=list)  # CLAMP letters for blunders (C,L,A,M,P)
 
     def to_drill_dict(self, game_id: str, game_date: str) -> dict:
         """Return a JSON-serializable dict for the drills system (excludes svg_content)."""
@@ -80,4 +81,5 @@ class CrucialMoment:
             "board_description": self.board_description,
             "pv_line": self.pv_line,
             "tactic_events": self.tactic_events,
+            "clamp_tags": self.clamp_tags,
         }
