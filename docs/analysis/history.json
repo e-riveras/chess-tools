@@ -1,140 +1,46 @@
 {
   "games": [
     {
-      "date": "2026.03.29",
-      "white": "sio382",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 2,
-      "missed_count": 0,
-      "tactics": [
-        "pin",
-        "discovered_attack"
-      ]
-    },
-    {
-      "date": "2026.03.29",
-      "white": "MOHAMEDSALEH19820",
-      "black": "erivera90",
-      "result": "1/2-1/2",
-      "blunder_count": 0,
-      "missed_count": 5,
-      "tactics": [
-        "hanging_piece",
-        "positional",
-        "positional",
-        "positional",
-        "positional"
-      ]
-    },
-    {
-      "date": "2026.03.29",
-      "white": "erivera90",
-      "black": "thegrenth",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "losing_exchange"
-      ]
-    },
-    {
-      "date": "2026.03.30",
-      "white": "erivera90",
-      "black": "Moby154",
-      "result": "1-0",
-      "blunder_count": 3,
-      "missed_count": 2,
-      "tactics": [
-        "losing_exchange",
-        "pin",
-        "positional",
-        "hanging_piece",
-        "positional"
-      ]
-    },
-    {
-      "date": "2026.03.30",
-      "white": "OhhhBaxter",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 7,
-      "tactics": [
-        "positional",
-        "discovered_attack",
-        "hanging_piece",
-        "hanging_piece",
-        "pin",
-        "back_rank_weakness",
-        "back_rank_mate",
-        "positional"
-      ]
-    },
-    {
-      "date": "2026.03.31",
-      "white": "Terjefr",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 0,
-      "missed_count": 1,
-      "tactics": [
-        "trapped_piece"
-      ]
-    },
-    {
-      "date": "2026.03.31",
-      "white": "erivera90",
-      "black": "Gerrido",
-      "result": "1-0",
-      "blunder_count": 1,
-      "missed_count": 3,
-      "tactics": [
-        "pin",
-        "losing_exchange",
-        "pin",
-        "losing_exchange"
-      ]
-    },
-    {
-      "date": "2026.03.31",
-      "white": "narelloc",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 1,
-      "tactics": [
-        "discovered_attack",
-        "pin"
-      ]
-    },
-    {
-      "date": "2026.03.31",
-      "white": "b00thy",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 4,
-      "missed_count": 0,
-      "tactics": [
-        "pin",
-        "fork",
-        "positional",
-        "hanging_piece"
-      ]
-    },
-    {
       "date": "2026.04.02",
       "white": "erivera90",
       "black": "Makar8avs",
       "result": "1-0",
       "blunder_count": 2,
-      "missed_count": 3,
+      "missed_count": 2,
       "tactics": [
         "pin",
-        "skewer",
         "back_rank_mate",
         "back_rank_weakness",
         "skewer"
+      ],
+      "blunder_clamps": [
+        [
+          "A"
+        ],
+        [
+          "C",
+          "A"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.02",
+      "white": "erivera90",
+      "black": "T_TIMEE",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "pin",
+        "skewer"
+      ],
+      "blunder_clamps": [
+        [
+          "A"
+        ],
+        [
+          "A"
+        ]
       ]
     },
     {
@@ -144,7 +50,8 @@
       "result": "0-1",
       "blunder_count": 0,
       "missed_count": 0,
-      "tactics": []
+      "tactics": [],
+      "blunder_clamps": []
     },
     {
       "date": "2026.04.02",
@@ -156,6 +63,11 @@
       "tactics": [
         "hanging_pawn",
         "forced_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ]
       ]
     },
     {
@@ -168,6 +80,41 @@
       "tactics": [
         "hanging_piece",
         "hanging_piece"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L",
+          "P"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.03",
+      "white": "100A10D11",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 3,
+      "missed_count": 0,
+      "tactics": [
+        "pin",
+        "pin",
+        "pin"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A"
+        ],
+        [
+          "A"
+        ],
+        [
+          "A",
+          "P"
+        ]
       ]
     },
     {
@@ -175,27 +122,109 @@
       "white": "erivera90",
       "black": "Ranjith_0531",
       "result": "1/2-1/2",
-      "blunder_count": 3,
+      "blunder_count": 2,
       "missed_count": 3,
       "tactics": [
         "hanging_pawn",
         "skewer",
         "hanging_pawn",
-        "positional",
         "hanging_piece",
         "back_rank_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "L",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ]
       ]
+    },
+    {
+      "date": "2026.04.04",
+      "white": "erivera90",
+      "black": "NolanBadAtChess",
+      "result": "1-0",
+      "blunder_count": 0,
+      "missed_count": 1,
+      "tactics": [
+        "discovered_attack"
+      ],
+      "blunder_clamps": []
+    },
+    {
+      "date": "2026.04.04",
+      "white": "Obscuraz",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 3,
+      "missed_count": 2,
+      "tactics": [
+        "fork",
+        "pin",
+        "pin",
+        "fork",
+        "back_rank_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "A"
+        ],
+        [
+          "A"
+        ],
+        [
+          "C",
+          "A"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.04",
+      "white": "erivera90",
+      "black": "new-user-777",
+      "result": "0-1",
+      "blunder_count": 1,
+      "missed_count": 2,
+      "tactics": [
+        "hanging_piece",
+        "skewer",
+        "hanging_piece"
+      ],
+      "blunder_clamps": [
+        [
+          "L",
+          "P"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.04",
+      "white": "BadShaH7575",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 1,
+      "tactics": [
+        "pin"
+      ],
+      "blunder_clamps": []
     },
     {
       "date": "2026.04.04",
       "white": "erivera90",
       "black": "limgui",
       "result": "0-1",
-      "blunder_count": 2,
+      "blunder_count": 1,
       "missed_count": 0,
       "tactics": [
-        "hanging_piece",
         "positional"
+      ],
+      "blunder_clamps": [
+        []
       ]
     },
     {
@@ -207,6 +236,32 @@
       "missed_count": 0,
       "tactics": [
         "back_rank_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A",
+          "P"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.05",
+      "white": "erivera90",
+      "black": "u250624",
+      "result": "1/2-1/2",
+      "blunder_count": 1,
+      "missed_count": 3,
+      "tactics": [
+        "hanging_piece",
+        "positional",
+        "positional",
+        "positional"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ]
       ]
     },
     {
@@ -220,6 +275,18 @@
         "fork",
         "back_rank_weakness",
         "skewer"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ]
       ]
     },
     {
@@ -227,16 +294,77 @@
       "white": "Lucide75",
       "black": "erivera90",
       "result": "1-0",
-      "blunder_count": 6,
-      "missed_count": 1,
+      "blunder_count": 5,
+      "missed_count": 2,
       "tactics": [
-        "trapped_piece",
-        "pin",
+        "positional",
         "back_rank_mate",
         "pin",
-        "pin",
+        "positional",
+        "hanging_pawn",
         "hanging_pawn",
         "positional"
+      ],
+      "blunder_clamps": [
+        [],
+        [
+          "C",
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ],
+        [
+          "P"
+        ],
+        [
+          "P"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.06",
+      "white": "Mxlon",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "losing_exchange"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L"
+        ]
+      ]
+    },
+    {
+      "date": "2026.04.06",
+      "white": "johnnes-b",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_pawn",
+        "hanging_pawn"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "L"
+        ],
+        [
+          "C",
+          "L"
+        ]
       ]
     },
     {
@@ -250,6 +378,16 @@
         "hanging_piece",
         "fork",
         "pin"
+      ],
+      "blunder_clamps": [
+        [
+          "A",
+          "P"
+        ],
+        [
+          "A",
+          "P"
+        ]
       ]
     },
     {
@@ -257,7 +395,7 @@
       "white": "erivera90",
       "black": "KaykeS1",
       "result": "0-1",
-      "blunder_count": 9,
+      "blunder_count": 10,
       "missed_count": 2,
       "tactics": [
         "hanging_piece",
@@ -265,30 +403,74 @@
         "losing_exchange",
         "positional",
         "pin",
+        "pin",
         "forced_mate",
         "pin",
         "hanging_pawn",
         "forced_mate",
         "discovered_attack",
         "forced_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L",
+          "P"
+        ],
+        [
+          "P"
+        ],
+        [
+          "A",
+          "P"
+        ],
+        [
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "L",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ],
+        [
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "A",
+          "P"
+        ]
       ]
     }
   ],
   "tactic_counts": {
-    "skewer": 11,
-    "trapped_piece": 6,
-    "pin": 30,
+    "fork": 12,
+    "positional": 22,
+    "pin": 23,
+    "hanging_piece": 16,
+    "back_rank_mate": 7,
+    "trapped_piece": 3,
+    "discovered_attack": 10,
+    "skewer": 7,
     "losing_exchange": 7,
-    "hanging_pawn": 17,
-    "hanging_piece": 13,
-    "fork": 11,
-    "positional": 28,
-    "forced_mate": 9,
-    "discovered_attack": 8,
-    "back_rank_mate": 10,
-    "overloaded_defender": 1,
-    "back_rank_weakness": 3
+    "back_rank_weakness": 3,
+    "hanging_pawn": 9,
+    "forced_mate": 4
   },
-  "total_blunders": 90,
-  "total_missed": 64
+  "total_blunders": 72,
+  "total_missed": 51
 }

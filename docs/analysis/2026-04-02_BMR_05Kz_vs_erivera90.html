@@ -57,23 +57,6 @@
         border-radius: 0 6px 6px 0;
         font-weight: bold;
     }
-    .explanation {
-        border-top: 1px solid #3a3a3a;
-        padding-top: 12px;
-        margin-top: 12px;
-        line-height: 1.6;
-    }
-    .explanation h3 { font-size: 1rem; margin-bottom: 8px; color: var(--accent-color); }
-    .summary-section {
-        background: var(--card-bg);
-        border-radius: 10px;
-        padding: 24px;
-        margin-top: 8px;
-        line-height: 1.7;
-    }
-    .summary-section h2 { margin-bottom: 12px; }
-    .summary-section ul { padding-left: 20px; margin: 8px 0; }
-    .summary-section li { margin-bottom: 4px; }
     .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
     .severity-pill {
         display: inline-block;
@@ -96,15 +79,6 @@
         color: #fff;
         margin-bottom: 12px;
     }
-    .best-line {
-        background: rgba(0, 102, 221, 0.15);
-        border-left: 4px solid #0066dd;
-        padding: 10px 14px;
-        margin-bottom: 12px;
-        border-radius: 0 6px 6px 0;
-        font-style: italic;
-        color: var(--accent-color);
-    }
     .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
     .lichess-btn {
         display: inline-flex;
@@ -120,16 +94,119 @@
     }
     .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
     .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
-    .hero-move { color: #4a9eff; font-weight: bold; }
-    .opp-move { color: #ff6b6b; }
-    .move-legend {
-        display: flex;
-        gap: 16px;
+    /* Line player */
+    .line-player {
+        background: rgba(74, 158, 255, 0.08);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 0 6px 6px 0;
+        padding: 14px;
         margin-bottom: 16px;
+    }
+    .line-player .lp-stage { display: flex; justify-content: center; }
+    .line-player .lp-stage svg { max-width: 360px; width: 100%; height: auto; }
+    .line-player .lp-caption {
+        text-align: center;
+        font-family: monospace;
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        margin: 8px 0 10px;
+        min-height: 1.2em;
+    }
+    .line-player .lp-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .line-player .lp-btn {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid #3a3a3a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
+    .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .line-player .lp-next { transform: none; }
+    .line-player .lp-prev { transform: rotate(180deg); }
+    .line-player .lp-counter {
         font-size: 0.85rem;
         color: var(--muted-color);
+        margin-left: 8px;
+        min-width: 40px;
+        text-align: center;
     }
-    .move-legend span { font-weight: bold; }
+    .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
+    .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
+    .line-player-heading {
+        font-size: 0.88rem;
+        color: var(--muted-color);
+        margin: 14px 0 8px;
+        font-weight: 600;
+    }
+    .clamp-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+        color: var(--muted-color);
+    }
+    .clamp-bar .clamp-label { font-weight: 700; color: #e0c36a; letter-spacing: 0.06em; }
+    .clamp-pill {
+        display: inline-block;
+        min-width: 1.6em;
+        text-align: center;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #3a3530;
+        color: #f0e6d2;
+        font-weight: 700;
+        cursor: default;
+        border: 1px solid #5c5346;
+    }
+    .clamp-stats-section {
+        background: #252525;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 28px;
+        border: 1px solid #333;
+    }
+    .clamp-stats-section h2 { margin-bottom: 10px; font-size: 1.15rem; }
+    .clamp-stats-meta { font-size: 0.88rem; color: var(--muted-color); margin-bottom: 16px; line-height: 1.5; }
+    .clamp-stats-empty { color: var(--muted-color); font-style: italic; margin: 0; }
+    .clamp-stats-bars { display: flex; flex-direction: column; gap: 10px; }
+    .clamp-stats-row {
+        display: grid;
+        grid-template-columns: 1.5rem 1fr minmax(72px, 1fr) 2rem 5rem;
+        align-items: center;
+        gap: 8px 12px;
+        font-size: 0.84rem;
+    }
+    .clamp-stats-bar-wrap {
+        height: 11px;
+        background: #1a1a1a;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #3a3a3a;
+    }
+    .clamp-stats-bar-fill { height: 100%; border-radius: 4px; min-width: 2px; transition: width 0.2s; }
+    .clamp-stats-letter { font-weight: 800; font-size: 1rem; }
+    .clamp-stats-name { color: var(--muted-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .clamp-stats-num { text-align: right; font-weight: 600; color: var(--text-color); }
+    .clamp-stats-pct { color: #888; font-size: 0.78rem; text-align: right; }
+    @media (max-width: 540px) {
+        .clamp-stats-row {
+            grid-template-columns: 1.5rem 1fr;
+            grid-template-rows: auto auto;
+        }
+        .clamp-stats-row .clamp-stats-bar-wrap { grid-column: 1 / -1; }
+        .clamp-stats-row .clamp-stats-num, .clamp-stats-row .clamp-stats-pct { grid-column: 2; }
+    }
 
     /* Index page styles */
     .report-grid {
@@ -214,15 +291,14 @@
     <a href="index.html" class="back-link">&larr; Back to Index</a>
     <h1>Analysis: BMR_05Kz vs erivera90</h1>
     <div class="meta"><strong>Date:</strong> 2026.04.02 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
-    <a href="https://lichess.org/d88Inrs8" target="_blank" class="lichess-btn"><svg viewBox="0 0 50 50" width="18" height="18" style="vertical-align:middle;margin-right:6px;fill:currentColor"><path d="M25 1C11.7 1 1 11.7 1 25s10.7 24 24 24 24-10.7 24-24S38.3 1 25 1zm0 4c5 0 9.6 1.8 13.2 4.9L25 23.1 11.8 9.9C15.4 6.8 20 5 25 5zm-15 8.7L23.2 27 10 40.3C6.8 36.6 5 32 5 27c0-5 1.8-9.6 5-13.3zM25 45c-5 0-9.6-1.8-13.2-5L25 26.9l13.2 13.2C34.6 43.2 30 45 25 45zm15-8.7L26.8 23 40 9.7c3.1 3.7 5 8.3 5 13.3 0 5-1.8 9.6-5 13.3z"/></svg>Analyze on Lichess</a>
     <h2 style="margin-bottom:12px">Evaluation</h2>
     <div style="background:#2a2a3e;border-radius:8px;padding:16px;margin-bottom:24px;overflow-x:auto;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" style="max-width:100%;height:auto;">
 <rect x="0" y="0" width="800" height="300" fill="#1a1a2e" rx="8"/>
-<path d="M45,145.0 L45.0,138.75 L53.44827586206897,138.90625 L61.896551724137936,139.0625 L70.34482758620689,139.21875 L78.79310344827587,141.09375 L87.24137931034483,136.875 L95.6896551724138,136.5625 L104.13793103448276,138.4375 L112.58620689655173,140.46875 L121.03448275862068,140.0 L129.48275862068965,145.0 L137.93103448275863,145.0 L146.3793103448276,143.28125 L154.82758620689657,137.8125 L163.27586206896552,140.0 L171.72413793103448,123.4375 L180.17241379310346,120.15625 L188.6206896551724,119.375 L197.06896551724137,145.0 L205.51724137931035,145.0 L213.9655172413793,145.0 L222.41379310344828,145.0 L230.86206896551727,145.0 L239.31034482758622,145.0 L247.75862068965517,145.0 L256.2068965517241,145.0 L264.65517241379314,145.0 L273.1034482758621,145.0 L281.55172413793105,145.0 L290.0,145.0 L298.44827586206895,145.0 L306.89655172413796,145.0 L315.3448275862069,145.0 L323.7931034482759,145.0 L332.2413793103448,145.0 L340.6896551724138,145.0 L349.13793103448273,145.0 L357.5862068965517,145.0 L366.0344827586207,145.0 L374.48275862068965,145.0 L382.9310344827586,145.0 L391.37931034482756,145.0 L399.82758620689657,145.0 L408.2758620689655,145.0 L416.72413793103453,145.0 L425.1724137931035,145.0 L433.62068965517244,145.0 L442.0689655172414,145.0 L450.51724137931035,145.0 L458.9655172413793,145.0 L467.41379310344826,145.0 L475.8620689655172,145.0 L484.3103448275862,145.0 L492.7586206896552,145.0 L501.2068965517241,145.0 L509.6551724137931,145.0 L518.1034482758621,145.0 L526.5517241379309,145.0 L535.0,145.0 L543.448275862069,145.0 L551.8965517241379,145.0 L560.344827586207,145.0 L568.7931034482759,145.0 L577.2413793103449,145.0 L585.6896551724138,145.0 L594.1379310344828,145.0 L602.5862068965517,145.0 L611.0344827586207,145.0 L619.4827586206897,145.0 L627.9310344827586,145.0 L636.3793103448276,145.0 L644.8275862068965,145.0 L653.2758620689655,145.0 L661.7241379310344,145.0 L670.1724137931034,145.0 L678.6206896551723,145.0 L687.0689655172414,145.0 L695.5172413793103,145.0 L703.9655172413793,145.0 L712.4137931034483,145.0 L720.8620689655172,145.0 L729.3103448275862,145.0 L737.7586206896551,145.0 L746.2068965517241,145.0 L754.6551724137931,145.0 L763.1034482758621,145.0 L771.551724137931,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
-<path d="M45,145.0 L45.0,145.0 L53.44827586206897,145.0 L61.896551724137936,145.0 L70.34482758620689,145.0 L78.79310344827587,145.0 L87.24137931034483,145.0 L95.6896551724138,145.0 L104.13793103448276,145.0 L112.58620689655173,145.0 L121.03448275862068,145.0 L129.48275862068965,146.40625 L137.93103448275863,145.15625 L146.3793103448276,145.0 L154.82758620689657,145.0 L163.27586206896552,145.0 L171.72413793103448,145.0 L180.17241379310346,145.0 L188.6206896551724,145.0 L197.06896551724137,153.75 L205.51724137931035,154.53125 L213.9655172413793,156.71875 L222.41379310344828,154.53125 L230.86206896551727,158.4375 L239.31034482758622,156.875 L247.75862068965517,159.6875 L256.2068965517241,153.75 L264.65517241379314,163.90625 L273.1034482758621,157.65625 L281.55172413793105,160.3125 L290.0,161.71875 L298.44827586206895,164.375 L306.89655172413796,160.0 L315.3448275862069,178.75 L323.7931034482759,172.8125 L332.2413793103448,171.40625 L340.6896551724138,172.65625 L349.13793103448273,169.0625 L357.5862068965517,169.21875 L366.0344827586207,230.78125 L374.48275862068965,229.375 L382.9310344827586,248.75 L391.37931034482756,247.8125 L399.82758620689657,248.28125 L408.2758620689655,243.59375 L416.72413793103453,247.03125 L425.1724137931035,246.5625 L433.62068965517244,247.65625 L442.0689655172414,250.46875 L450.51724137931035,252.5 L458.9655172413793,243.90625 L467.41379310344826,253.59375 L475.8620689655172,250.15625 L484.3103448275862,252.03125 L492.7586206896552,247.34375 L501.2068965517241,270.0 L509.6551724137931,238.75 L518.1034482758621,270.0 L526.5517241379309,242.96875 L535.0,247.65625 L543.448275862069,253.125 L551.8965517241379,270.0 L560.344827586207,259.375 L568.7931034482759,270.0 L577.2413793103449,261.71875 L585.6896551724138,267.03125 L594.1379310344828,240.3125 L602.5862068965517,270.0 L611.0344827586207,270.0 L619.4827586206897,270.0 L627.9310344827586,270.0 L636.3793103448276,270.0 L644.8275862068965,270.0 L653.2758620689655,270.0 L661.7241379310344,270.0 L670.1724137931034,270.0 L678.6206896551723,270.0 L687.0689655172414,270.0 L695.5172413793103,270.0 L703.9655172413793,270.0 L712.4137931034483,270.0 L720.8620689655172,270.0 L729.3103448275862,270.0 L737.7586206896551,270.0 L746.2068965517241,270.0 L754.6551724137931,270.0 L763.1034482758621,270.0 L771.551724137931,270.0 L780.0,270.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
+<path d="M45,145.0 L45.0,137.5 L53.44827586206897,137.34375 L61.896551724137936,138.125 L70.34482758620689,137.65625 L78.79310344827587,138.90625 L87.24137931034483,138.125 L95.6896551724138,136.71875 L104.13793103448276,136.40625 L112.58620689655173,135.78125 L121.03448275862068,138.90625 L129.48275862068965,145.0 L137.93103448275863,145.0 L146.3793103448276,145.0 L154.82758620689657,135.625 L163.27586206896552,139.375 L171.72413793103448,123.75 L180.17241379310346,120.0 L188.6206896551724,119.84375 L197.06896551724137,145.0 L205.51724137931035,145.0 L213.9655172413793,145.0 L222.41379310344828,145.0 L230.86206896551727,145.0 L239.31034482758622,145.0 L247.75862068965517,145.0 L256.2068965517241,145.0 L264.65517241379314,145.0 L273.1034482758621,145.0 L281.55172413793105,145.0 L290.0,145.0 L298.44827586206895,145.0 L306.89655172413796,145.0 L315.3448275862069,145.0 L323.7931034482759,145.0 L332.2413793103448,145.0 L340.6896551724138,145.0 L349.13793103448273,145.0 L357.5862068965517,145.0 L366.0344827586207,145.0 L374.48275862068965,145.0 L382.9310344827586,145.0 L391.37931034482756,145.0 L399.82758620689657,145.0 L408.2758620689655,145.0 L416.72413793103453,145.0 L425.1724137931035,145.0 L433.62068965517244,145.0 L442.0689655172414,145.0 L450.51724137931035,145.0 L458.9655172413793,145.0 L467.41379310344826,145.0 L475.8620689655172,145.0 L484.3103448275862,145.0 L492.7586206896552,145.0 L501.2068965517241,145.0 L509.6551724137931,145.0 L518.1034482758621,145.0 L526.5517241379309,145.0 L535.0,145.0 L543.448275862069,145.0 L551.8965517241379,145.0 L560.344827586207,145.0 L568.7931034482759,145.0 L577.2413793103449,145.0 L585.6896551724138,145.0 L594.1379310344828,145.0 L602.5862068965517,145.0 L611.0344827586207,145.0 L619.4827586206897,145.0 L627.9310344827586,145.0 L636.3793103448276,145.0 L644.8275862068965,145.0 L653.2758620689655,145.0 L661.7241379310344,145.0 L670.1724137931034,145.0 L678.6206896551723,145.0 L687.0689655172414,145.0 L695.5172413793103,145.0 L703.9655172413793,145.0 L712.4137931034483,145.0 L720.8620689655172,145.0 L729.3103448275862,145.0 L737.7586206896551,145.0 L746.2068965517241,145.0 L754.6551724137931,145.0 L763.1034482758621,145.0 L771.551724137931,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
+<path d="M45,145.0 L45.0,145.0 L53.44827586206897,145.0 L61.896551724137936,145.0 L70.34482758620689,145.0 L78.79310344827587,145.0 L87.24137931034483,145.0 L95.6896551724138,145.0 L104.13793103448276,145.0 L112.58620689655173,145.0 L121.03448275862068,145.0 L129.48275862068965,147.8125 L137.93103448275863,148.125 L146.3793103448276,148.4375 L154.82758620689657,145.0 L163.27586206896552,145.0 L171.72413793103448,145.0 L180.17241379310346,145.0 L188.6206896551724,145.0 L197.06896551724137,153.4375 L205.51724137931035,154.0625 L213.9655172413793,160.3125 L222.41379310344828,158.90625 L230.86206896551727,160.46875 L239.31034482758622,147.8125 L247.75862068965517,160.78125 L256.2068965517241,153.75 L264.65517241379314,165.15625 L273.1034482758621,155.46875 L281.55172413793105,161.875 L290.0,159.53125 L298.44827586206895,165.15625 L306.89655172413796,158.125 L315.3448275862069,175.15625 L323.7931034482759,168.90625 L332.2413793103448,169.0625 L340.6896551724138,170.15625 L349.13793103448273,172.03125 L357.5862068965517,170.0 L366.0344827586207,220.3125 L374.48275862068965,221.40625 L382.9310344827586,242.96875 L391.37931034482756,241.5625 L399.82758620689657,240.78125 L408.2758620689655,237.65625 L416.72413793103453,235.78125 L425.1724137931035,236.71875 L433.62068965517244,245.0 L442.0689655172414,245.15625 L450.51724137931035,250.15625 L458.9655172413793,238.59375 L467.41379310344826,247.5 L475.8620689655172,252.5 L484.3103448275862,257.34375 L492.7586206896552,251.09375 L501.2068965517241,270.0 L509.6551724137931,244.21875 L518.1034482758621,255.0 L526.5517241379309,251.25 L535.0,256.40625 L543.448275862069,256.875 L551.8965517241379,270.0 L560.344827586207,264.21875 L568.7931034482759,270.0 L577.2413793103449,263.75 L585.6896551724138,263.125 L594.1379310344828,257.65625 L602.5862068965517,270.0 L611.0344827586207,270.0 L619.4827586206897,270.0 L627.9310344827586,270.0 L636.3793103448276,270.0 L644.8275862068965,270.0 L653.2758620689655,270.0 L661.7241379310344,270.0 L670.1724137931034,270.0 L678.6206896551723,270.0 L687.0689655172414,270.0 L695.5172413793103,270.0 L703.9655172413793,270.0 L712.4137931034483,270.0 L720.8620689655172,270.0 L729.3103448275862,270.0 L737.7586206896551,270.0 L746.2068965517241,270.0 L754.6551724137931,270.0 L763.1034482758621,270.0 L771.551724137931,270.0 L780.0,270.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
 <line x1="45" y1="145.0" x2="780" y2="145.0" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
-<polyline points="45.0,138.75 53.44827586206897,138.90625 61.896551724137936,139.0625 70.34482758620689,139.21875 78.79310344827587,141.09375 87.24137931034483,136.875 95.6896551724138,136.5625 104.13793103448276,138.4375 112.58620689655173,140.46875 121.03448275862068,140.0 129.48275862068965,146.40625 137.93103448275863,145.15625 146.3793103448276,143.28125 154.82758620689657,137.8125 163.27586206896552,140.0 171.72413793103448,123.4375 180.17241379310346,120.15625 188.6206896551724,119.375 197.06896551724137,153.75 205.51724137931035,154.53125 213.9655172413793,156.71875 222.41379310344828,154.53125 230.86206896551727,158.4375 239.31034482758622,156.875 247.75862068965517,159.6875 256.2068965517241,153.75 264.65517241379314,163.90625 273.1034482758621,157.65625 281.55172413793105,160.3125 290.0,161.71875 298.44827586206895,164.375 306.89655172413796,160.0 315.3448275862069,178.75 323.7931034482759,172.8125 332.2413793103448,171.40625 340.6896551724138,172.65625 349.13793103448273,169.0625 357.5862068965517,169.21875 366.0344827586207,230.78125 374.48275862068965,229.375 382.9310344827586,248.75 391.37931034482756,247.8125 399.82758620689657,248.28125 408.2758620689655,243.59375 416.72413793103453,247.03125 425.1724137931035,246.5625 433.62068965517244,247.65625 442.0689655172414,250.46875 450.51724137931035,252.5 458.9655172413793,243.90625 467.41379310344826,253.59375 475.8620689655172,250.15625 484.3103448275862,252.03125 492.7586206896552,247.34375 501.2068965517241,270.0 509.6551724137931,238.75 518.1034482758621,270.0 526.5517241379309,242.96875 535.0,247.65625 543.448275862069,253.125 551.8965517241379,270.0 560.344827586207,259.375 568.7931034482759,270.0 577.2413793103449,261.71875 585.6896551724138,267.03125 594.1379310344828,240.3125 602.5862068965517,270.0 611.0344827586207,270.0 619.4827586206897,270.0 627.9310344827586,270.0 636.3793103448276,270.0 644.8275862068965,270.0 653.2758620689655,270.0 661.7241379310344,270.0 670.1724137931034,270.0 678.6206896551723,270.0 687.0689655172414,270.0 695.5172413793103,270.0 703.9655172413793,270.0 712.4137931034483,270.0 720.8620689655172,270.0 729.3103448275862,270.0 737.7586206896551,270.0 746.2068965517241,270.0 754.6551724137931,270.0 763.1034482758621,270.0 771.551724137931,270.0 780.0,270.0" fill="none" stroke="#4a9eff" stroke-width="2"/>
+<polyline points="45.0,137.5 53.44827586206897,137.34375 61.896551724137936,138.125 70.34482758620689,137.65625 78.79310344827587,138.90625 87.24137931034483,138.125 95.6896551724138,136.71875 104.13793103448276,136.40625 112.58620689655173,135.78125 121.03448275862068,138.90625 129.48275862068965,147.8125 137.93103448275863,148.125 146.3793103448276,148.4375 154.82758620689657,135.625 163.27586206896552,139.375 171.72413793103448,123.75 180.17241379310346,120.0 188.6206896551724,119.84375 197.06896551724137,153.4375 205.51724137931035,154.0625 213.9655172413793,160.3125 222.41379310344828,158.90625 230.86206896551727,160.46875 239.31034482758622,147.8125 247.75862068965517,160.78125 256.2068965517241,153.75 264.65517241379314,165.15625 273.1034482758621,155.46875 281.55172413793105,161.875 290.0,159.53125 298.44827586206895,165.15625 306.89655172413796,158.125 315.3448275862069,175.15625 323.7931034482759,168.90625 332.2413793103448,169.0625 340.6896551724138,170.15625 349.13793103448273,172.03125 357.5862068965517,170.0 366.0344827586207,220.3125 374.48275862068965,221.40625 382.9310344827586,242.96875 391.37931034482756,241.5625 399.82758620689657,240.78125 408.2758620689655,237.65625 416.72413793103453,235.78125 425.1724137931035,236.71875 433.62068965517244,245.0 442.0689655172414,245.15625 450.51724137931035,250.15625 458.9655172413793,238.59375 467.41379310344826,247.5 475.8620689655172,252.5 484.3103448275862,257.34375 492.7586206896552,251.09375 501.2068965517241,270.0 509.6551724137931,244.21875 518.1034482758621,255.0 526.5517241379309,251.25 535.0,256.40625 543.448275862069,256.875 551.8965517241379,270.0 560.344827586207,264.21875 568.7931034482759,270.0 577.2413793103449,263.75 585.6896551724138,263.125 594.1379310344828,257.65625 602.5862068965517,270.0 611.0344827586207,270.0 619.4827586206897,270.0 627.9310344827586,270.0 636.3793103448276,270.0 644.8275862068965,270.0 653.2758620689655,270.0 661.7241379310344,270.0 670.1724137931034,270.0 678.6206896551723,270.0 687.0689655172414,270.0 695.5172413793103,270.0 703.9655172413793,270.0 712.4137931034483,270.0 720.8620689655172,270.0 729.3103448275862,270.0 737.7586206896551,270.0 746.2068965517241,270.0 754.6551724137931,270.0 763.1034482758621,270.0 771.551724137931,270.0 780.0,270.0" fill="none" stroke="#4a9eff" stroke-width="2"/>
 <text x="40" y="274.0" text-anchor="end" fill="#888" font-size="11">-8</text>
 <text x="40" y="211.5" text-anchor="end" fill="#888" font-size="11">-4</text>
 <text x="40" y="149.0" text-anchor="end" fill="#888" font-size="11">+0</text>
@@ -239,13 +315,18 @@
 <text x="703.9655172413793" y="295" text-anchor="middle" fill="#888" font-size="11">40</text>
 </svg>
     </div>
-    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
-    <div class="summary-section">
-        <h3>Recurring Patterns</h3>
-<br>
-Across the analyzed games, erivera90 most frequently errs by overlooking tactical Pins and positional weaknesses. Hanging Pawns are another recurring issue, appearing less frequently but still significantly. This game, however, shows no blunders or missed opportunities, breaking the established trend of frequent tactical oversights in recent play. The absence of these mistakes suggests a potential improvement or simply a less demanding game.<br>
-
+    <div class="clamp-stats-section">
+    <h2>Rolling CLAMP (last 20 games)</h2>
+    <p class="clamp-stats-meta">Window: <strong>20</strong> game(s) on file, <strong>31</strong> blunder(s). Tags on <strong>29</strong> blunder(s). One blunder can count in multiple categories.</p>
+    <div class="clamp-stats-bars">
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#c0392b">C</span><span class="clamp-stats-name">Checks</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:52.4%;background:#c0392b"></div></div><span class="clamp-stats-num">11</span><span class="clamp-stats-pct">22% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#e67e22">L</span><span class="clamp-stats-name">Loose pieces / squares</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:23.8%;background:#e67e22"></div></div><span class="clamp-stats-num">5</span><span class="clamp-stats-pct">10% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#2980b9">A</span><span class="clamp-stats-name">Alignments (forks, pins, lines)</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:100.0%;background:#2980b9"></div></div><span class="clamp-stats-num">21</span><span class="clamp-stats-pct">42% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#8e44ad">M</span><span class="clamp-stats-name">Mobility / trapped piece</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:4.8%;background:#8e44ad"></div></div><span class="clamp-stats-num">1</span><span class="clamp-stats-pct">2% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#27ae60">P</span><span class="clamp-stats-name">Passed pawns</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:57.1%;background:#27ae60"></div></div><span class="clamp-stats-num">12</span><span class="clamp-stats-pct">24% of tags</span></div>
     </div>
+    </div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
     <h2 style="margin-top:24px;margin-bottom:12px">Annotated PGN</h2>
     <p style="font-size:0.85rem;color:#666;margin-bottom:8px">Copy this PGN to paste into Lichess, ChessBase, or any analysis tool.</p>
     <div style="
@@ -264,23 +345,70 @@ Across the analyzed games, erivera90 most frequently errs by overlooking tactica
 [Black &quot;erivera90&quot;]
 [Result &quot;0-1&quot;]
 
-1. e4 {+0.40} c5 {+0.39} 2. Nc3 {+0.38} Nc6 {+0.37} 3. Nf3 {+0.25} g6 {+0.52} 4.
-d4 {+0.54} cxd4 {+0.42} 5. Nxd4 {+0.29} Bg7 {+0.32} 6. Nxc6 {-0.09} bxc6 {-0.01}
-7. Bc4 {+0.11} e6 {+0.46} 8. O-O {+0.32} d5 {+1.38} 9. exd5 {+1.59} cxd5 {+1.64}
-10. Bb5+ {-0.56} Bd7 {-0.61} 11. Bxd7+ {-0.75} Qxd7 {-0.61} 12. Re1 {-0.86} Nf6
-{-0.76} 13. Ne2 {-0.94} Ne4 {-0.56} 14. f3 {-1.21} Nc5 {-0.81} 15. Rb1 {-0.98}
-O-O {-1.07} 16. b3 {-1.24} Rac8 {-0.96} 17. Nd4 {-2.16} h6 {-1.78} 18. Bb2
-{-1.69} e5 {-1.77} 19. Ne2 {-1.54} d4 {-1.55} 20. Nxd4 {-5.49} exd4 {-5.40} 21.
-Bxd4 {-6.64} Bxd4+ {-6.58} 22. Kh1 {-6.61} Bf2 {-6.31} 23. Qxd7 {-6.53} Nxd7
-{-6.50} 24. Rf1 {-6.57} Rxc2 {-6.75} 25. h3 {-6.88} Ne5 {-6.33} 26. Rbc1 {-6.95}
-Rxc1 {-6.73} 27. Rxc1 {-6.85} Nd3 {-6.55} 28. Rc2 {#-6} a5 {-6.00} 29. b4 {#-6}
-axb4 {-6.27} 30. Rd2 {-6.57} Rd8 {-6.92} 31. a3 {-9.14} bxa3 {-7.32} 32. Ra2
-{#-7} Ra8 {-7.47} 33. g4 {-7.81} Nb4 {-6.10} 34. Kg2 {-9.95} Nxa2 {-10.59} 35.
-Kxf2 {-10.98} Nc3 {-11.39} 36. Ke3 {-11.62} a2 {-11.62} 37. Kd3 {-13.12} a1=Q
-{#-5} 38. Kc2 {#-4} Qa2+ {#-4} 39. Kxc3 {#-4} Qa3+ {#-6} 40. Kd2 {#-3} Rd8+
+1. e4 {+0.48} c5 {+0.49} 2. Nc3 {+0.44} Nc6 {+0.47} 3. Nf3 {+0.39} g6 {+0.44} 4.
+d4 {+0.53} cxd4 {+0.55} 5. Nxd4 {+0.59} Bg7 {+0.39} 6. Nxc6 {-0.18} bxc6 {-0.20}
+7. Bc4 {-0.22} e6 {+0.60} 8. O-O {+0.36} d5 {+1.36} 9. exd5 {+1.60} cxd5 {+1.61}
+10. Bb5+ {-0.54} Bd7 {-0.58} 11. Bxd7+ {-0.98} Qxd7 {-0.89} 12. Re1 {-0.99} Nf6
+{-0.18} 13. Ne2 {-1.01} Ne4 {-0.56} 14. f3 {-1.29} Nc5 {-0.67} 15. Rb1 {-1.08}
+O-O {-0.93} 16. b3 {-1.29} Rac8 {-0.84} 17. Nd4 {-1.93} h6 {-1.53} 18. Bb2
+{-1.54} e5 {-1.61} 19. Ne2 {-1.73} d4 {-1.60} 20. Nxd4 {-4.82} exd4 {-4.89} 21.
+Bxd4 {-6.27} Bxd4+ {-6.18} 22. Kh1 {-6.13} Bf2 {-5.93} 23. Qxd7 {-5.81} Nxd7
+{-5.87} 24. Rf1 {-6.40} Rxc2 {-6.41} 25. h3 {-6.73} Ne5 {-5.99} 26. Rbc1 {-6.56}
+Rxc1 {-6.88} 27. Rxc1 {-7.19} Nd3 {-6.79} 28. Rc2 {#-6} a5 {-6.35} 29. b4
+{-7.04} axb4 {-6.80} 30. Rd2 {-7.13} Rd8 {-7.16} 31. a3 {-9.22} bxa3 {-7.63} 32.
+Ra2 {#-7} Ra8 {-7.60} 33. g4 {-7.56} Nb4 {-7.21} 34. Kg2 {-8.03} Nxa2 {-9.13}
+35. Kxf2 {-9.94} Nc3 {-9.64} 36. Ke3 {-9.88} a2 {-10.25} 37. Kd3 {#-6} a1=Q
+{#-5} 38. Kc2 {#-4} Qa2+ {#-6} 39. Kxc3 {#-4} Qa3+ {#-4} 40. Kd2 {#-3} Rd8+
 {#-3} 41. Ke2 {#-3} Qd3+ {#-3} 42. Kf2 {#-3} Qd2+ {#-2} 43. Kg3 {#-2} Qe1+ {#-1}
 44. Kh2 {#-1} Rd2# {#-0} 0-1</code>
     </div>
 </div>
+<script>
+(function() {
+  document.querySelectorAll('.line-player').forEach(function(player) {
+    var frames = player.querySelectorAll('.lp-frame');
+    var stage = player.querySelector('.lp-stage');
+    var caption = player.querySelector('.lp-caption');
+    var counter = player.querySelector('.lp-counter');
+    var prev = player.querySelector('.lp-prev');
+    var next = player.querySelector('.lp-next');
+    var play = player.querySelector('.lp-play');
+    var idx = 0, playing = false, timer = null;
+    function render() {
+      stage.innerHTML = frames[idx].innerHTML;
+      caption.textContent = frames[idx].dataset.caption;
+      counter.textContent = idx + '/' + (frames.length - 1);
+      prev.disabled = (idx === 0);
+      next.disabled = (idx === frames.length - 1);
+    }
+    function step(d) {
+      idx = Math.max(0, Math.min(frames.length - 1, idx + d));
+      render();
+    }
+    function toggle() {
+      if (playing) {
+        clearInterval(timer); playing = false;
+        play.innerHTML = '&#9654;';
+      } else {
+        if (idx === frames.length - 1) idx = 0;
+        playing = true;
+        play.innerHTML = '&#9208;';
+        timer = setInterval(function() {
+          if (idx >= frames.length - 1) {
+            clearInterval(timer); playing = false;
+            play.innerHTML = '&#9654;';
+            return;
+          }
+          step(1);
+        }, 900);
+      }
+    }
+    prev.addEventListener('click', function() { step(-1); });
+    next.addEventListener('click', function() { step(1); });
+    play.addEventListener('click', toggle);
+    render();
+  });
+})();
+</script>
 </body>
 </html>
