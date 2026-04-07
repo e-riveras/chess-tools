@@ -275,9 +275,9 @@ def generate_line_player_html(
   <div class="lp-stage">{svg0_content}</div>
   <div class="lp-caption">{html.escape(caption0)}</div>
   <div class="lp-controls">
-    <button class="lp-btn lp-prev" aria-label="Previous" disabled>&#9664;</button>
-    <button class="lp-btn lp-play" aria-label="Play">&#9654;</button>
-    <button class="lp-btn lp-next" aria-label="Next">&#9654;</button>
+    <button class="lp-btn lp-prev" aria-label="Previous" disabled>&#8592;</button>
+    <button class="lp-btn lp-play" aria-label="Play / pause">&#9654;</button>
+    <button class="lp-btn lp-next" aria-label="Next">&#8594;</button>
     <span class="lp-counter">0/{total}</span>
   </div>
 </div>"""
@@ -405,8 +405,7 @@ _HTML_STYLE = """
     }
     .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
     .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .line-player .lp-next { transform: none; }
-    .line-player .lp-prev { transform: rotate(180deg); }
+    .line-player .lp-play { font-size: 0.95rem; }
     .line-player .lp-counter {
         font-size: 0.85rem;
         color: var(--muted-color);
