@@ -311,6 +311,12 @@ _HTML_STYLE = """
     }
     .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
     .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
+    .line-player-heading {
+        font-size: 0.88rem;
+        color: var(--muted-color);
+        margin: 14px 0 8px;
+        font-weight: 600;
+    }
 
     /* Index page styles */
     .report-grid {
@@ -723,15 +729,21 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
                 parts.append(f'            <span class="move-played">You Played: {html.escape(moment.move_played_san)}</span><br>\n')
                 parts.append(f'            <span class="move-best">Engine Best: {html.escape(moment.best_move_san)}</span><br>\n')
             parts.append(f'            <span class="eval-swing">Eval Swing: {moment.eval_swing} cp</span><br>\n')
-            parts.append(f'            <span class="variation">Variation: {html.escape(moment.pv_line)}</span>\n')
+            if is_missed:
+                parts.append(f'            <span class="variation">Best line (engine PV): {html.escape(moment.pv_line)}</span>\n')
+            else:
+                parts.append(f'            <span class="variation">Best line from the diagram (engine PV): {html.escape(moment.pv_line)}</span>\n')
+                if moment.refutation_line:
+                    parts.append(f'            <span class="variation">Opponent&apos;s best reply after your move: {html.escape(moment.refutation_line)}</span>\n')
             parts.append('        </div>\n')
 
             if moment.tactical_alert:
                 parts.append(f'        <div class="tactical-alert">{html.escape(moment.tactical_alert)}</div>\n')
 
             if is_missed and moment.best_line:
+                parts.append('        <p class="line-player-heading">Interactive: best line you could have played</p>\n')
                 player_html = generate_line_player_html(
-                    player_id=f"player-{i}",
+                    player_id=f"player-best-{i}",
                     start_fen=moment.fen,
                     line_san=moment.best_line,
                     hero_color=moment.hero_color,
@@ -742,9 +754,25 @@ def generate_html_report(moments: List[CrucialMoment], metadata: Dict[str, str],
                 if player_html:
                     parts.append(f'        {player_html}\n')
 
-            if moment.refutation_line and not is_missed:
+            # Blunders: show engine PV from the diagram (matches green arrow + Variation text), then punishment line.
+            if not is_missed and moment.pv_line:
+                parts.append('        <p class="line-player-heading">Interactive: engine best line from the diagram</p>\n')
                 player_html = generate_line_player_html(
-                    player_id=f"player-{i}",
+                    player_id=f"player-best-{i}",
+                    start_fen=moment.fen,
+                    line_san=moment.pv_line,
+                    hero_color=moment.hero_color,
+                    initial_move_san=None,
+                    kind="best-line",
+                    start_label="Before your move",
+                )
+                if player_html:
+                    parts.append(f'        {player_html}\n')
+
+            if moment.refutation_line and not is_missed:
+                parts.append('        <p class="line-player-heading">Interactive: opponent&apos;s reply after your move</p>\n')
+                player_html = generate_line_player_html(
+                    player_id=f"player-refute-{i}",
                     start_fen=moment.fen,
                     line_san=moment.refutation_line,
                     hero_color=moment.hero_color,
