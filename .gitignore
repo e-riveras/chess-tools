@@ -11,12 +11,18 @@ htmlcov/
 *.log
 samples/
 
+# Claude Code local files
+CLAUDE.md
+CLAUDE_CODE_BRIEF.md
+SESSION_CONTEXT.md
+
 # Book conversion (see standalone/chess-book-parser/)
 books/*.epub
 /*_annotated.pgn
 logical_chess_annotated.pgn
 iron_english_annotated.pgn
 The Iron English.pgn
+docs/books/*_annotated.pgn
 
 # Generated analysis outputs (committed by CI, not tracked locally)
 /analysis/
