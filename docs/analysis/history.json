@@ -2,16 +2,6 @@
   "games": [
     {
       "date": "2026.04.02",
-      "white": "BMR_05Kz",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 0,
-      "missed_count": 0,
-      "tactics": [],
-      "blunder_clamps": []
-    },
-    {
-      "date": "2026.04.02",
       "white": "erivera90",
       "black": "May_G12",
       "result": "1-0",
@@ -458,12 +448,28 @@
           "L"
         ]
       ]
+    },
+    {
+      "date": "2026.04.08",
+      "white": "erivera90",
+      "black": "selixfaenz",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "pin"
+      ],
+      "blunder_clamps": [
+        [
+          "A"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 12,
     "positional": 22,
-    "pin": 27,
+    "pin": 28,
     "hanging_piece": 17,
     "back_rank_mate": 7,
     "trapped_piece": 3,
@@ -474,6 +480,6 @@
     "hanging_pawn": 9,
     "forced_mate": 4
   },
-  "total_blunders": 77,
+  "total_blunders": 78,
   "total_missed": 51
 }
