@@ -2,32 +2,6 @@
   "games": [
     {
       "date": "2026.04.03",
-      "white": "100A10D11",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 3,
-      "missed_count": 0,
-      "tactics": [
-        "pin",
-        "pin",
-        "pin"
-      ],
-      "blunder_clamps": [
-        [
-          "C",
-          "A"
-        ],
-        [
-          "A"
-        ],
-        [
-          "A",
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.04.03",
       "white": "erivera90",
       "black": "Ranjith_0531",
       "result": "1/2-1/2",
@@ -468,22 +442,56 @@
           "M"
         ]
       ]
+    },
+    {
+      "date": "2026.04.09",
+      "white": "erivera90",
+      "black": "Burakcan1881",
+      "result": "1/2-1/2",
+      "blunder_count": 4,
+      "missed_count": 7,
+      "tactics": [
+        "pin",
+        "trapped_piece",
+        "back_rank_mate",
+        "back_rank_mate",
+        "back_rank_mate",
+        "skewer",
+        "positional",
+        "hanging_piece",
+        "positional",
+        "positional",
+        "forced_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A"
+        ],
+        [],
+        [
+          "L"
+        ],
+        [
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 13,
-    "positional": 22,
-    "pin": 29,
-    "hanging_piece": 19,
-    "back_rank_mate": 7,
-    "trapped_piece": 4,
+    "positional": 25,
+    "pin": 30,
+    "hanging_piece": 20,
+    "back_rank_mate": 10,
+    "trapped_piece": 5,
     "discovered_attack": 10,
-    "skewer": 7,
+    "skewer": 8,
     "losing_exchange": 7,
     "back_rank_weakness": 3,
     "hanging_pawn": 9,
-    "forced_mate": 4
+    "forced_mate": 5
   },
-  "total_blunders": 82,
-  "total_missed": 52
+  "total_blunders": 86,
+  "total_missed": 59
 }
