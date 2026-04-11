@@ -2,18 +2,6 @@
   "games": [
     {
       "date": "2026.04.04",
-      "white": "erivera90",
-      "black": "NolanBadAtChess",
-      "result": "1-0",
-      "blunder_count": 0,
-      "missed_count": 1,
-      "tactics": [
-        "discovered_attack"
-      ],
-      "blunder_clamps": []
-    },
-    {
-      "date": "2026.04.04",
       "white": "Obscuraz",
       "black": "erivera90",
       "result": "1-0",
@@ -466,22 +454,46 @@
           "M"
         ]
       ]
+    },
+    {
+      "date": "2026.04.11",
+      "white": "erivera90",
+      "black": "fffggge",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 3,
+      "tactics": [
+        "trapped_piece",
+        "hanging_pawn",
+        "hanging_pawn",
+        "positional",
+        "losing_exchange"
+      ],
+      "blunder_clamps": [
+        [
+          "P"
+        ],
+        [
+          "L",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 13,
-    "positional": 25,
+    "positional": 26,
     "pin": 30,
     "hanging_piece": 20,
     "back_rank_mate": 10,
-    "trapped_piece": 6,
+    "trapped_piece": 7,
     "discovered_attack": 10,
     "skewer": 8,
-    "losing_exchange": 7,
+    "losing_exchange": 8,
     "back_rank_weakness": 3,
-    "hanging_pawn": 9,
+    "hanging_pawn": 11,
     "forced_mate": 5
   },
-  "total_blunders": 87,
-  "total_missed": 59
+  "total_blunders": 89,
+  "total_missed": 62
 }
