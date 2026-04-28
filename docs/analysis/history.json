@@ -2,24 +2,6 @@
   "games": [
     {
       "date": "2026.04.05",
-      "white": "Rulinator",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "back_rank_mate"
-      ],
-      "blunder_clamps": [
-        [
-          "C",
-          "A",
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.04.05",
       "white": "erivera90",
       "black": "u250624",
       "result": "1/2-1/2",
@@ -494,11 +476,23 @@
           "L"
         ]
       ]
+    },
+    {
+      "date": "2026.04.28",
+      "white": "Nilecna",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 1,
+      "tactics": [
+        "positional"
+      ],
+      "blunder_clamps": []
     }
   ],
   "tactic_counts": {
     "fork": 13,
-    "positional": 27,
+    "positional": 28,
     "pin": 34,
     "hanging_piece": 23,
     "back_rank_mate": 10,
@@ -511,5 +505,5 @@
     "forced_mate": 6
   },
   "total_blunders": 97,
-  "total_missed": 66
+  "total_missed": 67
 }
