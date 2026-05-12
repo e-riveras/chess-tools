@@ -2,22 +2,6 @@
   "games": [
     {
       "date": "2026.04.08",
-      "white": "erivera90",
-      "black": "selixfaenz",
-      "result": "1-0",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "pin"
-      ],
-      "blunder_clamps": [
-        [
-          "A"
-        ]
-      ]
-    },
-    {
-      "date": "2026.04.08",
       "white": "sicsin",
       "black": "erivera90",
       "result": "0-1",
@@ -416,6 +400,16 @@
           "P"
         ]
       ]
+    },
+    {
+      "date": "2026.05.12",
+      "white": "erivera90",
+      "black": "brdn2k",
+      "result": "1-0",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
+      "blunder_clamps": []
     }
   ],
   "tactic_counts": {
