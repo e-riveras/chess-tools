@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="report-data" content='{&quot;date&quot;: &quot;2026.05.14&quot;, &quot;datetime&quot;: &quot;2026.05.14T16:28:34&quot;, &quot;white&quot;: &quot;Ganglopf&quot;, &quot;black&quot;: &quot;erivera90&quot;, &quot;result&quot;: &quot;1-0&quot;, &quot;moment_count&quot;: 0}'>
+    <title>Analysis: Ganglopf vs erivera90</title>
+    <style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --accent-color: #4a9eff;
+        --muted-color: #a0a0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container { max-width: 800px; width: 100%; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back-link { margin-bottom: 20px; display: inline-block; font-size: 0.95rem; }
+    h1 { margin-bottom: 8px; }
+    .meta { color: var(--muted-color); margin-bottom: 24px; font-size: 0.95rem; }
+    .summary-count { margin-bottom: 24px; font-size: 1.05rem; }
+    .moment-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .moment-card h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    .board-svg { display: flex; justify-content: center; margin-bottom: 16px; }
+    .board-svg svg { max-width: 400px; width: 100%; height: auto; }
+    .fen { font-family: monospace; font-size: 0.85rem; color: var(--muted-color); margin-bottom: 12px; word-break: break-all; }
+    .move-info { margin-bottom: 12px; line-height: 1.7; }
+    .move-played { color: #ff6b6b; font-weight: bold; }
+    .move-best { color: #51cf66; font-weight: bold; }
+    .eval-swing { color: var(--muted-color); }
+    .variation { font-style: italic; color: var(--muted-color); }
+    .tactical-alert {
+        background: rgba(255, 107, 107, 0.15);
+        border-left: 4px solid #ff6b6b;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-weight: bold;
+    }
+    .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
+    .severity-pill {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 10px;
+        color: #fff;
+        margin-left: 8px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .tactic-badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+    .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
+    .lichess-btn {
+        display: inline-flex;
+        align-items: center;
+        background: #629924;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        text-decoration: none;
+    }
+    .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
+    .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
+    /* Line player */
+    .line-player {
+        background: rgba(74, 158, 255, 0.08);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 0 6px 6px 0;
+        padding: 14px;
+        margin-bottom: 16px;
+    }
+    .line-player .lp-stage { display: flex; justify-content: center; }
+    .line-player .lp-stage svg { max-width: 360px; width: 100%; height: auto; }
+    .line-player .lp-caption {
+        text-align: center;
+        font-family: monospace;
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        margin: 8px 0 10px;
+        min-height: 1.2em;
+    }
+    .line-player .lp-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .line-player .lp-btn {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid #3a3a3a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
+    .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .line-player .lp-play { font-size: 0.95rem; }
+    .line-player .lp-counter {
+        font-size: 0.85rem;
+        color: var(--muted-color);
+        margin-left: 8px;
+        min-width: 40px;
+        text-align: center;
+    }
+    .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
+    .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
+    .line-player-heading {
+        font-size: 0.88rem;
+        color: var(--muted-color);
+        margin: 14px 0 8px;
+        font-weight: 600;
+    }
+    .clamp-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+        color: var(--muted-color);
+    }
+    .clamp-bar .clamp-label { font-weight: 700; color: #e0c36a; letter-spacing: 0.06em; }
+    .clamp-pill {
+        display: inline-block;
+        min-width: 1.6em;
+        text-align: center;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #3a3530;
+        color: #f0e6d2;
+        font-weight: 700;
+        cursor: default;
+        border: 1px solid #5c5346;
+    }
+    .clamp-stats-section {
+        background: #252525;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 28px;
+        border: 1px solid #333;
+    }
+    .clamp-stats-section h2 { margin-bottom: 10px; font-size: 1.15rem; }
+    .clamp-stats-meta { font-size: 0.88rem; color: var(--muted-color); margin-bottom: 16px; line-height: 1.5; }
+    .clamp-stats-empty { color: var(--muted-color); font-style: italic; margin: 0; }
+    .clamp-stats-bars { display: flex; flex-direction: column; gap: 10px; }
+    .clamp-stats-row {
+        display: grid;
+        grid-template-columns: 1.5rem 1fr minmax(72px, 1fr) 2rem 5rem;
+        align-items: center;
+        gap: 8px 12px;
+        font-size: 0.84rem;
+    }
+    .clamp-stats-bar-wrap {
+        height: 11px;
+        background: #1a1a1a;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #3a3a3a;
+    }
+    .clamp-stats-bar-fill { height: 100%; border-radius: 4px; min-width: 2px; transition: width 0.2s; }
+    .clamp-stats-letter { font-weight: 800; font-size: 1rem; }
+    .clamp-stats-name { color: var(--muted-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .clamp-stats-num { text-align: right; font-weight: 600; color: var(--text-color); }
+    .clamp-stats-pct { color: #888; font-size: 0.78rem; text-align: right; }
+    @media (max-width: 540px) {
+        .clamp-stats-row {
+            grid-template-columns: 1.5rem 1fr;
+            grid-template-rows: auto auto;
+        }
+        .clamp-stats-row .clamp-stats-bar-wrap { grid-column: 1 / -1; }
+        .clamp-stats-row .clamp-stats-num, .clamp-stats-row .clamp-stats-pct { grid-column: 2; }
+    }
+
+    /* Index page styles */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .report-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .report-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .report-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .report-card .card-meta { color: var(--muted-color); font-size: 0.9rem; margin-bottom: 10px; }
+    .report-card .card-moments { color: var(--accent-color); font-weight: bold; }
+    .no-reports { color: var(--muted-color); text-align: center; margin-top: 40px; font-style: italic; }
+
+    /* Run-analysis button */
+    .run-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .run-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-color);
+        color: #fff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, opacity 0.15s;
+    }
+    .run-btn:hover:not(:disabled) { background: #2d7fd4; }
+    .run-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .run-status { font-size: 0.88rem; color: var(--muted-color); }
+    .run-status.ok { color: #51cf66; }
+    .run-status.err { color: #ff6b6b; }
+    .token-link { font-size: 0.8rem; color: var(--muted-color); cursor: pointer; }
+    .token-link:hover { color: var(--text-color); }
+    .drills-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #51cf66;
+        color: #111;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+    .drills-btn:hover { background: #3bb852; text-decoration: none; }
+
+    /* iOS / Mobile Safari optimizations */
+    * { -webkit-tap-highlight-color: transparent; }
+    button, select, a { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    select, input { font-size: max(16px, 0.95rem); }
+    @media (max-width: 540px) {
+        .report-grid { grid-template-columns: 1fr; }
+        .moment-card { padding: 16px; }
+        .board-svg svg { max-width: 100%; }
+        .report-card { padding: 16px; }
+        .report-card h3 { font-size: 1rem; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Index</a>
+    <h1>Analysis: Ganglopf vs erivera90</h1>
+    <div class="meta"><strong>Date:</strong> 2026.05.14 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
+    <a href="https://lichess.org/CFcKFz11" target="_blank" class="lichess-btn"><svg viewBox="0 0 50 50" width="18" height="18" style="vertical-align:middle;margin-right:6px;fill:currentColor"><path d="M25 1C11.7 1 1 11.7 1 25s10.7 24 24 24 24-10.7 24-24S38.3 1 25 1zm0 4c5 0 9.6 1.8 13.2 4.9L25 23.1 11.8 9.9C15.4 6.8 20 5 25 5zm-15 8.7L23.2 27 10 40.3C6.8 36.6 5 32 5 27c0-5 1.8-9.6 5-13.3zM25 45c-5 0-9.6-1.8-13.2-5L25 26.9l13.2 13.2C34.6 43.2 30 45 25 45zm15-8.7L26.8 23 40 9.7c3.1 3.7 5 8.3 5 13.3 0 5-1.8 9.6-5 13.3z"/></svg>Analyze on Lichess</a>
+    <h2 style="margin-bottom:12px">Evaluation</h2>
+    <div style="background:#2a2a3e;border-radius:8px;padding:16px;margin-bottom:24px;overflow-x:auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" style="max-width:100%;height:auto;">
+<rect x="0" y="0" width="800" height="300" fill="#1a1a2e" rx="8"/>
+<path d="M45,145.0 L45.0,142.8125 L75.625,125.0 L106.25,124.375 L136.875,118.90625 L167.5,134.375 L198.125,130.9375 L228.75,139.21875 L259.375,136.09375 L290.0,137.34375 L320.625,137.34375 L351.25,145.0 L381.875,145.0 L412.5,145.0 L443.125,145.0 L473.75,145.0 L504.375,135.625 L535.0,135.625 L565.625,131.25 L596.25,135.15625 L626.875,124.53125 L657.5,133.4375 L688.125,131.09375 L718.75,131.09375 L749.375,106.40625 L780.0,119.84375 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
+<path d="M45,145.0 L45.0,145.0 L75.625,145.0 L106.25,145.0 L136.875,145.0 L167.5,145.0 L198.125,145.0 L228.75,145.0 L259.375,145.0 L290.0,145.0 L320.625,145.0 L351.25,147.65625 L381.875,145.0 L412.5,148.28125 L443.125,148.90625 L473.75,150.0 L504.375,145.0 L535.0,145.0 L565.625,145.0 L596.25,145.0 L626.875,145.0 L657.5,145.0 L688.125,145.0 L718.75,145.0 L749.375,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
+<line x1="45" y1="145.0" x2="780" y2="145.0" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+<polyline points="45.0,142.8125 75.625,125.0 106.25,124.375 136.875,118.90625 167.5,134.375 198.125,130.9375 228.75,139.21875 259.375,136.09375 290.0,137.34375 320.625,137.34375 351.25,147.65625 381.875,145.0 412.5,148.28125 443.125,148.90625 473.75,150.0 504.375,135.625 535.0,135.625 565.625,131.25 596.25,135.15625 626.875,124.53125 657.5,133.4375 688.125,131.09375 718.75,131.09375 749.375,106.40625 780.0,119.84375" fill="none" stroke="#4a9eff" stroke-width="2"/>
+<text x="40" y="274.0" text-anchor="end" fill="#888" font-size="11">-8</text>
+<text x="40" y="211.5" text-anchor="end" fill="#888" font-size="11">-4</text>
+<text x="40" y="149.0" text-anchor="end" fill="#888" font-size="11">+0</text>
+<text x="40" y="86.5" text-anchor="end" fill="#888" font-size="11">+4</text>
+<text x="40" y="24.0" text-anchor="end" fill="#888" font-size="11">+8</text>
+<text x="45.0" y="295" text-anchor="middle" fill="#888" font-size="11">1</text>
+<text x="290.0" y="295" text-anchor="middle" fill="#888" font-size="11">5</text>
+<text x="596.25" y="295" text-anchor="middle" fill="#888" font-size="11">10</text>
+</svg>
+    </div>
+    <div class="clamp-stats-section">
+    <h2>Rolling CLAMP (last 20 games)</h2>
+    <p class="clamp-stats-meta">Window: <strong>20</strong> game(s) on file, <strong>38</strong> blunder(s). Tags on <strong>36</strong> blunder(s). One blunder can count in multiple categories.</p>
+    <div class="clamp-stats-bars">
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#c0392b">C</span><span class="clamp-stats-name">Checks</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:81.2%;background:#c0392b"></div></div><span class="clamp-stats-num">13</span><span class="clamp-stats-pct">22% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#e67e22">L</span><span class="clamp-stats-name">Loose pieces / squares</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:75.0%;background:#e67e22"></div></div><span class="clamp-stats-num">12</span><span class="clamp-stats-pct">20% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#2980b9">A</span><span class="clamp-stats-name">Alignments (forks, pins, lines)</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:81.2%;background:#2980b9"></div></div><span class="clamp-stats-num">13</span><span class="clamp-stats-pct">22% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#8e44ad">M</span><span class="clamp-stats-name">Mobility / trapped piece</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:31.2%;background:#8e44ad"></div></div><span class="clamp-stats-num">5</span><span class="clamp-stats-pct">8% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#27ae60">P</span><span class="clamp-stats-name">Passed pawns</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:100.0%;background:#27ae60"></div></div><span class="clamp-stats-num">16</span><span class="clamp-stats-pct">27% of tags</span></div>
+    </div>
+    </div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
+    <h2 style="margin-top:24px;margin-bottom:12px">Annotated PGN</h2>
+    <p style="font-size:0.85rem;color:#666;margin-bottom:8px">Copy this PGN to paste into Lichess, ChessBase, or any analysis tool.</p>
+    <div style="
+        background:#1a1a2e;color:#e0e0e0;padding:16px 20px;border-radius:8px;
+        font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.8rem;
+        line-height:1.6;white-space:pre-wrap;word-break:break-word;position:relative;
+        max-height:400px;overflow-y:auto;">
+        <button onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)"
+            style="position:absolute;top:8px;right:8px;background:#333;color:#ccc;
+            border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;
+            font-size:0.75rem;">Copy</button>
+        <code id="annotated-pgn">[Event &quot;Live Chess&quot;]
+[Site &quot;Chess.com&quot;]
+[Date &quot;2026.05.14&quot;]
+[White &quot;Ganglopf&quot;]
+[Black &quot;erivera90&quot;]
+[Result &quot;1-0&quot;]
+
+1. d4 {+0.14} f6 {+1.28} 2. e4 {+1.32} e5 {+1.67} 3. d5 {+0.68} Bb4+ {+0.90} 4.
+Bd2 {+0.37} Bxd2+ {+0.57} 5. Nxd2 {+0.49} d6 {+0.49} 6. c4 {-0.17} Ne7 {+0.00}
+7. Ngf3 {-0.21} O-O {-0.25} 8. Bd3 {-0.32} c5 {+0.60} 9. Qb3 {+0.60} Qa5 {+0.88}
+10. O-O {+0.63} Bg4 {+1.31} 11. h3 {+0.74} Bxf3 {+0.89} 12. Nxf3 {+0.89} g5
+{+2.47} 13. Rac1 {+1.61} 1-0</code>
+    </div>
+</div>
+<script>
+(function() {
+  document.querySelectorAll('.line-player').forEach(function(player) {
+    var frames = player.querySelectorAll('.lp-frame');
+    var stage = player.querySelector('.lp-stage');
+    var caption = player.querySelector('.lp-caption');
+    var counter = player.querySelector('.lp-counter');
+    var prev = player.querySelector('.lp-prev');
+    var next = player.querySelector('.lp-next');
+    var play = player.querySelector('.lp-play');
+    var idx = 0, playing = false, timer = null;
+    function render() {
+      stage.innerHTML = frames[idx].innerHTML;
+      caption.textContent = frames[idx].dataset.caption;
+      counter.textContent = idx + '/' + (frames.length - 1);
+      prev.disabled = (idx === 0);
+      next.disabled = (idx === frames.length - 1);
+    }
+    function step(d) {
+      idx = Math.max(0, Math.min(frames.length - 1, idx + d));
+      render();
+    }
+    function toggle() {
+      if (playing) {
+        clearInterval(timer); playing = false;
+        play.innerHTML = '&#9654;';
+      } else {
+        if (idx === frames.length - 1) idx = 0;
+        playing = true;
+        play.innerHTML = '&#9208;';
+        timer = setInterval(function() {
+          if (idx >= frames.length - 1) {
+            clearInterval(timer); playing = false;
+            play.innerHTML = '&#9654;';
+            return;
+          }
+          step(1);
+        }, 900);
+      }
+    }
+    prev.addEventListener('click', function() { step(-1); });
+    next.addEventListener('click', function() { step(1); });
+    play.addEventListener('click', toggle);
+    render();
+  });
+})();
+</script>
+</body>
+</html>
