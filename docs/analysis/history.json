@@ -2,27 +2,6 @@
   "games": [
     {
       "date": "2026.04.29",
-      "white": "Modyla",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 2,
-      "missed_count": 0,
-      "tactics": [
-        "pin",
-        "pin"
-      ],
-      "blunder_clamps": [
-        [
-          "A"
-        ],
-        [
-          "A",
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.04.29",
       "white": "erivera90",
       "black": "OriginalNotPAT",
       "result": "0-1",
@@ -416,22 +395,52 @@
           "L"
         ]
       ]
+    },
+    {
+      "date": "2026.06.03",
+      "white": "kupils",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 5,
+      "missed_count": 1,
+      "tactics": [
+        "losing_exchange",
+        "trapped_piece",
+        "positional",
+        "positional",
+        "forced_mate",
+        "positional"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "M"
+        ],
+        [],
+        [
+          "C",
+          "A"
+        ],
+        []
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 18,
-    "positional": 35,
+    "positional": 38,
     "pin": 42,
     "hanging_piece": 34,
     "back_rank_mate": 10,
-    "trapped_piece": 13,
+    "trapped_piece": 14,
     "discovered_attack": 15,
     "skewer": 10,
-    "losing_exchange": 9,
+    "losing_exchange": 10,
     "back_rank_weakness": 3,
     "hanging_pawn": 15,
-    "forced_mate": 6
+    "forced_mate": 7
   },
-  "total_blunders": 135,
-  "total_missed": 75
+  "total_blunders": 140,
+  "total_missed": 76
 }
