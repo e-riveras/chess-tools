@@ -1,24 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.05.04",
-      "white": "erivera90",
-      "black": "oxyboyy",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 2,
-      "tactics": [
-        "pin",
-        "fork",
-        "hanging_piece"
-      ],
-      "blunder_clamps": [
-        [
-          "L"
-        ]
-      ]
-    },
-    {
       "date": "2026.05.05",
       "white": "likeearhart",
       "black": "erivera90",
@@ -451,6 +433,16 @@
           "P"
         ]
       ]
+    },
+    {
+      "date": "2026.06.08",
+      "white": "sherlockjames15",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
+      "blunder_clamps": []
     }
   ],
   "tactic_counts": {
