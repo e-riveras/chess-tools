@@ -1,14 +1,16 @@
 # Chess.com to Lichess Sync & Analysis
 
-Automatically syncs games played on [Chess.com](https://www.chess.com) to [Lichess.org](https://lichess.org) and generates AI-powered analysis reports. Runs on a schedule via GitHub Actions.
+Automatically syncs games played on [Chess.com](https://www.chess.com) to [Lichess.org](https://lichess.org), runs Stockfish analysis to surface your blunders, and builds a static dashboard plus spaced-repetition drills. Runs on a schedule via GitHub Actions.
 
 ## Features
 
 - **Automatic Sync:** Imports new Chess.com games to Lichess hourly via GitHub Actions.
 - **Duplicate Prevention:** Skips games that have already been imported.
-- **Game Analysis:** Runs Stockfish engine analysis on the latest game to identify blunders and missed opportunities.
-- **AI Narration:** Uses Google Gemini to explain mistakes in plain English.
-- **HTML Reports:** Generates visual reports with board diagrams, eval charts, and direct links to the Lichess analysis board.
+- **Game Analysis:** Runs Stockfish engine analysis on the latest game to identify blunders and missed opportunities, with deterministic tactic classification (forks, pins, skewers, hanging pieces, etc.).
+- **HTML Reports & Dashboard:** Generates visual reports with board diagrams, eval charts, an interactive line player, and direct links to the Lichess analysis board, aggregated into a static dashboard under `docs/`.
+- **Spaced-Repetition Drills:** Extracts your blunders into a drill set (`docs/drills/`) so you can re-solve the positions you got wrong.
+
+> **Note on AI narration:** Earlier versions used Google Gemini to narrate mistakes in plain English. That narration was removed (the LLM output wasn't good enough yet) and is planned to be revisited as a separate project. There is no `GEMINI_API_KEY` requirement anymore.
 
 ## Setup
 
@@ -20,7 +22,6 @@ Automatically syncs games played on [Chess.com](https://www.chess.com) to [Liche
    - Go to your repository settings → `Secrets and variables` → `Actions`.
    - Add `LICHESS_TOKEN` (your Lichess API token).
    - Add `STOCKFISH_PATH` (path to Stockfish binary on the runner).
-   - Add `GEMINI_API_KEY` (Google Gemini API key for narration).
 4. **Configure Username:**
    - Update `CHESSCOM_USERNAME` in `.github/workflows/sync.yml`.
 
@@ -36,7 +37,6 @@ Automatically syncs games played on [Chess.com](https://www.chess.com) to [Liche
    LICHESS_TOKEN=your_token_here
    CHESSCOM_USERNAME=your_chesscom_username
    STOCKFISH_PATH=/path/to/stockfish
-   GEMINI_API_KEY=your_gemini_key
    ```
 4. Run the full sync + analysis pipeline:
    ```bash
@@ -52,5 +52,4 @@ Automatically syncs games played on [Chess.com](https://www.chess.com) to [Liche
 - Python
 - [Berserk](https://github.com/rhgrant10/berserk) (Lichess API client)
 - [python-chess](https://python-chess.readthedocs.io/) + Stockfish
-- Google Gemini API
 - GitHub Actions

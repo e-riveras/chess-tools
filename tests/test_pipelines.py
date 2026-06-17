@@ -117,6 +117,8 @@ class TestSyncGames(unittest.TestCase):
 
     # Test the Pipeline (Sync)
     # We patch modules where they are IMPORTED in chess_tools.transfer.sync
+    @patch('chess_tools.transfer.sync.regenerate_index_page')
+    @patch('chess_tools.transfer.sync.generate_html_report')
     @patch('chess_tools.transfer.sync.save_analysis_history')
     @patch('chess_tools.transfer.sync.update_analysis_history')
     @patch('chess_tools.transfer.sync.load_analysis_history', return_value={"games": [], "tactic_counts": {}, "total_blunders": 0, "total_missed": 0})
@@ -129,7 +131,7 @@ class TestSyncGames(unittest.TestCase):
     @patch('chess_tools.transfer.sync.load_history')
     @patch('chess_tools.transfer.sync.save_history')
     @patch('chess_tools.transfer.sync.get_lichess_client')
-    def test_sync_pipeline(self, mock_get_client, mock_save_hist, mock_load_hist, mock_get_archives, mock_get_games, mock_import, mock_sleep, mock_analyzer, mock_report, mock_load_analysis, mock_update_analysis, mock_save_analysis):
+    def test_sync_pipeline(self, mock_get_client, mock_save_hist, mock_load_hist, mock_get_archives, mock_get_games, mock_import, mock_sleep, mock_analyzer, mock_report, mock_load_analysis, mock_update_analysis, mock_save_analysis, mock_html, mock_index):
 
         mock_load_hist.return_value = {"imported_ids": ["old_game_id"], "last_analyzed_id": None}
 

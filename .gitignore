@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.DS_Store
 .env
 .venv
 env/
@@ -26,6 +27,7 @@ docs/books/*_annotated.pgn
 
 # Generated analysis outputs (committed by CI, not tracked locally)
 /analysis/
+/analysis_report.md
 /docs/analysis/history.json
 /docs/drills/drills.json
 /data/history.json
