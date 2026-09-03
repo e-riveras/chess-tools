@@ -1,22 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.05.05",
-      "white": "likeearhart",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "pin"
-      ],
-      "blunder_clamps": [
-        [
-          "A"
-        ]
-      ]
-    },
-    {
       "date": "2026.05.07",
       "white": "erivera90",
       "black": "Jokerdelanuit13",
@@ -443,22 +427,49 @@
       "missed_count": 0,
       "tactics": [],
       "blunder_clamps": []
+    },
+    {
+      "date": "2026.09.03",
+      "white": "erivera90",
+      "black": "DimisKal",
+      "result": "0-1",
+      "blunder_count": 3,
+      "missed_count": 2,
+      "tactics": [
+        "trapped_piece",
+        "trapped_piece",
+        "losing_exchange",
+        "losing_exchange",
+        "pin"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L"
+        ],
+        [
+          "A",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 18,
     "positional": 39,
-    "pin": 44,
+    "pin": 45,
     "hanging_piece": 37,
     "back_rank_mate": 10,
-    "trapped_piece": 16,
+    "trapped_piece": 18,
     "discovered_attack": 15,
     "skewer": 11,
-    "losing_exchange": 10,
+    "losing_exchange": 12,
     "back_rank_weakness": 3,
     "hanging_pawn": 15,
     "forced_mate": 7
   },
-  "total_blunders": 149,
-  "total_missed": 76
+  "total_blunders": 152,
+  "total_missed": 78
 }
