@@ -1,24 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.05.08",
-      "white": "erivera90",
-      "black": "amoresmate",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "discovered_attack"
-      ],
-      "blunder_clamps": [
-        [
-          "C",
-          "A",
-          "P"
-        ]
-      ]
-    },
-    {
       "date": "2026.05.10",
       "white": "sachin_guptaa",
       "black": "erivera90",
@@ -460,6 +442,16 @@
           "L"
         ]
       ]
+    },
+    {
+      "date": "2026.09.06",
+      "white": "erivera90",
+      "black": "anamadredesergio",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
+      "blunder_clamps": []
     }
   ],
   "tactic_counts": {
