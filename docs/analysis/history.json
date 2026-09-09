@@ -2,23 +2,6 @@
   "games": [
     {
       "date": "2026.05.10",
-      "white": "sachin_guptaa",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 1,
-      "missed_count": 1,
-      "tactics": [
-        "trapped_piece",
-        "hanging_piece"
-      ],
-      "blunder_clamps": [
-        [
-          "L"
-        ]
-      ]
-    },
-    {
-      "date": "2026.05.10",
       "white": "erivera90",
       "black": "Faisal550055",
       "result": "0-1",
@@ -452,13 +435,37 @@
       "missed_count": 0,
       "tactics": [],
       "blunder_clamps": []
+    },
+    {
+      "date": "2026.09.09",
+      "white": "Kiraramiau",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 3,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "hanging_piece",
+        "positional"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L"
+        ],
+        [
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 18,
-    "positional": 39,
+    "positional": 40,
     "pin": 45,
-    "hanging_piece": 37,
+    "hanging_piece": 39,
     "back_rank_mate": 10,
     "trapped_piece": 18,
     "discovered_attack": 15,
@@ -468,6 +475,6 @@
     "hanging_pawn": 15,
     "forced_mate": 7
   },
-  "total_blunders": 156,
+  "total_blunders": 159,
   "total_missed": 78
 }
