@@ -2,43 +2,6 @@
   "games": [
     {
       "date": "2026.05.13",
-      "white": "spankinninja",
-      "black": "erivera90",
-      "result": "1/2-1/2",
-      "blunder_count": 5,
-      "missed_count": 1,
-      "tactics": [
-        "skewer",
-        "hanging_piece",
-        "fork",
-        "hanging_piece",
-        "positional",
-        "positional"
-      ],
-      "blunder_clamps": [
-        [
-          "C",
-          "A"
-        ],
-        [
-          "L",
-          "P"
-        ],
-        [
-          "C",
-          "A",
-          "P"
-        ],
-        [
-          "P"
-        ],
-        [
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.05.13",
       "white": "erivera90",
       "black": "lonnykabonny",
       "result": "0-1",
@@ -459,15 +422,38 @@
         "forced_mate"
       ],
       "blunder_clamps": []
+    },
+    {
+      "date": "2026.09.12",
+      "white": "erivera90",
+      "black": "himsss",
+      "result": "0-1",
+      "blunder_count": 2,
+      "missed_count": 1,
+      "tactics": [
+        "fork",
+        "trapped_piece",
+        "hanging_piece"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A"
+        ],
+        [
+          "L",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
-    "fork": 18,
+    "fork": 19,
     "positional": 41,
     "pin": 46,
-    "hanging_piece": 40,
+    "hanging_piece": 41,
     "back_rank_mate": 11,
-    "trapped_piece": 20,
+    "trapped_piece": 21,
     "discovered_attack": 15,
     "skewer": 12,
     "losing_exchange": 15,
@@ -475,6 +461,6 @@
     "hanging_pawn": 15,
     "forced_mate": 8
   },
-  "total_blunders": 163,
-  "total_missed": 81
+  "total_blunders": 165,
+  "total_missed": 82
 }
