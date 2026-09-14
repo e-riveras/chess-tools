@@ -2,16 +2,6 @@
   "games": [
     {
       "date": "2026.05.14",
-      "white": "Ganglopf",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 0,
-      "missed_count": 0,
-      "tactics": [],
-      "blunder_clamps": []
-    },
-    {
-      "date": "2026.05.14",
       "white": "erivera90",
       "black": "zepeka",
       "result": "1-0",
@@ -444,22 +434,41 @@
           "L"
         ]
       ]
+    },
+    {
+      "date": "2026.09.14",
+      "white": "erivera90",
+      "black": "HaneeshKK",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 2,
+      "tactics": [
+        "positional",
+        "hanging_piece",
+        "discovered_attack"
+      ],
+      "blunder_clamps": [
+        [
+          "L",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 20,
-    "positional": 41,
+    "positional": 42,
     "pin": 46,
-    "hanging_piece": 42,
+    "hanging_piece": 43,
     "back_rank_mate": 11,
     "trapped_piece": 21,
-    "discovered_attack": 15,
+    "discovered_attack": 16,
     "skewer": 12,
     "losing_exchange": 15,
     "back_rank_weakness": 3,
     "hanging_pawn": 15,
     "forced_mate": 8
   },
-  "total_blunders": 167,
-  "total_missed": 82
+  "total_blunders": 168,
+  "total_missed": 84
 }
