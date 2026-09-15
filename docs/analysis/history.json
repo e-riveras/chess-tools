@@ -1,38 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.05.15",
-      "white": "kts1010",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 5,
-      "missed_count": 0,
-      "tactics": [
-        "positional",
-        "hanging_pawn",
-        "positional",
-        "discovered_attack",
-        "losing_exchange"
-      ],
-      "blunder_clamps": [
-        [
-          "P"
-        ],
-        [
-          "L"
-        ],
-        [],
-        [
-          "A",
-          "P"
-        ],
-        [
-          "L",
-          "P"
-        ]
-      ]
-    },
-    {
       "date": "2026.05.22",
       "white": "SomeDude_16",
       "black": "erivera90",
@@ -467,13 +435,42 @@
         ],
         []
       ]
+    },
+    {
+      "date": "2026.09.15",
+      "white": "erivera90",
+      "black": "jfuncell15",
+      "result": "0-1",
+      "blunder_count": 4,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "hanging_piece",
+        "positional",
+        "hanging_piece"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L"
+        ],
+        [
+          "C"
+        ],
+        [
+          "L",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 20,
-    "positional": 43,
+    "positional": 44,
     "pin": 48,
-    "hanging_piece": 43,
+    "hanging_piece": 46,
     "back_rank_mate": 11,
     "trapped_piece": 21,
     "discovered_attack": 16,
@@ -483,6 +480,6 @@
     "hanging_pawn": 15,
     "forced_mate": 8
   },
-  "total_blunders": 171,
+  "total_blunders": 175,
   "total_missed": 84
 }
