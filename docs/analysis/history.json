@@ -1,31 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.06.05",
-      "white": "MileHighMettle",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 3,
-      "missed_count": 0,
-      "tactics": [
-        "hanging_piece",
-        "hanging_piece",
-        "positional"
-      ],
-      "blunder_clamps": [
-        [
-          "L",
-          "P"
-        ],
-        [
-          "C",
-          "L",
-          "P"
-        ],
-        []
-      ]
-    },
-    {
       "date": "2026.06.07",
       "white": "erivera90",
       "black": "jakubyn",
@@ -436,6 +411,16 @@
         "fork",
         "positional"
       ],
+      "blunder_clamps": []
+    },
+    {
+      "date": "2026.09.25",
+      "white": "erivera90",
+      "black": "marco0102024",
+      "result": "1-0",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
       "blunder_clamps": []
     }
   ],
