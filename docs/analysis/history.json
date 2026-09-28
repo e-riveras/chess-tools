@@ -1,33 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.09.03",
-      "white": "erivera90",
-      "black": "DimisKal",
-      "result": "0-1",
-      "blunder_count": 3,
-      "missed_count": 2,
-      "tactics": [
-        "trapped_piece",
-        "trapped_piece",
-        "losing_exchange",
-        "losing_exchange",
-        "pin"
-      ],
-      "blunder_clamps": [
-        [
-          "L"
-        ],
-        [
-          "L"
-        ],
-        [
-          "A",
-          "P"
-        ]
-      ]
-    },
-    {
       "date": "2026.09.04",
       "white": "biz94",
       "black": "erivera90",
@@ -430,22 +403,57 @@
           "P"
         ]
       ]
+    },
+    {
+      "date": "2026.09.28",
+      "white": "magn7V",
+      "black": "erivera90",
+      "result": "1/2-1/2",
+      "blunder_count": 4,
+      "missed_count": 5,
+      "tactics": [
+        "positional",
+        "positional",
+        "positional",
+        "hanging_pawn",
+        "hanging_pawn",
+        "back_rank_weakness",
+        "pin",
+        "positional",
+        "back_rank_mate"
+      ],
+      "blunder_clamps": [
+        [
+          "P"
+        ],
+        [
+          "L",
+          "P"
+        ],
+        [
+          "P"
+        ],
+        [
+          "A",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 21,
-    "positional": 46,
-    "pin": 53,
+    "positional": 50,
+    "pin": 54,
     "hanging_piece": 52,
-    "back_rank_mate": 11,
+    "back_rank_mate": 12,
     "trapped_piece": 24,
     "discovered_attack": 18,
     "skewer": 13,
     "losing_exchange": 16,
-    "back_rank_weakness": 3,
-    "hanging_pawn": 18,
+    "back_rank_weakness": 4,
+    "hanging_pawn": 20,
     "forced_mate": 9
   },
-  "total_blunders": 190,
-  "total_missed": 94
+  "total_blunders": 194,
+  "total_missed": 99
 }
