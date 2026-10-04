@@ -1,34 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.09.04",
-      "white": "biz94",
-      "black": "erivera90",
-      "result": "1-0",
-      "blunder_count": 4,
-      "missed_count": 0,
-      "tactics": [
-        "skewer",
-        "losing_exchange",
-        "losing_exchange",
-        "losing_exchange"
-      ],
-      "blunder_clamps": [
-        [
-          "A"
-        ],
-        [
-          "L"
-        ],
-        [
-          "L"
-        ],
-        [
-          "L"
-        ]
-      ]
-    },
-    {
       "date": "2026.09.06",
       "white": "erivera90",
       "black": "anamadredesergio",
@@ -438,22 +410,44 @@
           "P"
         ]
       ]
+    },
+    {
+      "date": "2026.10.03",
+      "white": "erivera90",
+      "black": "JoeChesslover",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "pin",
+        "skewer"
+      ],
+      "blunder_clamps": [
+        [
+          "A",
+          "P"
+        ],
+        [
+          "C",
+          "A"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 21,
     "positional": 50,
-    "pin": 54,
+    "pin": 55,
     "hanging_piece": 52,
     "back_rank_mate": 12,
     "trapped_piece": 24,
     "discovered_attack": 18,
-    "skewer": 13,
+    "skewer": 14,
     "losing_exchange": 16,
     "back_rank_weakness": 4,
     "hanging_pawn": 20,
     "forced_mate": 9
   },
-  "total_blunders": 194,
+  "total_blunders": 196,
   "total_missed": 99
 }
