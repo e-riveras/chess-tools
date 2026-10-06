@@ -1,16 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.09.06",
-      "white": "erivera90",
-      "black": "anamadredesergio",
-      "result": "0-1",
-      "blunder_count": 0,
-      "missed_count": 0,
-      "tactics": [],
-      "blunder_clamps": []
-    },
-    {
       "date": "2026.09.09",
       "white": "Kiraramiau",
       "black": "erivera90",
@@ -432,6 +422,16 @@
           "A"
         ]
       ]
+    },
+    {
+      "date": "2026.10.05",
+      "white": "blundermaster429",
+      "black": "erivera90",
+      "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
+      "blunder_clamps": []
     }
   ],
   "tactic_counts": {

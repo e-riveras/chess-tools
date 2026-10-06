@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="report-data" content='{&quot;date&quot;: &quot;2026.10.05&quot;, &quot;datetime&quot;: &quot;2026.10.05T23:15:42&quot;, &quot;white&quot;: &quot;blundermaster429&quot;, &quot;black&quot;: &quot;erivera90&quot;, &quot;result&quot;: &quot;0-1&quot;, &quot;moment_count&quot;: 0}'>
+    <title>Analysis: blundermaster429 vs erivera90</title>
+    <style>
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --accent-color: #4a9eff;
+        --muted-color: #a0a0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container { max-width: 800px; width: 100%; }
+    a { color: var(--accent-color); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back-link { margin-bottom: 20px; display: inline-block; font-size: 0.95rem; }
+    h1 { margin-bottom: 8px; }
+    .meta { color: var(--muted-color); margin-bottom: 24px; font-size: 0.95rem; }
+    .summary-count { margin-bottom: 24px; font-size: 1.05rem; }
+    .moment-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .moment-card h2 { margin-bottom: 16px; font-size: 1.3rem; }
+    .board-svg { display: flex; justify-content: center; margin-bottom: 16px; }
+    .board-svg svg { max-width: 400px; width: 100%; height: auto; }
+    .fen { font-family: monospace; font-size: 0.85rem; color: var(--muted-color); margin-bottom: 12px; word-break: break-all; }
+    .move-info { margin-bottom: 12px; line-height: 1.7; }
+    .move-played { color: #ff6b6b; font-weight: bold; }
+    .move-best { color: #51cf66; font-weight: bold; }
+    .eval-swing { color: var(--muted-color); }
+    .variation { font-style: italic; color: var(--muted-color); }
+    .tactical-alert {
+        background: rgba(255, 107, 107, 0.15);
+        border-left: 4px solid #ff6b6b;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        border-radius: 0 6px 6px 0;
+        font-weight: bold;
+    }
+    .empty-msg { color: var(--muted-color); font-style: italic; margin-top: 20px; }
+    .severity-pill {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 10px;
+        color: #fff;
+        margin-left: 8px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .tactic-badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 6px;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+    .moment-type-label { font-size: 0.9rem; color: var(--muted-color); margin-left: 4px; }
+    .lichess-btn {
+        display: inline-flex;
+        align-items: center;
+        background: #629924;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        text-decoration: none;
+    }
+    .lichess-btn:hover { background: #4e7a1d; text-decoration: none; }
+    .moment-lichess-link { font-size: 0.8rem; margin-left: 8px; }
+    /* Line player */
+    .line-player {
+        background: rgba(74, 158, 255, 0.08);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 0 6px 6px 0;
+        padding: 14px;
+        margin-bottom: 16px;
+    }
+    .line-player .lp-stage { display: flex; justify-content: center; }
+    .line-player .lp-stage svg { max-width: 360px; width: 100%; height: auto; }
+    .line-player .lp-caption {
+        text-align: center;
+        font-family: monospace;
+        font-size: 0.95rem;
+        color: var(--accent-color);
+        margin: 8px 0 10px;
+        min-height: 1.2em;
+    }
+    .line-player .lp-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .line-player .lp-btn {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid #3a3a3a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+    .line-player .lp-btn:hover:not(:disabled) { background: #3a3a3a; }
+    .line-player .lp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .line-player .lp-play { font-size: 0.95rem; }
+    .line-player .lp-counter {
+        font-size: 0.85rem;
+        color: var(--muted-color);
+        margin-left: 8px;
+        min-width: 40px;
+        text-align: center;
+    }
+    .line-player.best-line { border-left-color: #51cf66; background: rgba(81,207,102,0.08); }
+    .line-player.refutation { border-left-color: #ff6b6b; background: rgba(255,107,107,0.08); }
+    .line-player-heading {
+        font-size: 0.88rem;
+        color: var(--muted-color);
+        margin: 14px 0 8px;
+        font-weight: 600;
+    }
+    .clamp-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+        color: var(--muted-color);
+    }
+    .clamp-bar .clamp-label { font-weight: 700; color: #e0c36a; letter-spacing: 0.06em; }
+    .clamp-pill {
+        display: inline-block;
+        min-width: 1.6em;
+        text-align: center;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #3a3530;
+        color: #f0e6d2;
+        font-weight: 700;
+        cursor: default;
+        border: 1px solid #5c5346;
+    }
+    .clamp-stats-section {
+        background: #252525;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 28px;
+        border: 1px solid #333;
+    }
+    .clamp-stats-section h2 { margin-bottom: 10px; font-size: 1.15rem; }
+    .clamp-stats-meta { font-size: 0.88rem; color: var(--muted-color); margin-bottom: 16px; line-height: 1.5; }
+    .clamp-stats-empty { color: var(--muted-color); font-style: italic; margin: 0; }
+    .clamp-stats-bars { display: flex; flex-direction: column; gap: 10px; }
+    .clamp-stats-row {
+        display: grid;
+        grid-template-columns: 1.5rem 1fr minmax(72px, 1fr) 2rem 5rem;
+        align-items: center;
+        gap: 8px 12px;
+        font-size: 0.84rem;
+    }
+    .clamp-stats-bar-wrap {
+        height: 11px;
+        background: #1a1a1a;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #3a3a3a;
+    }
+    .clamp-stats-bar-fill { height: 100%; border-radius: 4px; min-width: 2px; transition: width 0.2s; }
+    .clamp-stats-letter { font-weight: 800; font-size: 1rem; }
+    .clamp-stats-name { color: var(--muted-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .clamp-stats-num { text-align: right; font-weight: 600; color: var(--text-color); }
+    .clamp-stats-pct { color: #888; font-size: 0.78rem; text-align: right; }
+    @media (max-width: 540px) {
+        .clamp-stats-row {
+            grid-template-columns: 1.5rem 1fr;
+            grid-template-rows: auto auto;
+        }
+        .clamp-stats-row .clamp-stats-bar-wrap { grid-column: 1 / -1; }
+        .clamp-stats-row .clamp-stats-num, .clamp-stats-row .clamp-stats-pct { grid-column: 2; }
+    }
+
+    /* Index page styles */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .report-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .report-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .report-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .report-card .card-meta { color: var(--muted-color); font-size: 0.9rem; margin-bottom: 10px; }
+    .report-card .card-moments { color: var(--accent-color); font-weight: bold; }
+    .no-reports { color: var(--muted-color); text-align: center; margin-top: 40px; font-style: italic; }
+
+    /* Run-analysis button */
+    .run-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .run-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-color);
+        color: #fff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, opacity 0.15s;
+    }
+    .run-btn:hover:not(:disabled) { background: #2d7fd4; }
+    .run-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .run-status { font-size: 0.88rem; color: var(--muted-color); }
+    .run-status.ok { color: #51cf66; }
+    .run-status.err { color: #ff6b6b; }
+    .token-link { font-size: 0.8rem; color: var(--muted-color); cursor: pointer; }
+    .token-link:hover { color: var(--text-color); }
+    .drills-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #51cf66;
+        color: #111;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+    .drills-btn:hover { background: #3bb852; text-decoration: none; }
+
+    /* iOS / Mobile Safari optimizations */
+    * { -webkit-tap-highlight-color: transparent; }
+    button, select, a { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    select, input { font-size: max(16px, 0.95rem); }
+    @media (max-width: 540px) {
+        .report-grid { grid-template-columns: 1fr; }
+        .moment-card { padding: 16px; }
+        .board-svg svg { max-width: 100%; }
+        .report-card { padding: 16px; }
+        .report-card h3 { font-size: 1rem; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Index</a>
+    <h1>Analysis: blundermaster429 vs erivera90</h1>
+    <div class="meta"><strong>Date:</strong> 2026.10.05 | <strong>Event:</strong> Live Chess | <strong>Site:</strong> Chess.com</div>
+    <a href="https://lichess.org/wUUgxVfn" target="_blank" class="lichess-btn"><svg viewBox="0 0 50 50" width="18" height="18" style="vertical-align:middle;margin-right:6px;fill:currentColor"><path d="M25 1C11.7 1 1 11.7 1 25s10.7 24 24 24 24-10.7 24-24S38.3 1 25 1zm0 4c5 0 9.6 1.8 13.2 4.9L25 23.1 11.8 9.9C15.4 6.8 20 5 25 5zm-15 8.7L23.2 27 10 40.3C6.8 36.6 5 32 5 27c0-5 1.8-9.6 5-13.3zM25 45c-5 0-9.6-1.8-13.2-5L25 26.9l13.2 13.2C34.6 43.2 30 45 25 45zm15-8.7L26.8 23 40 9.7c3.1 3.7 5 8.3 5 13.3 0 5-1.8 9.6-5 13.3z"/></svg>Analyze on Lichess</a>
+    <h2 style="margin-bottom:12px">Evaluation</h2>
+    <div style="background:#2a2a3e;border-radius:8px;padding:16px;margin-bottom:24px;overflow-x:auto;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" style="max-width:100%;height:auto;">
+<rect x="0" y="0" width="800" height="300" fill="#1a1a2e" rx="8"/>
+<path d="M45,145.0 L45.0,137.96875 L53.44827586206897,139.21875 L61.896551724137936,140.78125 L70.34482758620689,140.0 L78.79310344827587,139.84375 L87.24137931034483,138.28125 L95.6896551724138,141.875 L104.13793103448276,140.15625 L112.58620689655173,137.34375 L121.03448275862068,137.03125 L129.48275862068965,145.0 L137.93103448275863,145.0 L146.3793103448276,145.0 L154.82758620689657,145.0 L163.27586206896552,145.0 L171.72413793103448,145.0 L180.17241379310346,145.0 L188.6206896551724,145.0 L197.06896551724137,145.0 L205.51724137931035,145.0 L213.9655172413793,145.0 L222.41379310344828,145.0 L230.86206896551727,145.0 L239.31034482758622,145.0 L247.75862068965517,145.0 L256.2068965517241,145.0 L264.65517241379314,145.0 L273.1034482758621,145.0 L281.55172413793105,145.0 L290.0,145.0 L298.44827586206895,145.0 L306.89655172413796,145.0 L315.3448275862069,145.0 L323.7931034482759,145.0 L332.2413793103448,145.0 L340.6896551724138,145.0 L349.13793103448273,145.0 L357.5862068965517,145.0 L366.0344827586207,145.0 L374.48275862068965,145.0 L382.9310344827586,145.0 L391.37931034482756,145.0 L399.82758620689657,145.0 L408.2758620689655,145.0 L416.72413793103453,145.0 L425.1724137931035,145.0 L433.62068965517244,145.0 L442.0689655172414,145.0 L450.51724137931035,145.0 L458.9655172413793,145.0 L467.41379310344826,145.0 L475.8620689655172,145.0 L484.3103448275862,145.0 L492.7586206896552,145.0 L501.2068965517241,145.0 L509.6551724137931,145.0 L518.1034482758621,145.0 L526.5517241379309,145.0 L535.0,145.0 L543.448275862069,145.0 L551.8965517241379,145.0 L560.344827586207,145.0 L568.7931034482759,145.0 L577.2413793103449,145.0 L585.6896551724138,145.0 L594.1379310344828,145.0 L602.5862068965517,145.0 L611.0344827586207,145.0 L619.4827586206897,145.0 L627.9310344827586,145.0 L636.3793103448276,145.0 L644.8275862068965,145.0 L653.2758620689655,145.0 L661.7241379310344,145.0 L670.1724137931034,145.0 L678.6206896551723,145.0 L687.0689655172414,145.0 L695.5172413793103,145.0 L703.9655172413793,145.0 L712.4137931034483,145.0 L720.8620689655172,145.0 L729.3103448275862,145.0 L737.7586206896551,145.0 L746.2068965517241,145.0 L754.6551724137931,145.0 L763.1034482758621,145.0 L771.551724137931,145.0 L780.0,145.0 L780.0,145.0 Z" fill="rgba(255,255,255,0.1)" />
+<path d="M45,145.0 L45.0,145.0 L53.44827586206897,145.0 L61.896551724137936,145.0 L70.34482758620689,145.0 L78.79310344827587,145.0 L87.24137931034483,145.0 L95.6896551724138,145.0 L104.13793103448276,145.0 L112.58620689655173,145.0 L121.03448275862068,145.0 L129.48275862068965,148.90625 L137.93103448275863,149.375 L146.3793103448276,146.875 L154.82758620689657,145.625 L163.27586206896552,145.0 L171.72413793103448,145.0 L180.17241379310346,145.9375 L188.6206896551724,149.53125 L197.06896551724137,147.8125 L205.51724137931035,145.9375 L213.9655172413793,150.9375 L222.41379310344828,145.46875 L230.86206896551727,169.0625 L239.31034482758622,170.9375 L247.75862068965517,229.375 L256.2068965517241,231.09375 L264.65517241379314,232.34375 L273.1034482758621,232.1875 L281.55172413793105,238.125 L290.0,231.25 L298.44827586206895,233.28125 L306.89655172413796,232.34375 L315.3448275862069,243.125 L323.7931034482759,243.125 L332.2413793103448,242.03125 L340.6896551724138,233.59375 L349.13793103448273,236.09375 L357.5862068965517,233.59375 L366.0344827586207,239.53125 L374.48275862068965,233.125 L382.9310344827586,241.71875 L391.37931034482756,233.28125 L399.82758620689657,270.0 L408.2758620689655,270.0 L416.72413793103453,270.0 L425.1724137931035,270.0 L433.62068965517244,270.0 L442.0689655172414,261.25 L450.51724137931035,270.0 L458.9655172413793,260.46875 L467.41379310344826,268.125 L475.8620689655172,231.25 L484.3103448275862,253.90625 L492.7586206896552,260.9375 L501.2068965517241,263.90625 L509.6551724137931,259.0625 L518.1034482758621,258.90625 L526.5517241379309,260.9375 L535.0,270.0 L543.448275862069,264.84375 L551.8965517241379,270.0 L560.344827586207,270.0 L568.7931034482759,270.0 L577.2413793103449,270.0 L585.6896551724138,270.0 L594.1379310344828,270.0 L602.5862068965517,270.0 L611.0344827586207,270.0 L619.4827586206897,270.0 L627.9310344827586,270.0 L636.3793103448276,270.0 L644.8275862068965,270.0 L653.2758620689655,270.0 L661.7241379310344,270.0 L670.1724137931034,270.0 L678.6206896551723,270.0 L687.0689655172414,270.0 L695.5172413793103,270.0 L703.9655172413793,270.0 L712.4137931034483,270.0 L720.8620689655172,270.0 L729.3103448275862,270.0 L737.7586206896551,270.0 L746.2068965517241,270.0 L754.6551724137931,270.0 L763.1034482758621,270.0 L771.551724137931,270.0 L780.0,270.0 L780.0,145.0 Z" fill="rgba(50,50,50,0.6)" />
+<line x1="45" y1="145.0" x2="780" y2="145.0" stroke="#555" stroke-width="1" stroke-dasharray="4,4"/>
+<polyline points="45.0,137.96875 53.44827586206897,139.21875 61.896551724137936,140.78125 70.34482758620689,140.0 78.79310344827587,139.84375 87.24137931034483,138.28125 95.6896551724138,141.875 104.13793103448276,140.15625 112.58620689655173,137.34375 121.03448275862068,137.03125 129.48275862068965,148.90625 137.93103448275863,149.375 146.3793103448276,146.875 154.82758620689657,145.625 163.27586206896552,145.0 171.72413793103448,145.0 180.17241379310346,145.9375 188.6206896551724,149.53125 197.06896551724137,147.8125 205.51724137931035,145.9375 213.9655172413793,150.9375 222.41379310344828,145.46875 230.86206896551727,169.0625 239.31034482758622,170.9375 247.75862068965517,229.375 256.2068965517241,231.09375 264.65517241379314,232.34375 273.1034482758621,232.1875 281.55172413793105,238.125 290.0,231.25 298.44827586206895,233.28125 306.89655172413796,232.34375 315.3448275862069,243.125 323.7931034482759,243.125 332.2413793103448,242.03125 340.6896551724138,233.59375 349.13793103448273,236.09375 357.5862068965517,233.59375 366.0344827586207,239.53125 374.48275862068965,233.125 382.9310344827586,241.71875 391.37931034482756,233.28125 399.82758620689657,270.0 408.2758620689655,270.0 416.72413793103453,270.0 425.1724137931035,270.0 433.62068965517244,270.0 442.0689655172414,261.25 450.51724137931035,270.0 458.9655172413793,260.46875 467.41379310344826,268.125 475.8620689655172,231.25 484.3103448275862,253.90625 492.7586206896552,260.9375 501.2068965517241,263.90625 509.6551724137931,259.0625 518.1034482758621,258.90625 526.5517241379309,260.9375 535.0,270.0 543.448275862069,264.84375 551.8965517241379,270.0 560.344827586207,270.0 568.7931034482759,270.0 577.2413793103449,270.0 585.6896551724138,270.0 594.1379310344828,270.0 602.5862068965517,270.0 611.0344827586207,270.0 619.4827586206897,270.0 627.9310344827586,270.0 636.3793103448276,270.0 644.8275862068965,270.0 653.2758620689655,270.0 661.7241379310344,270.0 670.1724137931034,270.0 678.6206896551723,270.0 687.0689655172414,270.0 695.5172413793103,270.0 703.9655172413793,270.0 712.4137931034483,270.0 720.8620689655172,270.0 729.3103448275862,270.0 737.7586206896551,270.0 746.2068965517241,270.0 754.6551724137931,270.0 763.1034482758621,270.0 771.551724137931,270.0 780.0,270.0" fill="none" stroke="#4a9eff" stroke-width="2"/>
+<text x="40" y="274.0" text-anchor="end" fill="#888" font-size="11">-8</text>
+<text x="40" y="211.5" text-anchor="end" fill="#888" font-size="11">-4</text>
+<text x="40" y="149.0" text-anchor="end" fill="#888" font-size="11">+0</text>
+<text x="40" y="86.5" text-anchor="end" fill="#888" font-size="11">+4</text>
+<text x="40" y="24.0" text-anchor="end" fill="#888" font-size="11">+8</text>
+<text x="45.0" y="295" text-anchor="middle" fill="#888" font-size="11">1</text>
+<text x="112.58620689655173" y="295" text-anchor="middle" fill="#888" font-size="11">5</text>
+<text x="197.06896551724137" y="295" text-anchor="middle" fill="#888" font-size="11">10</text>
+<text x="281.55172413793105" y="295" text-anchor="middle" fill="#888" font-size="11">15</text>
+<text x="366.0344827586207" y="295" text-anchor="middle" fill="#888" font-size="11">20</text>
+<text x="450.51724137931035" y="295" text-anchor="middle" fill="#888" font-size="11">25</text>
+<text x="535.0" y="295" text-anchor="middle" fill="#888" font-size="11">30</text>
+<text x="619.4827586206897" y="295" text-anchor="middle" fill="#888" font-size="11">35</text>
+<text x="703.9655172413793" y="295" text-anchor="middle" fill="#888" font-size="11">40</text>
+</svg>
+    </div>
+    <div class="clamp-stats-section">
+    <h2>Rolling CLAMP (last 20 games)</h2>
+    <p class="clamp-stats-meta">Window: <strong>20</strong> game(s) on file, <strong>40</strong> blunder(s). Tags on <strong>38</strong> blunder(s). One blunder can count in multiple categories.</p>
+    <div class="clamp-stats-bars">
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#c0392b">C</span><span class="clamp-stats-name">Checks</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:47.4%;background:#c0392b"></div></div><span class="clamp-stats-num">9</span><span class="clamp-stats-pct">15% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#e67e22">L</span><span class="clamp-stats-name">Loose pieces / squares</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:100.0%;background:#e67e22"></div></div><span class="clamp-stats-num">19</span><span class="clamp-stats-pct">32% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#2980b9">A</span><span class="clamp-stats-name">Alignments (forks, pins, lines)</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:68.4%;background:#2980b9"></div></div><span class="clamp-stats-num">13</span><span class="clamp-stats-pct">22% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#8e44ad">M</span><span class="clamp-stats-name">Mobility / trapped piece</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:10.5%;background:#8e44ad"></div></div><span class="clamp-stats-num">2</span><span class="clamp-stats-pct">3% of tags</span></div>
+      <div class="clamp-stats-row"><span class="clamp-stats-letter" style="color:#27ae60">P</span><span class="clamp-stats-name">Passed pawns</span><div class="clamp-stats-bar-wrap"><div class="clamp-stats-bar-fill" style="width:89.5%;background:#27ae60"></div></div><span class="clamp-stats-num">17</span><span class="clamp-stats-pct">28% of tags</span></div>
+    </div>
+    </div>
+    <p class="empty-msg">No crucial moments (blunders/missed wins) detected for the hero in this game.</p>
+    <h2 style="margin-top:24px;margin-bottom:12px">Annotated PGN</h2>
+    <p style="font-size:0.85rem;color:#666;margin-bottom:8px">Copy this PGN to paste into Lichess, ChessBase, or any analysis tool.</p>
+    <div style="
+        background:#1a1a2e;color:#e0e0e0;padding:16px 20px;border-radius:8px;
+        font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.8rem;
+        line-height:1.6;white-space:pre-wrap;word-break:break-word;position:relative;
+        max-height:400px;overflow-y:auto;">
+        <button onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)"
+            style="position:absolute;top:8px;right:8px;background:#333;color:#ccc;
+            border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;
+            font-size:0.75rem;">Copy</button>
+        <code id="annotated-pgn">[Event &quot;Live Chess&quot;]
+[Site &quot;Chess.com&quot;]
+[Date &quot;2026.10.05&quot;]
+[White &quot;blundermaster429&quot;]
+[Black &quot;erivera90&quot;]
+[Result &quot;0-1&quot;]
+
+1. e4 {+0.45} c5 {+0.37} 2. Nc3 {+0.27} Nc6 {+0.32} 3. Nf3 {+0.33} g6 {+0.43} 4.
+d4 {+0.20} cxd4 {+0.31} 5. Nxd4 {+0.49} Bg7 {+0.51} 6. Nxc6 {-0.25} bxc6 {-0.28}
+7. Qf3 {-0.12} Nf6 {-0.04} 8. e5 {+0.00} Nd5 {+0.00} 9. Nxd5 {-0.06} cxd5
+{-0.29} 10. Qxd5 {-0.18} Rb8 {-0.06} 11. Bc4 {-0.38} O-O {-0.03} 12. e6 {-1.54}
+fxe6 {-1.66} 13. Qe4 {-5.40} d5 {-5.51} 14. Qg4 {-5.59} dxc4 {-5.58} 15. Qxc4
+{-5.96} Qa5+ {-5.52} 16. Bd2 {-5.65} Qe5+ {-5.59} 17. Qe2 {-6.28} Qxe2+ {-6.28}
+18. Kxe2 {-6.21} Bxb2 {-5.67} 19. Rab1 {-5.83} Ba6+ {-5.67} 20. Kd1 {-6.05} e5
+{-5.64} 21. Re1 {-6.19} Bc4 {-5.65} 22. Rxe5 {-8.15} Bxe5 {-8.88} 23. Rxb8
+{-9.25} Rxb8 {-9.47} 24. Be3 {-9.83} Rb1+ {-7.44} 25. Bc1 {#-2} Be2+ {-7.39} 26.
+Kd2 {-7.88} Bc3+ {-5.52} 27. Kxe2 {-6.97} Rxc1 {-7.42} 28. Kd3 {-7.61} Ba1
+{-7.30} 29. Kd2 {-7.29} Rh1 {-7.42} 30. c3 {-8.34} a5 {-7.67} 31. Kd3 {-8.61}
+Rxh2 {-9.29} 32. c4 {-9.54} Rxg2 {-10.43} 33. Ke4 {-36.40} Rxf2 {-39.52} 34. Kd5
+{-43.49} Rxa2 {#-15} 35. c5 {#-12} Rc2 {#-11} 36. c6 {#-10} a4 {#-9} 37. Ke6
+{#-9} a3 {#-11} 38. Kd7 {#-8} a2 {#-8} 39. c7 {#-8} Rxc7+ {#-10} 40. Kxc7 {#-10}
+Be5+ {#-7} 41. Kc6 {#-7} a1=Q {#-5} 42. Kc5 {#-5} Qc3+ {#-4} 43. Kd5 {#-4} Qd4+
+{#-5} 44. Ke6 {#-1} Qd6# {#-0} 0-1</code>
+    </div>
+</div>
+<script>
+(function() {
+  document.querySelectorAll('.line-player').forEach(function(player) {
+    var frames = player.querySelectorAll('.lp-frame');
+    var stage = player.querySelector('.lp-stage');
+    var caption = player.querySelector('.lp-caption');
+    var counter = player.querySelector('.lp-counter');
+    var prev = player.querySelector('.lp-prev');
+    var next = player.querySelector('.lp-next');
+    var play = player.querySelector('.lp-play');
+    var idx = 0, playing = false, timer = null;
+    function render() {
+      stage.innerHTML = frames[idx].innerHTML;
+      caption.textContent = frames[idx].dataset.caption;
+      counter.textContent = idx + '/' + (frames.length - 1);
+      prev.disabled = (idx === 0);
+      next.disabled = (idx === frames.length - 1);
+    }
+    function step(d) {
+      idx = Math.max(0, Math.min(frames.length - 1, idx + d));
+      render();
+    }
+    function toggle() {
+      if (playing) {
+        clearInterval(timer); playing = false;
+        play.innerHTML = '&#9654;';
+      } else {
+        if (idx === frames.length - 1) idx = 0;
+        playing = true;
+        play.innerHTML = '&#9208;';
+        timer = setInterval(function() {
+          if (idx >= frames.length - 1) {
+            clearInterval(timer); playing = false;
+            play.innerHTML = '&#9654;';
+            return;
+          }
+          step(1);
+        }, 900);
+      }
+    }
+    prev.addEventListener('click', function() { step(-1); });
+    next.addEventListener('click', function() { step(1); });
+    play.addEventListener('click', toggle);
+    render();
+  });
+})();
+</script>
+</body>
+</html>
