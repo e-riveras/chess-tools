@@ -2,29 +2,6 @@
   "games": [
     {
       "date": "2026.09.12",
-      "white": "erivera90",
-      "black": "himsss",
-      "result": "0-1",
-      "blunder_count": 2,
-      "missed_count": 1,
-      "tactics": [
-        "fork",
-        "trapped_piece",
-        "hanging_piece"
-      ],
-      "blunder_clamps": [
-        [
-          "C",
-          "A"
-        ],
-        [
-          "L",
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.09.12",
       "white": "mdj999",
       "black": "erivera90",
       "result": "1-0",
@@ -409,6 +386,16 @@
       "white": "ZannatSiddiqui",
       "black": "erivera90",
       "result": "0-1",
+      "blunder_count": 0,
+      "missed_count": 0,
+      "tactics": [],
+      "blunder_clamps": []
+    },
+    {
+      "date": "2026.10.08",
+      "white": "erivera90",
+      "black": "jessebrazilviolin",
+      "result": "1-0",
       "blunder_count": 0,
       "missed_count": 0,
       "tactics": [],
