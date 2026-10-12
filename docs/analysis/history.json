@@ -2,35 +2,6 @@
   "games": [
     {
       "date": "2026.09.15",
-      "white": "erivera90",
-      "black": "jfuncell15",
-      "result": "0-1",
-      "blunder_count": 4,
-      "missed_count": 0,
-      "tactics": [
-        "hanging_piece",
-        "hanging_piece",
-        "positional",
-        "hanging_piece"
-      ],
-      "blunder_clamps": [
-        [
-          "L"
-        ],
-        [
-          "L"
-        ],
-        [
-          "C"
-        ],
-        [
-          "L",
-          "P"
-        ]
-      ]
-    },
-    {
-      "date": "2026.09.15",
       "white": "adosamik",
       "black": "erivera90",
       "result": "1/2-1/2",
@@ -390,13 +361,33 @@
           "A"
         ]
       ]
+    },
+    {
+      "date": "2026.10.12",
+      "white": "Coxonziano",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 2,
+      "missed_count": 0,
+      "tactics": [
+        "hanging_piece",
+        "hanging_piece"
+      ],
+      "blunder_clamps": [
+        [
+          "L"
+        ],
+        [
+          "L"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 22,
     "positional": 53,
     "pin": 58,
-    "hanging_piece": 52,
+    "hanging_piece": 54,
     "back_rank_mate": 12,
     "trapped_piece": 24,
     "discovered_attack": 18,
@@ -406,6 +397,6 @@
     "hanging_pawn": 20,
     "forced_mate": 9
   },
-  "total_blunders": 203,
+  "total_blunders": 205,
   "total_missed": 102
 }
