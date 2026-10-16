@@ -1,22 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.09.20",
-      "white": "erivera90",
-      "black": "JXtheGenius",
-      "result": "0-1",
-      "blunder_count": 1,
-      "missed_count": 0,
-      "tactics": [
-        "hanging_piece"
-      ],
-      "blunder_clamps": [
-        [
-          "L"
-        ]
-      ]
-    },
-    {
       "date": "2026.09.24",
       "white": "thewoodssss",
       "black": "erivera90",
@@ -355,12 +339,28 @@
           "P"
         ]
       ]
+    },
+    {
+      "date": "2026.10.16",
+      "white": "erivera90",
+      "black": "pratham040607",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "pin"
+      ],
+      "blunder_clamps": [
+        [
+          "A"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
     "fork": 23,
     "positional": 54,
-    "pin": 60,
+    "pin": 61,
     "hanging_piece": 56,
     "back_rank_mate": 13,
     "trapped_piece": 24,
@@ -371,6 +371,6 @@
     "hanging_pawn": 20,
     "forced_mate": 9
   },
-  "total_blunders": 207,
+  "total_blunders": 208,
   "total_missed": 107
 }
