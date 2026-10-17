@@ -1,19 +1,6 @@
 {
   "games": [
     {
-      "date": "2026.09.24",
-      "white": "thewoodssss",
-      "black": "erivera90",
-      "result": "0-1",
-      "blunder_count": 0,
-      "missed_count": 2,
-      "tactics": [
-        "fork",
-        "positional"
-      ],
-      "blunder_clamps": []
-    },
-    {
       "date": "2026.09.25",
       "white": "erivera90",
       "black": "marco0102024",
@@ -355,6 +342,24 @@
           "A"
         ]
       ]
+    },
+    {
+      "date": "2026.10.17",
+      "white": "WariatKrol",
+      "black": "erivera90",
+      "result": "1-0",
+      "blunder_count": 1,
+      "missed_count": 0,
+      "tactics": [
+        "skewer"
+      ],
+      "blunder_clamps": [
+        [
+          "C",
+          "A",
+          "P"
+        ]
+      ]
     }
   ],
   "tactic_counts": {
@@ -365,12 +370,12 @@
     "back_rank_mate": 13,
     "trapped_piece": 24,
     "discovered_attack": 18,
-    "skewer": 17,
+    "skewer": 18,
     "losing_exchange": 16,
     "back_rank_weakness": 4,
     "hanging_pawn": 20,
     "forced_mate": 9
   },
-  "total_blunders": 208,
+  "total_blunders": 209,
   "total_missed": 107
 }
